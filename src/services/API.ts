@@ -21,11 +21,15 @@ const getListProject: (data) => Promise<any> = (data) =>
   })
 const deleteProject: (id) => Promise<any> = (id) => API.delete(`/project/${id}`)
 
+const getFilesByVersionId: (id) => Promise<any> = (id) => API.get(`/file/getAll/${id}`)
+const createFile: (id) => Promise<any> = (data) => API.post(`/file/createFile/`, data)
 
 export const serviceAPI = {
   signIn,
   signUp,
   newProject,
   getListProject,
-  deleteProject
+  deleteProject,
+  getFilesByVersionId,
+  createFile
 }
