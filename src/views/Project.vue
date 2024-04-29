@@ -140,18 +140,29 @@ export default defineComponent({
       lastObj[lastKey].sort(compareFile)
     }
 
-    function insertPath(node, parts, item) {
+    function insertPath(node, parts, item, isLeaf = false) {
       if (parts.length === 0) return
 
       const part = parts.shift()
       let child = node.children.find((c) => c.title === part)
 
       if (!child) {
-        child = { title: part, path: node.path ? `${node.path}/${part}` : part, children: [] }
+        child = {
+          title: part,
+          key: node.key ? `${node.key}/${part}` : part,
+          children: [],
+          isLeaf: false
+        }
         node.children.push(child)
+        node.children.sort(compareFile)
       }
 
-      insertPath(child, parts, item)
+      if (parts.length === 0 && isLeaf) {
+        // Đánh dấu nút này là nút lá nếu không còn bất kỳ phần nào khác của đường dẫn
+        child.isLeaf = true
+      } else {
+        insertPath(child, parts, item, isLeaf)
+      }
     }
 
     function buildDirectoryStructure(files) {
@@ -162,8 +173,13 @@ export default defineComponent({
         const fileName = parts.pop() // Remove and get the file name from parts
         insertPath(root, parts, file)
         // Add the file as a leaf node
-        const leafNode = { title: fileName, path: `${root.path}/${file.path}`, children: [] }
-        insertPath(root, file.path.split('/'), leafNode)
+        const leafNode = {
+          title: fileName,
+          key: `${root.path}/${file.path}`,
+          children: [],
+          isLeaf: false
+        }
+        insertPath(root, file.path.split('/'), leafNode, true)
       })
 
       return root.children
@@ -279,7 +295,7 @@ export default defineComponent({
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
-          files.value = buildDirectoryStructure(res.data)
+          files.value = buildDirectoryStructure(res.data).sort(compareFile)
         })
         .catch((err) => {
           console.log(err)
