@@ -23,6 +23,15 @@ const deleteProject: (id) => Promise<any> = (id) => API.delete(`/project/${id}`)
 
 const getFilesByVersionId: (id) => Promise<any> = (id) => API.get(`/file/getAll/${id}`)
 const createFile: (id) => Promise<any> = (data) => API.post(`/file/createFile/`, data)
+const uploadFile: (id) => Promise<any> = (data) =>
+  API.post(`/file/uploadFile/`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+const getFile: (id) => Promise<any> = (id) => API.get(`file/${id}`)
+const updateFile: (id, data) => Promise<any> = (id, data) => API.put(`file/updateFile/${id}`, data)
+const compile: (id, data) => Promise<any> = (id, data) => API.post(`version/compile/${id}`, data)
 
 export const serviceAPI = {
   signIn,
@@ -31,5 +40,9 @@ export const serviceAPI = {
   getListProject,
   deleteProject,
   getFilesByVersionId,
-  createFile
+  createFile,
+  uploadFile,
+  getFile,
+  updateFile,
+  compile
 }
