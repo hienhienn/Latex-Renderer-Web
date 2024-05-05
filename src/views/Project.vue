@@ -4,7 +4,7 @@
       <a-layout-sider width="250" style="background: #fff">
         <Directory :initData="files" @changeSelected="onChangeSelected" />
       </a-layout-sider>
-      <a-layout style="padding: 0 24px 24px">
+      <a-layout style="padding: 0 8px">
         <a-layout-content>
           <div class="editor">
             <Editor
@@ -157,12 +157,12 @@ export default defineComponent({
 }
 
 .ant-layout-content {
-  background: #fff;
+  background: #f5f5f5;
   margin: 0;
   padding: 0;
   min-height: calc(100vh) !important;
   display: flex;
-  gap: 20px;
+  gap: 8px;
 }
 
 div.editor {
@@ -174,6 +174,7 @@ div.editor {
 div.editor-right {
   width: 50%;
   height: 100%;
+  background: white;
   /* display: grid; */
 }
 

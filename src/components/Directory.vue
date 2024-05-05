@@ -1,20 +1,29 @@
 <template>
-  <a-row :style="{ margin: '8px' }">
-    <a-tooltip title="New folder">
-      <a-button type="text" class="icon-btn" @click="() => onNewFolder('folder')">
-        <folder-add-filled class="icon-select" />
-      </a-button>
-    </a-tooltip>
-    <a-tooltip title="New file">
-      <a-button type="text" class="icon-btn" @click="() => onNewFolder('file')">
-        <file-add-filled class="icon-select" />
-      </a-button>
-    </a-tooltip>
-    <a-tooltip title="New image">
-      <a-button type="text" class="icon-btn" @click="() => (openUpload = true)">
-        <file-image-filled class="icon-select" />
-      </a-button>
-    </a-tooltip>
+  <a-row :style="{ margin: '8px' }" justify="space-between">
+    <a-row>
+      <a-tooltip title="New folder">
+        <a-button v-if="!isMulti" type="text" class="icon-btn" @click="() => onNewFolder('folder')">
+          <folder-add-filled class="icon-select" />
+        </a-button>
+      </a-tooltip>
+      <a-tooltip title="New file">
+        <a-button v-if="!isMulti" type="text" class="icon-btn" @click="() => onNewFolder('file')">
+          <file-add-filled class="icon-select" />
+        </a-button>
+      </a-tooltip>
+      <a-tooltip title="New image">
+        <a-button v-if="!isMulti" type="text" class="icon-btn" @click="() => (openUpload = true)">
+          <file-image-filled class="icon-select" />
+        </a-button>
+      </a-tooltip>
+    </a-row>
+    <a-row>
+      <a-tooltip title="Delete">
+        <a-button type="text" class="icon-btn" @click="onDelete">
+          <delete-filled class="icon-select" />
+        </a-button>
+      </a-tooltip>
+    </a-row>
   </a-row>
   <a-directory-tree
     mode="inline"
@@ -43,7 +52,7 @@
 </template>
 
 <script>
-import { defineComponent, h, ref, watch, watchEffect } from 'vue'
+import { computed, defineComponent, h, ref, watch, watchEffect } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -51,11 +60,13 @@ import {
   FolderAddFilled,
   FileAddFilled,
   FileImageFilled,
-  UploadOutlined
+  UploadOutlined,
+  DeleteFilled
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
+import { Confirm } from '@/services/confirm'
 
 export default defineComponent({
   components: {
@@ -65,7 +76,8 @@ export default defineComponent({
     FolderAddFilled,
     FileAddFilled,
     FileImageFilled,
-    UploadOutlined
+    UploadOutlined,
+    DeleteFilled
   },
   props: {
     initData: {
@@ -75,7 +87,7 @@ export default defineComponent({
       }
     }
   },
-  emits: ['changeSelected'],
+  emits: ['changeSelected', 'update:files'],
   setup(props, { emit }) {
     const selectedKeys = ref(['main.tex'])
     const expandedKeys = ref([])
@@ -88,6 +100,7 @@ export default defineComponent({
     const openUpload = ref(false)
     const loading = ref(false)
     const imageFile = ref()
+    const isMulti = computed(() => selectedKeys.value.length > 1)
 
     const compareFile = (a, b) => {
       let aIsLeaf = a.isLeaf ? 1 : 0
@@ -367,6 +380,28 @@ export default defineComponent({
       }
     }
 
+    const onDelete = () => {
+      Confirm({
+        content: 'Are you sure to delete these files?',
+        okText: 'Delete',
+        onOk() {
+          const deleteFiles = props.initData.filter(
+            (e) => selectedKeys.value.findIndex((k) => e.path.startsWith(k)) !== -1
+          )
+          if (loading.value) return
+          loading.value = true
+          Promise.all(deleteFiles.map((e) => serviceAPI.deleteFile(e.id)))
+            .then(() => {
+              files.value = buildDirectoryStructure(props.initData.filter(e => !deleteFiles.includes(e)))
+            })
+            .catch()
+            .finally(() => {
+              loading.value = false
+            })
+        }
+      })
+    }
+
     watchEffect(() => {
       files.value = buildDirectoryStructure(props.initData).sort(compareFile)
     })
@@ -379,7 +414,7 @@ export default defineComponent({
     )
 
     watchEffect(() => {
-      if (selectedKeys.value.length === 1) {
+      if (selectedKeys.value.length === 1 && selectedKeys.value[0].includes('.')) {
         emit(
           'changeSelected',
           props.initData.find((e) => e.path === selectedKeys.value[0])
@@ -399,7 +434,9 @@ export default defineComponent({
       openUpload,
       saveImage,
       imageFile,
-      onFileChanged
+      onFileChanged,
+      isMulti,
+      onDelete
     }
   }
 })

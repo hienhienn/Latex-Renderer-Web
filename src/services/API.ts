@@ -31,6 +31,7 @@ const uploadFile: (id) => Promise<any> = (data) =>
   })
 const getFile: (id) => Promise<any> = (id) => API.get(`file/${id}`)
 const updateFile: (id, data) => Promise<any> = (id, data) => API.put(`file/updateFile/${id}`, data)
+const deleteFile: (id, data) => Promise<any> = (id) => API.delete(`file/deleteFile/${id}`)
 const compile: (id, data) => Promise<any> = (id, data) => API.post(`version/compile/${id}`, data)
 
 export const serviceAPI = {
@@ -44,5 +45,6 @@ export const serviceAPI = {
   uploadFile,
   getFile,
   updateFile,
+  deleteFile,
   compile
 }

@@ -2,7 +2,7 @@
   <a-layout>
     <HeaderHome />
     <a-layout>
-      <a-layout-sider width="200" style="background: #fff; padding: 8px">
+      <a-layout-sider width="200" style="padding: 8px" theme="light">
         <a-menu
           mode="inline"
           :style="{ height: '100%', borderRight: 0 }"
