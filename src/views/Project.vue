@@ -2,7 +2,12 @@
   <a-layout>
     <a-layout>
       <a-layout-sider width="250" style="background: #fff">
-        <Directory :initData="files" @changeSelected="onChangeSelected" />
+        <Directory
+          :initData="files"
+          @changeSelected="onChangeSelected"
+          @update:files="onUpdateFiles"
+          :shaCode="shaCode"
+        />
       </a-layout-sider>
       <a-layout style="padding: 0 8px">
         <a-layout-content>
@@ -19,7 +24,7 @@
           </div>
           <div class="editor-right">
             <a-button @click="onCompile" :loading="loading">Compile</a-button>
-            <br/>
+            <br />
             <embed v-if="pdf" style="width: 100%; height: 100%" :src="`${apiUrl}${pdf}`" />
           </div>
         </a-layout-content>
@@ -65,13 +70,15 @@ export default defineComponent({
     const data = ref([])
     const currentFile = ref()
     const pdf = ref()
+    const shaCode = ref()
 
     onMounted(() => {
       loading.value = true
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
-          files.value = res.data
+          files.value = res.data.files
+          shaCode.value = res.data.shaCode
         })
         .catch((err) => {
           console.log(err)
@@ -82,6 +89,12 @@ export default defineComponent({
     })
 
     const onChangeSelected = (event) => {
+      console.log(event, fileOpen.value)
+      if (event == null) {
+        currentFile.value = null
+        fileOpen.value = null
+        return
+      }
       fileOpen.value = event
       const idx = data.value.findIndex((e) => e.id === fileOpen.value.id)
       if (fileOpen.value?.id && idx === -1) {
@@ -126,6 +139,18 @@ export default defineComponent({
         })
     }
 
+    const onUpdateFiles = () => {
+      serviceAPI
+        .getFilesByVersionId(route.params.versionId)
+        .then((res) => {
+          files.value = res.data.files
+          shaCode.value = res.data.shaCode
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
     return {
       files,
       onChangeSelected,
@@ -135,7 +160,9 @@ export default defineComponent({
       onUpdateContent,
       onCompile,
       loading,
-      pdf
+      pdf,
+      onUpdateFiles,
+      shaCode
     }
   }
 })

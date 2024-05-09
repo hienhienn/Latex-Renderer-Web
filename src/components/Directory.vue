@@ -32,6 +32,7 @@
     v-model:expandedKeys="expandedKeys"
     :tree-data="files"
     multiple
+    @select="onChangeSelectedKeys"
   >
   </a-directory-tree>
   <a-modal
@@ -67,6 +68,7 @@ import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
 import { Confirm } from '@/services/confirm'
+import { notification, Button } from 'ant-design-vue'
 
 export default defineComponent({
   components: {
@@ -82,14 +84,15 @@ export default defineComponent({
   props: {
     initData: {
       type: Array,
-      default: () => {
-        return []
-      }
+      default: []
+    },
+    shaCode: {
+      default: null
     }
   },
   emits: ['changeSelected', 'update:files'],
   setup(props, { emit }) {
-    const selectedKeys = ref(['main.tex'])
+    const selectedKeys = ref([])
     const expandedKeys = ref([])
     const files = ref([])
     const route = useRoute()
@@ -157,7 +160,6 @@ export default defineComponent({
       }
 
       if (parts.length === 0 && isLeaf) {
-        // Đánh dấu nút này là nút lá nếu không còn bất kỳ phần nào khác của đường dẫn
         child.isLeaf = true
         child.icon = item.typeFile === 'img' ? h(FileImageOutlined) : h(FileOutlined)
       } else {
@@ -170,9 +172,8 @@ export default defineComponent({
 
       files.forEach((file) => {
         const parts = file.path.split('/')
-        const fileName = parts.pop() // Remove and get the file name from parts
+        const fileName = parts.pop()
         insertPath(root, parts, file)
-        // Add the file as a leaf node
         const leafNode = {
           title: fileName,
           key: `${root.path}/${file.path}`,
@@ -194,33 +195,32 @@ export default defineComponent({
 
       if (newFolder.value === 'file') nameFolder.value += '.tex'
 
-      let path = selectedKeys.value[0].split('/')
-      if (path[path.length - 1].includes('.')) path.pop()
+      let path = selectedKeys.value[0]?.split('/') || []
+      if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
 
       if (paths.has([...path, nameFolder.value].join('/'))) {
         errorText.value = `A ${newFolder.value} with this name already exists`
         return
       }
 
-      let pathToObj = []
-      let id = []
-
-      path.forEach((p) => {
-        let i = -1
-        if (id.length === 0) {
-          i = files.value.findIndex((e) => e.title === p)
-        } else {
-          let targetArray = [...files.value]
-          for (const idx of id) {
-            targetArray = targetArray[idx].children
-          }
-          i = targetArray.findIndex((e) => e.title === p)
-        }
-        pathToObj.push(i, 'children')
-        id.push(i)
-      })
-
       if (newFolder.value === 'folder') {
+        let pathToObj = []
+        let id = []
+
+        path.forEach((p) => {
+          let i = -1
+          if (id.length === 0) {
+            i = files.value.findIndex((e) => e.title === p)
+          } else {
+            let targetArray = [...files.value]
+            for (const idx of id) {
+              targetArray = targetArray[idx].children
+            }
+            i = targetArray.findIndex((e) => e.title === p)
+          }
+          pathToObj.push(i, 'children')
+          id.push(i)
+        })
         if (pathToObj.length === 0) {
           files.value = [
             ...files.value,
@@ -254,31 +254,16 @@ export default defineComponent({
             path: [...path, nameFolder.value].join('/')
           })
           .then(() => {
-            if (pathToObj.length === 0) {
-              files.value = [
-                ...files.value,
-                {
-                  key: nameFolder.value,
-                  title: nameFolder.value,
-                  children: [],
-                  isLeaf: true
-                }
-              ]
-              files.value.sort(compareFile)
-              paths.add(nameFolder.value)
-            } else {
-              deepSet(files.value, pathToObj, {
-                title: nameFolder.value,
-                key: [...path, nameFolder.value].join('/'),
-                children: [],
-                isLeaf: true
-              })
-              paths.add([...path, nameFolder.value].join('/'))
-            }
+            emit('update:files')
+            paths.add([...path, nameFolder.value].join('/'))
           })
           .catch((err) => {
-            console.log(err)
-            NotiError('Failed to create new file!')
+            if (err.response.status == 400 && err.response.data.shaCodeError) {
+              NotiFileList({
+                type: 'saveImage',
+                filePath: filePath
+              })
+            } else NotiError('Failed to create new file!')
           })
           .finally(() => {
             newFolder.value = ''
@@ -299,12 +284,11 @@ export default defineComponent({
         errorText.value = `Image name is required!`
         return
       }
+      let path = selectedKeys.value[0]?.split('/') || []
+      if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
 
-      let path = selectedKeys.value[0].split('/')
-      if (path[path.length - 1].includes('.')) path.pop()
-
-      const filePath =
-        [...path, nameFolder.value].join('/') + '.' + imageFile.value.name.split('.').pop()
+      const ext = imageFile.value.name.split('.').pop()
+      const filePath = [...path, nameFolder.value].join('/') + '.' + ext
 
       if (paths.has(filePath)) {
         errorText.value = `A image with this name already exists`
@@ -316,55 +300,21 @@ export default defineComponent({
       formData.append('name', nameFolder.value)
       formData.append('versionId', route.params.versionId)
       formData.append('path', filePath)
-
-      let pathToObj = []
-      let id = []
-
-      path.forEach((p) => {
-        let i = -1
-        if (id.length === 0) {
-          i = files.value.findIndex((e) => e.title === p)
-        } else {
-          let targetArray = [...files.value]
-          for (const idx of id) {
-            targetArray = targetArray[idx].children
-          }
-          i = targetArray.findIndex((e) => e.title === p)
-        }
-        pathToObj.push(i, 'children')
-        id.push(i)
-      })
+      formData.append('shaCode', props.shaCode)
 
       serviceAPI
         .uploadFile(formData)
         .then(() => {
-          if (pathToObj.length === 0) {
-            files.value = [
-              ...files.value,
-              {
-                key: nameFolder.value,
-                title: nameFolder.value + '.' + imageFile.value.name.split('.').pop(),
-                children: [],
-                isLeaf: true,
-                icon: h(FileImageOutlined)
-              }
-            ]
-            files.value.sort(compareFile)
-            paths.add(nameFolder.value)
-          } else {
-            deepSet(files.value, pathToObj, {
-              title: nameFolder.value,
-              key: filePath,
-              children: [],
-              isLeaf: true,
-              icon: h(FileImageOutlined)
-            })
-            paths.add(filePath)
-          }
+          emit('update:files')
+          paths.add(filePath)
         })
         .catch((err) => {
-          console.log(err)
-          NotiError('Failed to create new file!')
+          if (err.response.status == 400 && err.response.data.shaCodeError) {
+            NotiFileList({
+              type: 'saveImage',
+              filePath: filePath
+            })
+          } else NotiError('Failed to create new file!')
         })
         .finally(() => {
           openUpload.value = false
@@ -392,9 +342,20 @@ export default defineComponent({
           loading.value = true
           Promise.all(deleteFiles.map((e) => serviceAPI.deleteFile(e.id)))
             .then(() => {
-              files.value = buildDirectoryStructure(props.initData.filter(e => !deleteFiles.includes(e)))
+              emit('update:files')
+              files.value = buildDirectoryStructure(
+                props.initData.filter((e) => !deleteFiles.includes(e))
+              )
+              selectedKeys.value = []
             })
-            .catch()
+            .catch((err) => {
+              if (err.response.status == 400 && err.response.data.shaCodeError) {
+                NotiFileList({
+                  type: 'saveImage',
+                  filePath: filePath
+                })
+              } else NotiError('Failed to delete files!')
+            })
             .finally(() => {
               loading.value = false
             })
@@ -402,25 +363,49 @@ export default defineComponent({
       })
     }
 
-    watchEffect(() => {
-      files.value = buildDirectoryStructure(props.initData).sort(compareFile)
-    })
+    const NotiFileList = ({ type = '', filePath = '' }) => {
+      notification.open({
+        message: 'Files list has been changed',
+        description: 'Please update files list before update a files!',
+        btn: () =>
+          h(
+            Button,
+            {
+              type: 'primary',
+              onClick: () => {
+                notification.close(`${type}${filePath}`)
+                emit('update:files')
+              }
+            },
+            { default: () => 'Update' }
+          ),
+        key: `${type}${filePath}`
+      })
+    }
+
+    const onChangeSelectedKeys = (event) => {
+      if (event.length === 0 || !event) {
+        emit('changeSelected', null)
+        return
+      }
+      if (event.length === 1 && event[0].includes('.')) {
+        emit(
+          'changeSelected',
+          props.initData.find((e) => e.path === event[0])
+        )
+        return
+      }
+      emit('changeSelected', null)
+    }
+
+    watchEffect(() => (files.value = buildDirectoryStructure(props.initData).sort(compareFile)))
 
     watch(
       () => [nameFolder.value],
       ([value, oldValue]) => {
-        if (errorText && value) errorText.value = ''
+        if (errorText.value && value) errorText.value = ''
       }
     )
-
-    watchEffect(() => {
-      if (selectedKeys.value.length === 1 && selectedKeys.value[0].includes('.')) {
-        emit(
-          'changeSelected',
-          props.initData.find((e) => e.path === selectedKeys.value[0])
-        )
-      }
-    })
 
     return {
       selectedKeys,
@@ -436,7 +421,8 @@ export default defineComponent({
       imageFile,
       onFileChanged,
       isMulti,
-      onDelete
+      onDelete,
+      onChangeSelectedKeys
     }
   }
 })

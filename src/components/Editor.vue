@@ -3,7 +3,7 @@ import { VAceEditor } from 'vue3-ace-editor'
 import 'ace-builds/src-noconflict/mode-latex'
 import 'ace-builds/src-noconflict/theme-chrome'
 import 'ace-builds/src-noconflict/ext-language_tools'
-import { defineComponent, onBeforeUnmount, ref, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { serviceAPI } from '@/services/API'
 
 export default defineComponent({
@@ -26,10 +26,6 @@ export default defineComponent({
     const value = ref(props.initData.content)
     const initContent = ref(props.initData.content)
     const id = ref(props.initData.id)
-
-    onBeforeUnmount(() => {
-      console.log(value.value)
-    })
 
     watch(
       () => [props.initData.id],
