@@ -251,7 +251,8 @@ export default defineComponent({
           .createFile({
             versionId: route.params.versionId,
             name: nameFolder.value,
-            path: [...path, nameFolder.value].join('/')
+            path: [...path, nameFolder.value].join('/'),
+            shaCode: props.shaCode
           })
           .then(() => {
             emit('update:files')
@@ -366,7 +367,7 @@ export default defineComponent({
     const NotiFileList = ({ type = '', filePath = '' }) => {
       notification.open({
         message: 'Files list has been changed',
-        description: 'Please update files list before update a files!',
+        description: 'Please update files list before create new file!',
         btn: () =>
           h(
             Button,
@@ -384,10 +385,12 @@ export default defineComponent({
     }
 
     const onChangeSelectedKeys = (event) => {
+      // không chọn file nào
       if (event.length === 0 || !event) {
         emit('changeSelected', null)
         return
       }
+      // chọn 1 file tex hoặc ảnh
       if (event.length === 1 && event[0].includes('.')) {
         emit(
           'changeSelected',
@@ -395,6 +398,7 @@ export default defineComponent({
         )
         return
       }
+      // chọn nhiều file hoặc chọn folder
       emit('changeSelected', null)
     }
 

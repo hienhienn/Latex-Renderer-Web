@@ -40,6 +40,7 @@ declare module 'vue' {
     ATree: typeof import('ant-design-vue/es')['Tree']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     AUpload: typeof import('ant-design-vue/es')['Upload']
+    Compare: typeof import('./src/components/Compare.vue')['default']
     Directory: typeof import('./src/components/Directory.vue')['default']
     Editor: typeof import('./src/components/Editor.vue')['default']
     HeaderHome: typeof import('./src/components/layouts/HeaderHome.vue')['default']
