@@ -5,15 +5,17 @@
     v-model:modified="code"
     :options="OPTIONS"
     @mount="handleMount"
+    language="latex"
   />
   <a-button class="save-button" @click="onSave">Save</a-button>
 </template>
 
 <script lang="ts">
-import { serviceAPI } from '@/services/API';
-import { NotiError } from '@/services/notification';
-import { Button, notification } from 'ant-design-vue';
+import { serviceAPI } from '@/services/API'
+import { NotiError } from '@/services/notification'
+import { Button, notification } from 'ant-design-vue'
 import { defineComponent, h, ref, shallowRef } from 'vue'
+import latexLang from '@/latex/latex-lang'
 
 export default defineComponent({
   props: {
@@ -28,17 +30,24 @@ export default defineComponent({
       automaticLayout: true,
       formatOnType: true,
       formatOnPaste: true,
+      autoClosingBrackets: 'always',
+      scrollBeyondLastLine: false,
+      wordWrap: 'wordWrapColumn',
+      wordWrapColumn: 80
     }
 
     const code = ref(localStorage.getItem(props.oldData.id))
     const loading = ref(false)
 
-    const original = '// the original code'
     const diffEditorRef = shallowRef()
-    const handleMount = (diffEditor) => (diffEditorRef.value = diffEditor)
+    const handleMount = (diffEditor, monaco) => {
+      monaco.languages.register({ id: 'latex' })
+      monaco.languages.setMonarchTokensProvider('latex', latexLang as any)
+      diffEditorRef.value = diffEditor
+    }
 
     const onSave = () => {
-      if(loading.value) return
+      if (loading.value) return
       loading.value = true
       serviceAPI
         .updateFile(props.oldData.id, {
@@ -84,7 +93,6 @@ export default defineComponent({
     return {
       OPTIONS,
       handleMount,
-      original,
       code,
       oldData: props.oldData,
       onSave

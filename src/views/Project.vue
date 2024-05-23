@@ -17,6 +17,7 @@
               :initData="currentFile"
               @update:save="onSaveFile"
               @conflict="onConflict"
+              @update:files="onUpdateFiles"
             />
             <img
               v-if="currentFile?.type === 'img' && currentFile?.content"
@@ -25,16 +26,23 @@
             <div v-if="currentFile == null">Select 1 file</div>
           </div>
           <div class="editor-right">
-            <a-button @click="onCompile" :loading="loading">Compile</a-button>
+            <div class="editor-btns">
+              <a-button>Save this version</a-button>
+              <a-button type="primary" @click="onCompile" :loading="loading">Compile</a-button>
+            </div>
             <br />
-            <embed v-if="pdf" style="width: 100%; height: 100%" :src="`${apiUrl}${pdf}`" />
+            <embed
+              v-if="pdf"
+              style="width: 100%; height: calc(100% - 64px)"
+              :src="`${apiUrl}${pdf}#toolbar=0`"
+            />
           </div>
         </a-layout-content>
         <a-layout-content v-if="isConflict" style="display: grid">
           <div class="container-conflict" v-for="item in conflictFiles">
             <div class="title-path">{{ item.path }}</div>
             <div class="compare-editor">
-              <Compare :oldData="item" @update:save="onSaveFile"/>
+              <Compare :oldData="item" @update:save="onSaveFile" />
             </div>
           </div>
         </a-layout-content>
@@ -44,7 +52,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, ref, watchEffect } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -58,7 +66,6 @@ import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
 import Directory from '@/components/Directory.vue'
 import Editor from '@/components/Editor.vue'
-import { NotiError } from '@/services/notification'
 import Compare from '@/components/Compare.vue'
 
 export default defineComponent({
@@ -76,8 +83,10 @@ export default defineComponent({
   },
   setup() {
     const files = ref([])
+    const version = ref()
     const route = useRoute()
     const loading = ref(false)
+    const loadingVersion = ref(false)
     const currentFile = ref()
     const data = ref([])
     const pdf = ref()
@@ -99,28 +108,40 @@ export default defineComponent({
         .finally(() => {
           loading.value = false
         })
+      serviceAPI
+        .getVersionById(route.params.versionId)
+        .then((res) => {
+          version.value = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      serviceAPI
+        .compile(route.params.versionId)
+        .then((res) => (pdf.value = res.data))
+        .catch()
     })
 
     const onChangeSelected = (event) => {
-      if (event == null) {
-        currentFile.value = null
-        return
-      }
-      const idx = data.value.findIndex((e) => e.id === event.id)
-      if (idx === -1) {
-        serviceAPI
-          .getFile(event.id)
-          .then((res) => {
-            currentFile.value = res.data
-            if (localStorage.getItem(event.id))
-              currentFile.value.localContent = localStorage.getItem(event.id)
-            data.value.push(currentFile.value)
-          })
-          .catch((err) => NotiError())
-        return
-      }
-      if (idx !== -1) {
-        currentFile.value = data.value[idx]
+      // if (event == null) {
+      //   currentFile.value = null
+      //   return
+      // }
+      // const idx = data.value.findIndex((e) => e.id === event.id)
+      // if (idx === -1) {
+      //   serviceAPI
+      //     .getFile(event.id)
+      //     .then((res) => {
+      //       currentFile.value = res.data
+      //       if (localStorage.getItem(event.id))
+      //         currentFile.value.localContent = localStorage.getItem(event.id)
+      //       data.value.push(currentFile.value)
+      //     })
+      //     .catch((err) => NotiError())
+      //   return
+      // }
+      // if (idx !== -1) {
+        currentFile.value = files.value.find(e => e.id === event.id)
         if (localStorage.getItem(event.id)) {
           currentFile.value.localContent = localStorage.getItem(event.id)
           data.value[idx].localContent = localStorage.getItem(event.id)
@@ -128,7 +149,7 @@ export default defineComponent({
           delete currentFile.value.localContent
           delete data.value[idx].localContent
         }
-      }
+      // }
     }
 
     const onCompile = () => {
@@ -161,20 +182,24 @@ export default defineComponent({
     }
 
     const onSaveFile = (event) => {
-      console.log(event)
       const idx = data.value.findIndex((e) => e.id === event.id)
       if (idx > -1) {
         currentFile.value = event
         data.value[idx] = event
         localStorage.removeItem(event.id)
       }
-      console.log(idx, currentFile.value, data.value)
       const idConflict = conflictFiles.value.findIndex((e) => e.id === event.id)
       if (idConflict > -1) conflictFiles.value.splice(idConflict, 1)
     }
 
     const onConflict = (event) => {
       conflictFiles.value = [event]
+    }
+
+    const onSaveVersion = () => {
+      // serviceAPI.saveVersion(version.value.projectId, {
+      //   files: files.
+      // })
     }
 
     return {
@@ -191,7 +216,9 @@ export default defineComponent({
       onSaveFile,
       conflictFiles,
       isConflict,
-      onConflict
+      onConflict,
+      loadingVersion,
+      onSaveVersion
     }
   }
 })
@@ -231,7 +258,13 @@ div.editor-right {
   width: 50%;
   height: 100%;
   background: white;
-  /* display: grid; */
+  padding: 8px 16px;
+}
+
+.editor-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 div.editor img {
