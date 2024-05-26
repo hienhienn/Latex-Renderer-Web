@@ -173,7 +173,7 @@ export default defineComponent({
     }
 
     watch(
-      () => [
+      [
         category,
         pagination.page,
         pagination.pageSize,
@@ -187,7 +187,7 @@ export default defineComponent({
     )
 
     watch(
-      () => [searchText.value],
+      [searchText.value],
       () => {
         to.value && clearTimeout(to.value)
         to.value = setTimeout(getData, 500)

@@ -406,7 +406,7 @@ export default defineComponent({
 
     watch(
       () => [nameFolder.value],
-      ([value, oldValue]) => {
+      ([value]) => {
         if (errorText.value && value) errorText.value = ''
       }
     )

@@ -23,11 +23,6 @@ const router = createRouter({
       path: '/project/:versionId',
       name: 'project',
       component: () => import('../views/Project.vue')
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: () => import('../views/Test.vue')
     }
   ]
 })

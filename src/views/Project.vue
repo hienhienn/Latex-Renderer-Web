@@ -21,7 +21,7 @@
             />
             <img
               v-if="currentFile?.type === 'img' && currentFile?.content"
-              :src="`${apiUrl}${currentFile?.content}`"
+              :src="`${apiUrl}/${currentFile?.content}`"
             />
             <div v-if="currentFile == null">Select 1 file</div>
           </div>
@@ -32,9 +32,10 @@
             </div>
             <br />
             <embed
-              v-if="pdf"
+              v-show="pdf"
               style="width: 100%; height: calc(100% - 64px)"
-              :src="`${apiUrl}${pdf}#toolbar=0`"
+              :src="apiUrl + pdf + '#toolbar=0'"
+              :key="show"
             />
           </div>
         </a-layout-content>
@@ -93,6 +94,12 @@ export default defineComponent({
     const shaCode = ref()
     const conflictFiles = ref([])
     const isConflict = computed(() => conflictFiles.value && conflictFiles.value.length > 0)
+    const code = 'v-code' + Math.random().toString(16).slice(2)
+    const show = ref(Math.random() * 1000)
+    
+    window.addEventListener('beforeunload', function (event) {
+      
+    })
 
     onMounted(() => {
       loading.value = true
@@ -123,25 +130,25 @@ export default defineComponent({
     })
 
     const onChangeSelected = (event) => {
-      // if (event == null) {
-      //   currentFile.value = null
-      //   return
-      // }
-      // const idx = data.value.findIndex((e) => e.id === event.id)
-      // if (idx === -1) {
-      //   serviceAPI
-      //     .getFile(event.id)
-      //     .then((res) => {
-      //       currentFile.value = res.data
-      //       if (localStorage.getItem(event.id))
-      //         currentFile.value.localContent = localStorage.getItem(event.id)
-      //       data.value.push(currentFile.value)
-      //     })
-      //     .catch((err) => NotiError())
-      //   return
-      // }
-      // if (idx !== -1) {
-        currentFile.value = files.value.find(e => e.id === event.id)
+      if (event == null) {
+        currentFile.value = null
+        return
+      }
+      const idx = data.value.findIndex((e) => e.id === event.id)
+      if (idx === -1) {
+        serviceAPI
+          .getFile(event.id)
+          .then((res) => {
+            currentFile.value = res.data
+            if (localStorage.getItem(event.id))
+              currentFile.value.localContent = localStorage.getItem(event.id)
+            data.value.push(currentFile.value)
+          })
+          .catch((err) => NotiError())
+        return
+      }
+      if (idx !== -1) {
+        currentFile.value = data.value.find((e) => e.id === event.id)
         if (localStorage.getItem(event.id)) {
           currentFile.value.localContent = localStorage.getItem(event.id)
           data.value[idx].localContent = localStorage.getItem(event.id)
@@ -149,7 +156,7 @@ export default defineComponent({
           delete currentFile.value.localContent
           delete data.value[idx].localContent
         }
-      // }
+      }
     }
 
     const onCompile = () => {
@@ -161,7 +168,7 @@ export default defineComponent({
           updateFiles
         })
         .then((res) => {
-          pdf.value = res.data
+          show.value = Math.random() * 1000
         })
         .catch()
         .finally(() => {
@@ -182,12 +189,12 @@ export default defineComponent({
     }
 
     const onSaveFile = (event) => {
-      const idx = data.value.findIndex((e) => e.id === event.id)
-      if (idx > -1) {
-        currentFile.value = event
-        data.value[idx] = event
-        localStorage.removeItem(event.id)
-      }
+      // const idx = data.value.findIndex((e) => e.id === event.id)
+      // if (idx > -1) {
+      currentFile.value = event
+      data.value[idx] = event
+      localStorage.removeItem(event.id)
+      // }
       const idConflict = conflictFiles.value.findIndex((e) => e.id === event.id)
       if (idConflict > -1) conflictFiles.value.splice(idConflict, 1)
     }
@@ -201,8 +208,8 @@ export default defineComponent({
       //   files: files.
       // })
     }
-
     return {
+      show,
       files,
       onChangeSelected,
       currentFile,

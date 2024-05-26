@@ -1,9 +1,9 @@
 <template>
   <div class="container-editor">
     <div class="editor-control">
-      <a-button type="link" size="small" @click="() => (rename = true)" v-if="!rename">
+      <div>
         {{ initData.name }}
-      </a-button>
+      </div>
       <div class="editor-input" v-if="rename">
         <a-input v-model:value="newName" />
         <close-circle-outlined @click="() => (rename = false)" />
@@ -20,12 +20,22 @@
         @mount="handleMount"
         language="latex"
         :options="OPTIONS"
+        :onChange="onChangeCode"
       />
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, h, onBeforeUnmount, ref, shallowRef, watch, watchEffect } from 'vue'
+import {
+  defineComponent,
+  h,
+  onBeforeUnmount,
+  ref,
+  shallowRef,
+  watch,
+  watchEffect,
+  reactive
+} from 'vue'
 import { serviceAPI } from '@/services/API'
 import { Button, notification } from 'ant-design-vue'
 import { NotiError } from '@/services/notification'
@@ -59,13 +69,12 @@ export default defineComponent({
       wordWrap: 'wordWrapColumn',
       wordWrapColumn: 80
     }
-    const initContent = ref(props.initData.content)
-    const id = ref(props.initData.id)
     const isSave = ref()
     const loading = ref(false)
     const code = ref(props.initData.localContent || props.initData.content)
     const rename = ref(false)
     const newName = ref(props.initData.name.split('.')[0])
+    let to
 
     const editorRef = shallowRef()
     const handleMount = (editor, monaco) => {
@@ -74,39 +83,23 @@ export default defineComponent({
       editorRef.value = editor
     }
 
-    onBeforeUnmount(() => {
-      if (id.value && initContent.value !== code.value) {
-        localStorage.setItem(id.value, code.value)
-      } else {
-        localStorage.removeItem(id.value)
-      }
-    })
+    // onBeforeUnmount(() => {
+    //   if (id.value && initContent.value !== code.value) {
+    //     localStorage.setItem(id.value, code.value)
+    //   } else {
+    //     localStorage.removeItem(id.value)
+    //   }
+    // })
 
-    watch(
-      () => [props.initData.id],
-      () => {
-        if (id.value && initContent.value !== code.value) {
-          localStorage.setItem(id.value, code.value)
-        } else {
-          localStorage.removeItem(id.value)
-        }
-        id.value = props.initData.id
-        code.value = props.initData.localContent || props.initData.content
-        initContent.value = props.initData.content
-      }
-    )
-
-    watchEffect(() => {
-      if (code.value !== props.initData.content) isSave.value = false
-      else isSave.value = true
+    watch([props.initData], ([newValue]) => {
+      code.value = newValue.localContent || newValue.content
     })
 
     const onSave = () => {
       if (loading.value) return
       loading.value = true
       serviceAPI
-        .updateFile(id.value, {
-          path: props.initData.path,
+        .updateFile(props.initData.id, {
           content: code.value,
           shaCode: props.initData.shaCode
         })
@@ -132,12 +125,12 @@ export default defineComponent({
                     type: 'primary',
                     onClick: () => {
                       emit('conflict', err.response.data)
-                      notification.close(`updateFile${id.value}`)
+                      notification.close(`updateFile${props.initData.id}`)
                     }
                   },
                   { default: () => 'Update' }
                 ),
-              key: `updateFile${id.value}`
+              key: `updateFile${props.initData.id}`
             })
           } else NotiError('Failed to create new file!')
         })
@@ -160,7 +153,7 @@ export default defineComponent({
           emit('update:save', {
             ...props.initData,
             name: newName.value + '.tex',
-            path: newPath,
+            path: newPath
           })
           emit('update:files')
           rename.value = false
@@ -177,18 +170,33 @@ export default defineComponent({
                     type: 'primary',
                     onClick: () => {
                       emit('update:files')
-                      notification.close(`updateFile${id.value}`)
+                      notification.close(`updateFile${props.initData.id}`)
                     }
                   },
                   { default: () => 'Update' }
                 ),
-              key: `updateFile${id.value}`
+              key: `updateFile${props.initData.id}`
             })
           } else NotiError('Failed to create new file!')
         })
         .finally(() => {
           loading.value = false
         })
+    }
+
+    const onChangeCode = (value) => {
+      to && clearTimeout(to)
+      to = setTimeout(() => {
+        if (code.value !== props.initData.content) {
+          isSave.value = false
+          localStorage.setItem(props.initData.id, code.value)
+        }
+        else {
+          isSave.value = true
+          localStorage.removeItem(props.initData.id)
+        }
+      }, 2000)
+      return () => clearTimeout(to)
     }
 
     return {
@@ -200,7 +208,8 @@ export default defineComponent({
       OPTIONS,
       rename,
       newName,
-      onRename
+      onRename,
+      onChangeCode
     }
   }
 })
