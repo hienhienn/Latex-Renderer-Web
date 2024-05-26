@@ -89,16 +89,15 @@ export default defineComponent({
     const loading = ref(false)
     const loadingVersion = ref(false)
     const currentFile = ref()
-    const data = ref([])
     const pdf = ref()
     const shaCode = ref()
     const conflictFiles = ref([])
     const isConflict = computed(() => conflictFiles.value && conflictFiles.value.length > 0)
     const code = 'v-code' + Math.random().toString(16).slice(2)
     const show = ref(Math.random() * 1000)
-    
+
     window.addEventListener('beforeunload', function (event) {
-      
+      serviceAPI.deleteCompile(code)
     })
 
     onMounted(() => {
@@ -106,7 +105,18 @@ export default defineComponent({
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
-          files.value = res.data.files
+          files.value = res.data.files.map((e) => {
+            if (localStorage.getItem(e.id)) {
+              e.localContent = localStorage.getItem(e.id)
+              e.localSha = localStorage.getItem(`sha-${e.id}`)
+            }
+            return e
+          })
+          if (files.value.length > 0) {
+            compileAPI()
+              .then((res) => (pdf.value = res.data))
+              .catch()
+          }
           shaCode.value = res.data.shaCode
         })
         .catch((err) => {
@@ -123,10 +133,6 @@ export default defineComponent({
         .catch((err) => {
           console.log(err)
         })
-      serviceAPI
-        .compile(route.params.versionId)
-        .then((res) => (pdf.value = res.data))
-        .catch()
     })
 
     const onChangeSelected = (event) => {
@@ -134,39 +140,21 @@ export default defineComponent({
         currentFile.value = null
         return
       }
-      const idx = data.value.findIndex((e) => e.id === event.id)
-      if (idx === -1) {
-        serviceAPI
-          .getFile(event.id)
-          .then((res) => {
-            currentFile.value = res.data
-            if (localStorage.getItem(event.id))
-              currentFile.value.localContent = localStorage.getItem(event.id)
-            data.value.push(currentFile.value)
-          })
-          .catch((err) => NotiError())
-        return
+      const idx = files.value.findIndex((e) => e.id === event.id)
+      if (localStorage.getItem(event.id)) {
+        files.value[idx].localContent = localStorage.getItem(event.id)
+        files.value[idx].localSha = localStorage.getItem(`sha-${event.id}`)
+      } else {
+        delete files.value[idx].localContent
+        delete files.value[idx].localSha
       }
-      if (idx !== -1) {
-        currentFile.value = data.value.find((e) => e.id === event.id)
-        if (localStorage.getItem(event.id)) {
-          currentFile.value.localContent = localStorage.getItem(event.id)
-          data.value[idx].localContent = localStorage.getItem(event.id)
-        } else {
-          delete currentFile.value.localContent
-          delete data.value[idx].localContent
-        }
-      }
+      currentFile.value = files.value[idx]
     }
 
     const onCompile = () => {
       if (loading.value) return
-      const updateFiles = [currentFile.value]
       loading.value = true
-      serviceAPI
-        .compile(route.params.versionId, {
-          updateFiles
-        })
+      compileAPI()
         .then((res) => {
           show.value = Math.random() * 1000
         })
@@ -180,7 +168,13 @@ export default defineComponent({
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
-          files.value = res.data.files
+          files.value = res.data.files.map((e) => {
+            if (localStorage.getItem(e.id)) {
+              e.localContent = localStorage.getItem(e.id)
+              e.localSha = localStorage.getItem(`sha-${e.id}`)
+            }
+            return e
+          })
           shaCode.value = res.data.shaCode
         })
         .catch((err) => {
@@ -189,12 +183,9 @@ export default defineComponent({
     }
 
     const onSaveFile = (event) => {
-      // const idx = data.value.findIndex((e) => e.id === event.id)
-      // if (idx > -1) {
       currentFile.value = event
-      data.value[idx] = event
+      files.value[idx] = event
       localStorage.removeItem(event.id)
-      // }
       const idConflict = conflictFiles.value.findIndex((e) => e.id === event.id)
       if (idConflict > -1) conflictFiles.value.splice(idConflict, 1)
     }
@@ -208,6 +199,18 @@ export default defineComponent({
       //   files: files.
       // })
     }
+
+    const compileAPI = () =>
+      serviceAPI.compile({
+        code: code,
+        files: files.value.map((e) => ({
+          name: e.name,
+          path: e.path,
+          content: e.localContent || e.content,
+          type: e.type
+        }))
+      })
+
     return {
       show,
       files,

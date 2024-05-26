@@ -33,7 +33,8 @@ const getFile: (id) => Promise<any> = (id) => API.get(`file/${id}`)
 const updateFile: (id, data) => Promise<any> = (id, data) => API.put(`file/updateFile/${id}`, data)
 const renameFile: (id, data) => Promise<any> = (id, data) => API.put(`file/renameFile/${id}`, data)
 const deleteFile: (id, data) => Promise<any> = (id) => API.delete(`file/deleteFile/${id}`)
-const compile: (id) => Promise<any> = (id) => API.post(`version/compile/${id}`)
+const compile: (data) => Promise<any> = (data) => API.post(`version/compile`, data)
+const deleteCompile: (code) => Promise<any> = (code) => API.delete(`version/compile/${code}`)
 const getVersionById: (id) => Promise<any> = (id) => API.get(`version/${id}`)
 const saveVersion: (id, data) => Promise<any> = (id, data) =>
   API.post(`version/saveVersion/${id}`, data)
@@ -53,5 +54,6 @@ export const serviceAPI = {
   deleteFile,
   compile,
   getVersionById,
-  saveVersion
+  saveVersion,
+  deleteCompile
 }
