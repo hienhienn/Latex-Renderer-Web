@@ -39,7 +39,6 @@
   </a-modal>
 </template>
 
-
 <script lang="ts">
 import { serviceAPI } from '@/services/API'
 import { NotiError, NotiSuccess } from '@/services/notification'
@@ -125,10 +124,11 @@ export default defineComponent({
         content: 'Are you sure to delete this project?',
         okText: 'Delete',
         onOk() {
-          serviceAPI.deleteProject(prj.id)
+          serviceAPI
+            .deleteProject(prj.id)
             .then(() => {
-              getData();
-              NotiSuccess('Delete project successfully');
+              getData()
+              NotiSuccess('Delete project successfully')
             })
             .catch((err) => {
               if (err.status == 404) {
@@ -173,13 +173,7 @@ export default defineComponent({
     }
 
     watch(
-      [
-        category,
-        pagination.page,
-        pagination.pageSize,
-        sorter.fieldSort,
-        sorter.sort
-      ],
+      () => [category, pagination.page, pagination.pageSize, sorter.fieldSort, sorter.sort],
       getData,
       {
         immediate: true
@@ -187,7 +181,7 @@ export default defineComponent({
     )
 
     watch(
-      [searchText.value],
+      () => [searchText.value],
       () => {
         to.value && clearTimeout(to.value)
         to.value = setTimeout(getData, 500)

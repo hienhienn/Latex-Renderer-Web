@@ -7,14 +7,14 @@
     @mount="handleMount"
     language="latex"
   />
-  <a-button class="save-button" @click="onSave">Save</a-button>
+  <a-button type="primary" class="save-button" @click="onSave">Save</a-button>
 </template>
 
 <script lang="ts">
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
 import { Button, notification } from 'ant-design-vue'
-import { defineComponent, h, ref, shallowRef } from 'vue'
+import { defineComponent, h, ref, shallowRef, watch } from 'vue'
 import latexLang from '@/latex/latex-lang'
 
 export default defineComponent({
@@ -38,6 +38,7 @@ export default defineComponent({
 
     const code = ref(localStorage.getItem(props.oldData.id))
     const loading = ref(false)
+    let to
 
     const diffEditorRef = shallowRef()
     const handleMount = (diffEditor, monaco) => {
@@ -61,11 +62,12 @@ export default defineComponent({
             path: props.oldData.path,
             content: code.value,
             shaCode: res.data.shaCode,
+            localShaCode: res.data.shaCode,
             type: props.oldData.type
           })
         })
         .catch((err) => {
-          if (err.response.status == 400 && err.response.data.shaCodeError) {
+          if (err.response.status == 400) {
             notification.open({
               message: 'File has been changed',
               description: 'Please update file before save!',
@@ -75,7 +77,6 @@ export default defineComponent({
                   {
                     type: 'primary',
                     onClick: () => {
-                      // emit('conflict', err.response.data)
                       notification.close(`updateFile${props.oldData.id}`)
                     }
                   },
@@ -83,18 +84,36 @@ export default defineComponent({
                 ),
               key: `updateFile${props.oldData.id}`
             })
-          } else NotiError('Failed to create new file!')
+          } else NotiError('Failed to update this file!')
         })
         .finally(() => {
           loading.value = false
         })
     }
 
+    watch(
+      () => [code.value],
+      () => {
+        to && clearTimeout(to)
+        to = setTimeout(() => {
+          if (code.value !== props.oldData.content) {
+            localStorage.setItem(props.oldData.id, code.value || '')
+            if (!localStorage.getItem(`sha-${props.oldData.id}`)) {
+              localStorage.setItem(`sha-${props.oldData.id}`, props.oldData.shaCode)
+            }
+          } else {
+            localStorage.removeItem(props.oldData.id)
+            localStorage.removeItem(`sha-${props.oldData.id}`)
+          }
+        }, 1000)
+        return () => clearTimeout(to)
+      }
+    )
+
     return {
       OPTIONS,
       handleMount,
       code,
-      oldData: props.oldData,
       onSave
     }
   }

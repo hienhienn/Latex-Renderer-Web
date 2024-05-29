@@ -6,7 +6,6 @@
           :initData="files"
           @changeSelected="onChangeSelected"
           @update:files="onUpdateFiles"
-          :shaCode="shaCode"
         />
       </a-layout-sider>
       <a-layout style="padding: 0 8px">
@@ -26,6 +25,7 @@
             <div v-if="currentFile == null">Select 1 file</div>
           </div>
           <div class="editor-right">
+            <button @click="sendMessage">send</button>
             <div class="editor-btns">
               <a-button>Save this version</a-button>
               <a-button type="primary" @click="onCompile" :loading="loading">Compile</a-button>
@@ -90,15 +90,14 @@ export default defineComponent({
     const loadingVersion = ref(false)
     const currentFile = ref()
     const pdf = ref()
-    const shaCode = ref()
     const conflictFiles = ref([])
     const isConflict = computed(() => conflictFiles.value && conflictFiles.value.length > 0)
     const code = 'v-code' + Math.random().toString(16).slice(2)
     const show = ref(Math.random() * 1000)
 
-    window.addEventListener('beforeunload', function (event) {
-      serviceAPI.deleteCompile(code)
-    })
+    // window.addEventListener('beforeunload', function (event) {
+    //   serviceAPI.deleteCompile(code)
+    // })
 
     onMounted(() => {
       loading.value = true
@@ -108,16 +107,16 @@ export default defineComponent({
           files.value = res.data.files.map((e) => {
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
-              e.localSha = localStorage.getItem(`sha-${e.id}`)
             }
+            e.localShaCode = localStorage.getItem(`sha-${e.id}`) || e.shaCode
+            e.isCompile = false
             return e
           })
           if (files.value.length > 0) {
-            compileAPI()
-              .then((res) => (pdf.value = res.data))
-              .catch()
+            // compileAPI()
+            //   .then((res) => (pdf.value = res.data))
+            //   .catch()
           }
-          shaCode.value = res.data.shaCode
         })
         .catch((err) => {
           console.log(err)
@@ -133,6 +132,7 @@ export default defineComponent({
         .catch((err) => {
           console.log(err)
         })
+      connectWebSocket()
     })
 
     const onChangeSelected = (event) => {
@@ -143,10 +143,10 @@ export default defineComponent({
       const idx = files.value.findIndex((e) => e.id === event.id)
       if (localStorage.getItem(event.id)) {
         files.value[idx].localContent = localStorage.getItem(event.id)
-        files.value[idx].localSha = localStorage.getItem(`sha-${event.id}`)
+        files.value[idx].localShaCode = localStorage.getItem(`sha-${event.id}`)
       } else {
         delete files.value[idx].localContent
-        delete files.value[idx].localSha
+        files.value[idx].localShaCode = files.value[idx].shaCode
       }
       currentFile.value = files.value[idx]
     }
@@ -168,14 +168,16 @@ export default defineComponent({
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
-          files.value = res.data.files.map((e) => {
+          const prev = files.value
+          files.value = res.data.files.map((e, id) => {
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
-              e.localSha = localStorage.getItem(`sha-${e.id}`)
+              e.localShaCode = localStorage.getItem(`sha-${e.id}`)
             }
+            e.localShaCode = localStorage.getItem(`sha-${e.id}`) || e.shaCode
+            e.isCompile = prev[id].isCompile
             return e
           })
-          shaCode.value = res.data.shaCode
         })
         .catch((err) => {
           console.log(err)
@@ -184,8 +186,12 @@ export default defineComponent({
 
     const onSaveFile = (event) => {
       currentFile.value = event
+      const idx = files.value.findIndex((e) => e.id === event.id)
       files.value[idx] = event
       localStorage.removeItem(event.id)
+      localStorage.removeItem(`sha-${event.id}`)
+
+      // xoá list file conflict
       const idConflict = conflictFiles.value.findIndex((e) => e.id === event.id)
       if (idConflict > -1) conflictFiles.value.splice(idConflict, 1)
     }
@@ -200,15 +206,43 @@ export default defineComponent({
       // })
     }
 
+    let socket
+
+    function connectWebSocket() {
+      socket = new WebSocket(`ws://localhost:5000/ws/${route.params.versionId}`)
+
+      socket.onopen = function (event) {
+        console.log('op', event)
+      }
+
+      socket.onmessage = function (event) {
+        console.log('ms', event)
+      }
+
+      socket.onre
+
+      socket.onclose = function (event) {
+        console.log('cl', event)
+      }
+    }
+
+    function sendMessage() {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send('Hello, WebSocket!')
+      }
+    }
+
     const compileAPI = () =>
       serviceAPI.compile({
         code: code,
-        files: files.value.map((e) => ({
-          name: e.name,
-          path: e.path,
-          content: e.localContent || e.content,
-          type: e.type
-        }))
+        files: files.value
+          .filter((e) => e.isCompile === false)
+          .map((e) => ({
+            name: e.name,
+            path: e.path,
+            content: e.localContent || e.content,
+            type: e.type
+          }))
       })
 
     return {
@@ -222,13 +256,13 @@ export default defineComponent({
       loading,
       pdf,
       onUpdateFiles,
-      shaCode,
       onSaveFile,
       conflictFiles,
       isConflict,
       onConflict,
       loadingVersion,
-      onSaveVersion
+      onSaveVersion,
+      sendMessage
     }
   }
 })

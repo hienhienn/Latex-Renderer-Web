@@ -32,7 +32,8 @@ const uploadFile: (id) => Promise<any> = (data) =>
 const getFile: (id) => Promise<any> = (id) => API.get(`file/${id}`)
 const updateFile: (id, data) => Promise<any> = (id, data) => API.put(`file/updateFile/${id}`, data)
 const renameFile: (id, data) => Promise<any> = (id, data) => API.put(`file/renameFile/${id}`, data)
-const deleteFile: (id, data) => Promise<any> = (id) => API.delete(`file/deleteFile/${id}`)
+const deleteFile: (id, shaCode) => Promise<any> = (id, shaCode) =>
+  API.delete(`file/deleteFile/${id}?shaCode=${shaCode}`)
 const compile: (data) => Promise<any> = (data) => API.post(`version/compile`, data)
 const deleteCompile: (code) => Promise<any> = (code) => API.delete(`version/compile/${code}`)
 const getVersionById: (id) => Promise<any> = (id) => API.get(`version/${id}`)

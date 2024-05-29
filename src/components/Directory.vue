@@ -85,9 +85,6 @@ export default defineComponent({
     initData: {
       type: Array,
       default: []
-    },
-    shaCode: {
-      default: null
     }
   },
   emits: ['changeSelected', 'update:files'],
@@ -126,6 +123,7 @@ export default defineComponent({
     const onNewFolder = (val) => {
       newFolder.value = val
       errorText.value = ''
+      imageFile.value = null
     }
 
     const deepSet = (obj, path, value) => {
@@ -251,18 +249,17 @@ export default defineComponent({
           .createFile({
             versionId: route.params.versionId,
             name: nameFolder.value,
-            path: [...path, nameFolder.value].join('/'),
-            shaCode: props.shaCode
+            path: [...path, nameFolder.value].join('/')
           })
           .then(() => {
             emit('update:files')
             paths.add([...path, nameFolder.value].join('/'))
           })
           .catch((err) => {
-            if (err.response.status == 400 && err.response.data.shaCodeError) {
+            if (err.response.status == 400) {
               NotiFileList({
                 type: 'saveImage',
-                filePath: filePath
+                message: err.response.data.message
               })
             } else NotiError('Failed to create new file!')
           })
@@ -301,7 +298,6 @@ export default defineComponent({
       formData.append('name', nameFolder.value)
       formData.append('versionId', route.params.versionId)
       formData.append('path', filePath)
-      formData.append('shaCode', props.shaCode)
 
       serviceAPI
         .uploadFile(formData)
@@ -310,10 +306,10 @@ export default defineComponent({
           paths.add(filePath)
         })
         .catch((err) => {
-          if (err.response.status == 400 && err.response.data.shaCodeError) {
+          if (err.response.status == 400) {
             NotiFileList({
               type: 'saveImage',
-              filePath: filePath
+              message: err.response.data.message
             })
           } else NotiError('Failed to create new file!')
         })
@@ -341,32 +337,39 @@ export default defineComponent({
           )
           if (loading.value) return
           loading.value = true
-          Promise.all(deleteFiles.map((e) => serviceAPI.deleteFile(e.id)))
-            .then(() => {
-              emit('update:files')
-              files.value = buildDirectoryStructure(
-                props.initData.filter((e) => !deleteFiles.includes(e))
-              )
-              selectedKeys.value = []
-            })
-            .catch((err) => {
-              if (err.response.status == 400 && err.response.data.shaCodeError) {
-                NotiFileList({
-                  type: 'saveImage',
-                  filePath: filePath
+          Promise.all(
+            deleteFiles.map((e) =>
+              serviceAPI
+                .deleteFile(e.id, e.localShaCode)
+                .catch((err) => {
+                  if (err.response.status == 400) {
+                    NotiDelete({
+                      type: 'saveImage',
+                      message: err.response.data.message,
+                      id: err.response.data.id,
+                      shaCode: err.response.data.id
+                    })
+                  } else NotiError('Failed to delete this file!')
                 })
-              } else NotiError('Failed to delete files!')
-            })
-            .finally(() => {
-              loading.value = false
-            })
+                .finally(() => {
+                  loading.value = false
+                })
+            )
+          ).finally(() => {
+            emit('update:files')
+            console.log('done')
+            // files.value = buildDirectoryStructure(
+            //   props.initData.filter((e) => !deleteFiles.includes(e))
+            // )
+            selectedKeys.value = []
+          })
         }
       })
     }
 
-    const NotiFileList = ({ type = '', filePath = '' }) => {
+    const NotiFileList = ({ type = '', filePath = '', message }) => {
       notification.open({
-        message: 'Files list has been changed',
+        message: message || 'Files list has been changed',
         description: 'Please update files list before create new file!',
         btn: () =>
           h(
@@ -379,6 +382,26 @@ export default defineComponent({
               }
             },
             { default: () => 'Update' }
+          ),
+        key: `${type}${filePath}`
+      })
+    }
+
+    const NotiDelete = ({ type = '', filePath = '', message, id, shaCode }) => {
+      notification.open({
+        message: message || 'Files list has been changed',
+        description: 'Do you want to delete?',
+        btn: () =>
+          h(
+            Button,
+            {
+              type: 'text',
+              onClick: () => {
+                notification.close(`${type}${filePath}`)
+                serviceAPI.deleteFile(id, shaCode).catch((err) => null)
+              }
+            },
+            { default: () => 'Delete' }
           ),
         key: `${type}${filePath}`
       })

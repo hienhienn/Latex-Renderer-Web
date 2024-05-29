@@ -29,12 +29,10 @@
 import {
   defineComponent,
   h,
-  onBeforeUnmount,
   ref,
   shallowRef,
   watch,
-  watchEffect,
-  reactive
+  computed
 } from 'vue'
 import { serviceAPI } from '@/services/API'
 import { Button, notification } from 'ant-design-vue'
@@ -69,12 +67,13 @@ export default defineComponent({
       wordWrap: 'wordWrapColumn',
       wordWrapColumn: 80
     }
-    const isSave = ref()
+    const isSave = computed(() => code.value === props.initData.content)
     const loading = ref(false)
     const code = ref(props.initData.localContent || props.initData.content)
     const rename = ref(false)
     const newName = ref(props.initData.name.split('.')[0])
     let to
+    let shaCode = props.initData.localShaCode
 
     const editorRef = shallowRef()
     const handleMount = (editor, monaco) => {
@@ -83,17 +82,14 @@ export default defineComponent({
       editorRef.value = editor
     }
 
-    // onBeforeUnmount(() => {
-    //   if (id.value && initContent.value !== code.value) {
-    //     localStorage.setItem(id.value, code.value)
-    //   } else {
-    //     localStorage.removeItem(id.value)
-    //   }
-    // })
+    watch(
+      () => [props.initData],
+      ([newValue]) => {
+        code.value = newValue.localContent || newValue.content
+      }
+    )
 
-    watch([props.initData], ([newValue]) => {
-      code.value = newValue.localContent || newValue.content
-    })
+    console.log(props.initData)
 
     const onSave = () => {
       if (loading.value) return
@@ -101,7 +97,7 @@ export default defineComponent({
       serviceAPI
         .updateFile(props.initData.id, {
           content: code.value,
-          shaCode: props.initData.shaCode
+          shaCode: shaCode
         })
         .then((res) => {
           emit('update:save', {
@@ -109,12 +105,14 @@ export default defineComponent({
             name: props.initData.name,
             path: props.initData.path,
             content: code.value,
+            localShaCode: res.data.shaCode,
             shaCode: res.data.shaCode,
             type: props.initData.type
           })
+          shaCode = res.data.shaCode
         })
         .catch((err) => {
-          if (err.response.status == 400 && err.response.data.shaCodeError) {
+          if (err.response.status == 400) {
             notification.open({
               message: 'File has been changed',
               description: 'Please update file before save!',
@@ -132,7 +130,7 @@ export default defineComponent({
                 ),
               key: `updateFile${props.initData.id}`
             })
-          } else NotiError('Failed to create new file!')
+          } else NotiError('Failed to update this file!')
         })
         .finally(() => {
           loading.value = false
@@ -188,14 +186,16 @@ export default defineComponent({
       to && clearTimeout(to)
       to = setTimeout(() => {
         if (code.value !== props.initData.content) {
-          isSave.value = false
           localStorage.setItem(props.initData.id, code.value)
-        }
-        else {
-          isSave.value = true
+          if(!localStorage.getItem(`sha-${props.initData.id}`)) {
+            localStorage.setItem(`sha-${props.initData.id}`, props.initData.shaCode)
+          }
+        } else {
           localStorage.removeItem(props.initData.id)
+          localStorage.removeItem(`sha-${props.initData.id}`)
+          shaCode = props.initData.shaCode
         }
-      }, 2000)
+      }, 1000)
       return () => clearTimeout(to)
     }
 
