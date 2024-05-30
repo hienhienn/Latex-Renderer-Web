@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import { DownOutlined } from '@ant-design/icons-vue';
 </script>
 
 <style>

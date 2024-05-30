@@ -9,7 +9,15 @@
         <close-circle-outlined @click="() => (rename = false)" />
         <check-circle-outlined @click="onRename" />
       </div>
-      <a-button type="primary" :disabled="isSave" @click="onSave" :loading="loading">Save</a-button>
+      <a-button
+        type="primary"
+        :disabled="isSave"
+        @click="onSave"
+        :loading="loading"
+        v-if="!readonly"
+      >
+        Save
+      </a-button>
     </div>
     <div style="width: 100%; min-height: calc(100vh - 64px)">
       <vue-monaco-editor
@@ -26,14 +34,7 @@
   </div>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  h,
-  ref,
-  shallowRef,
-  watch,
-  computed
-} from 'vue'
+import { defineComponent, h, ref, shallowRef, watch, computed } from 'vue'
 import { serviceAPI } from '@/services/API'
 import { Button, notification } from 'ant-design-vue'
 import { NotiError } from '@/services/notification'
@@ -54,9 +55,13 @@ export default defineComponent({
           id: ''
         }
       }
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
-  emits: ['update:save', 'conflict', 'update:files'],
+  emits: ['update:save', 'conflict', 'update:files', 'update:code'],
   setup(props, { emit }) {
     const OPTIONS = {
       automaticLayout: true,
@@ -65,7 +70,8 @@ export default defineComponent({
       autoClosingBrackets: 'always',
       scrollBeyondLastLine: false,
       wordWrap: 'wordWrapColumn',
-      wordWrapColumn: 80
+      wordWrapColumn: 80,
+      readOnly: props.readonly
     }
     const isSave = computed(() => code.value === props.initData.content)
     const loading = ref(false)
@@ -113,7 +119,7 @@ export default defineComponent({
         })
         .catch((err) => {
           if (err.response.status == 400) {
-            notification.open({
+            notification.error({
               message: 'File has been changed',
               description: 'Please update file before save!',
               btn: () =>
@@ -158,7 +164,7 @@ export default defineComponent({
         })
         .catch((err) => {
           if (err.response.status == 400) {
-            notification.open({
+            notification.error({
               message: 'File has been changed',
               description: 'Please update file before save!',
               btn: () =>
@@ -182,12 +188,13 @@ export default defineComponent({
         })
     }
 
-    const onChangeCode = (value) => {
+    const onChangeCode = () => {
+      emit('update:code', props.initData.id)
       to && clearTimeout(to)
       to = setTimeout(() => {
         if (code.value !== props.initData.content) {
           localStorage.setItem(props.initData.id, code.value)
-          if(!localStorage.getItem(`sha-${props.initData.id}`)) {
+          if (!localStorage.getItem(`sha-${props.initData.id}`)) {
             localStorage.setItem(`sha-${props.initData.id}`, props.initData.shaCode)
           }
         } else {

@@ -1,5 +1,5 @@
 <template>
-  <a-row :style="{ margin: '8px' }" justify="space-between">
+  <a-row :style="{ margin: '8px' }" justify="space-between" v-if="!readonly">
     <a-row>
       <a-tooltip title="New folder">
         <a-button v-if="!isMulti" type="text" class="icon-btn" @click="() => onNewFolder('folder')">
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, ref, watch, watchEffect } from 'vue'
+import { computed, defineComponent, h, readonly, ref, watch, watchEffect } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -85,6 +85,10 @@ export default defineComponent({
     initData: {
       type: Array,
       default: []
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['changeSelected', 'update:files'],
@@ -347,7 +351,6 @@ export default defineComponent({
                       type: 'saveImage',
                       message: err.response.data.message,
                       id: err.response.data.id,
-                      shaCode: err.response.data.id
                     })
                   } else NotiError('Failed to delete this file!')
                 })
@@ -368,7 +371,7 @@ export default defineComponent({
     }
 
     const NotiFileList = ({ type = '', filePath = '', message }) => {
-      notification.open({
+      notification.error({
         message: message || 'Files list has been changed',
         description: 'Please update files list before create new file!',
         btn: () =>
@@ -388,7 +391,7 @@ export default defineComponent({
     }
 
     const NotiDelete = ({ type = '', filePath = '', message, id, shaCode }) => {
-      notification.open({
+      notification.error({
         message: message || 'Files list has been changed',
         description: 'Do you want to delete?',
         btn: () =>

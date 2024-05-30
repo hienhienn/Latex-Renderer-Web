@@ -68,7 +68,7 @@ export default defineComponent({
         })
         .catch((err) => {
           if (err.response.status == 400) {
-            notification.open({
+            notification.error({
               message: 'File has been changed',
               description: 'Please update file before save!',
               btn: () =>
