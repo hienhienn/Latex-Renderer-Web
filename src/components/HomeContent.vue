@@ -1,29 +1,48 @@
 <template>
-  <a-row class="row-search">
-    <a-input-search
-      v-model:value="searchText"
-      placeholder="Type here to search"
-      style="width: 100"
-    />
+  <a-row justify="space-between" class="row-search">
+    <a-input v-model:value="searchText" placeholder="Type here to search">
+      <template #prefix>
+        <search-outlined />
+      </template>
+    </a-input>
     <a-button type="primary" @click="onClickNew">New Project</a-button>
   </a-row>
   <a-table
     :dataSource="dataSource"
     :columns="columns"
-    bordered
-    :pagination="pagination"
+    :pagination="false"
     @change="onChangeTable"
     :loading="loading"
+    size="middle"
   >
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'name'">
-        <a :href="`/project/${record.lastestVersionId}`">{{ text }}</a>
+        <a-row align="middle">
+          <a :href="`/project/${record.lastestVersionId}`" class="a-title">{{ text }}</a>
+          <a-tag class="mode-tag">
+            <template #icon v-if="record.isPublic">
+              <global-outlined />
+            </template>
+            <template #icon v-if="!record.isPublic">
+              <lock-outlined />
+            </template>
+            {{ record.isPublic ? 'Public' : 'Private' }}
+          </a-tag>
+        </a-row>
       </template>
       <template v-if="column.dataIndex === 'owner'">
-        {{ text.username }} ({{ text.fullname }})
+        <AvatarApp :avatar-user="text" :current-user="user" />
       </template>
       <template v-if="column.dataIndex === 'lastModified'">
         {{ dateTimeFormat(text) }}
+        <a-row style="gap: 4px; color: #6E6893">
+          by
+          <AvatarApp
+            :hide-avatar="true"
+            :avatar-user="record.lastModifiedUser"
+            :current-user="user"
+          />
+        </a-row>
       </template>
       <template v-if="column.dataIndex === 'actions'">
         <a-tooltip title="Delete">
@@ -34,8 +53,13 @@
       </template>
     </template>
   </a-table>
+  <a-row justify="space-between" align="middle" class="custom-pagination-row">
+    <span>Show 20-30 of 58 items</span>
+    <a-pagination :current="1" :page-size="2" :total="85" :showSizeChanger="false" />
+  </a-row>
   <a-modal v-model:open="openModal" title="New Project" okText="Save" @ok="saveProject">
     <a-input v-model:value="namePrj" placeholder="Project Name" />
+    <a-typography-text type="danger">{{ errorText }}</a-typography-text>
   </a-modal>
 </template>
 
@@ -44,21 +68,27 @@ import { serviceAPI } from '@/services/API'
 import { NotiError, NotiSuccess } from '@/services/notification'
 import { defineComponent, reactive, readonly, ref, watch } from 'vue'
 import { dateTimeFormat } from '@/services/functions'
-import { DeleteOutlined } from '@ant-design/icons-vue'
+import { DeleteOutlined, GlobalOutlined, LockOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import debounce from 'lodash.debounce'
 import { Confirm } from '@/services/confirm'
+import AvatarApp from '@/components/common/AvatarApp.vue'
 
 export default defineComponent({
-  props: ['category'],
+  props: ['category', 'user'],
   components: {
-    DeleteOutlined
+    DeleteOutlined,
+    SearchOutlined,
+    LockOutlined,
+    GlobalOutlined,
+    AvatarApp
   },
   name: 'HomeContent',
-  setup({ category }) {
+  setup({ category, user }) {
     const searchText = ref<string>('')
+    const errorText = ref<string>('')
     const pagination = reactive({
       pageSize: 10,
-      total: 0,
+      total: 50,
       page: 1,
       handlePagination: (page: number) => {
         pagination.page = page
@@ -76,8 +106,16 @@ export default defineComponent({
         sorter: true
       },
       {
+        title: 'Status',
+        dataIndex: 'status'
+      },
+      {
         title: 'Owner',
         dataIndex: 'owner'
+      },
+      {
+        title: 'Member',
+        dataIndex: 'member'
       },
       {
         title: 'Last Modified',
@@ -97,11 +135,24 @@ export default defineComponent({
     const namePrj = ref<string>('')
     const to = ref<any>(null)
 
+    watch(
+      () => [namePrj.value],
+      ([value]) => {
+        if (errorText.value && value) errorText.value = ''
+      }
+    )
+
     const onClickNew = () => {
       openModal.value = true
+      namePrj.value = ''
+      errorText.value = ''
     }
 
     const saveProject = () => {
+      if (!namePrj.value) {
+        errorText.value = `Project name is required!`
+        return
+      }
       if (loading.value) return
       loading.value = true
       serviceAPI
@@ -150,7 +201,7 @@ export default defineComponent({
       if (loading.value) return
       loading.value = true
       let query = {
-        category: category,
+        category: 'all',
         pageSize: pagination.pageSize,
         page: pagination.page,
         keyword: searchText.value
@@ -191,6 +242,7 @@ export default defineComponent({
 
     return {
       searchText,
+      errorText,
       columns,
       dataSource,
       loading,
@@ -208,15 +260,49 @@ export default defineComponent({
 })
 </script>
 
-<style>
-.row-search {
-  width: 100%;
-  flex-flow: nowrap;
-  gap: 8px;
-  margin-bottom: 16px;
+<style lang="scss">
+.ant-table-container {
+  .ant-table-thead .ant-table-cell,
+  .ant-table-thead .ant-table-column-title {
+    background: #f4f2ff;
+    font-weight: bold;
+    color: #6e6893;
+    line-height: 32px;
+  }
+
+  .ant-table-cell {
+    padding: 8px 24px !important;
+  }
+
+  .ant-table-cell-row-hover {
+    background-color: #f2f0f9 !important;
+  }
+
+  .a-title {
+    font-weight: 600;
+  }
 }
 
-.ant-modal .ant-input {
-  margin: 16px 0;
+.ant-table-wrapper .ant-table-container table > thead > tr:first-child > *:first-child {
+  border-radius: unset;
+}
+
+.ant-table-wrapper .ant-table-container table > thead > tr:first-child > *:last-child {
+  border-radius: unset;
+}
+
+.custom-pagination-row {
+  padding: 8px 24px;
+}
+
+.mode-tag {
+  border-radius: 10px;
+  margin-left: 12px;
+  color: #6e6893;
+  background: #f2f0f9;
+
+  > .anticon + span {
+    margin-inline-start: 2px;
+  }
 }
 </style>

@@ -103,6 +103,7 @@ import Directory from '@/components/Directory.vue'
 import Editor from '@/components/Editor.vue'
 import Compare from '@/components/Compare.vue'
 import { Button, notification } from 'ant-design-vue'
+import router from '@/router';
 
 export default defineComponent({
   components: {
@@ -127,7 +128,7 @@ export default defineComponent({
     const pdf = ref()
     const conflictFiles = ref([])
     const isConflict = computed(() => conflictFiles.value && conflictFiles.value.length > 0)
-    // const code = 'v-code' + Math.random().toString(16).slice(2)
+    const code = 'v-code' + Math.random().toString(16).slice(2)
     const show = ref(Math.random() * 1000)
     const disableCompile = computed(() => files.value.every((e) => e.isCompile == true))
     let showChange = false
@@ -143,9 +144,9 @@ export default defineComponent({
       open.value = false
     }
 
-    // window.addEventListener('beforeunload', function (event) {
-    //   serviceAPI.deleteCompile(code)
-    // })
+    window.addEventListener('beforeunload', function (event) {
+      serviceAPI.deleteCompile(code)
+    })
 
     onMounted(() => {
       loading.value = true
@@ -153,7 +154,7 @@ export default defineComponent({
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
           const changeList = []
-          files.value = res.data.files.map((e) => {
+          files.value = res.data.map((e) => {
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
             }
@@ -168,15 +169,15 @@ export default defineComponent({
             return e
           })
           if (files.value.length > 0) {
-            // compileAPI()
-            //   .then((res) => {
-            //     pdf.value = res.data
-            //     files.value = files.value.map((e) => ({
-            //       ...e,
-            //       isCompile: true
-            //     }))
-            //   })
-            //   .catch()
+            compileAPI()
+              .then((res) => {
+                pdf.value = res.data
+                files.value = files.value.map((e) => ({
+                  ...e,
+                  isCompile: true
+                }))
+              })
+              .catch()
           }
           if (changeList.length > 0) {
             notiChange({
@@ -246,7 +247,7 @@ export default defineComponent({
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
           const prev = files.value
-          files.value = res.data.files.map((e, id) => {
+          files.value = res.data.map((e, id) => {
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
               e.localShaCode = localStorage.getItem(`sha-${e.id}`)

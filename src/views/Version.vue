@@ -109,7 +109,7 @@ export default defineComponent({
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
-          files.value = res.data.files.map((e) => {
+          files.value = res.data.map((e) => {
             e.localShaCode = e.shaCode
             return e
           })
