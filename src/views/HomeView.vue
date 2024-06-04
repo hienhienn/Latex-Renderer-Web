@@ -1,5 +1,5 @@
 <template>
-  <a-layout>
+  <a-layout class="container">
     <HeaderHome :user="user" />
     <a-layout class="main-content">
       <div class="circle"></div>
@@ -67,7 +67,7 @@ export default defineComponent({
   color: #6e6893;
 }
 
-.ant-layout {
+.ant-layout.container {
   .ant-space {
     padding: 16px 24px;
 

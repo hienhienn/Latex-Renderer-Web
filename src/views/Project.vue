@@ -323,6 +323,7 @@ export default defineComponent({
     }
 
     const onUpdateCode = (id) => {
+      console.log('ok')
       const idx = files.value.findIndex((e) => e.id === id)
       files.value[idx].isCompile = false
     }

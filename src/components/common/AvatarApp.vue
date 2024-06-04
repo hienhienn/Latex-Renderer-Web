@@ -6,8 +6,8 @@
       style="margin-right: 8px"
       v-if="!hideAvatar"
     />
-    {{ avatarUser.username }}
-    <span v-if="currentUser.username === avatarUser.username" style="margin-left: 4px">(You)</span>
+    {{ avatarUser?.username }}
+    <span v-if="currentUser?.username === avatarUser?.username" style="margin-left: 4px">(You)</span>
   </a-row>
 </template>
 

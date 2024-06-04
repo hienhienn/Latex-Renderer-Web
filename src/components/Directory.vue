@@ -1,40 +1,166 @@
 <template>
-  <a-row :style="{ margin: '8px' }" justify="space-between" v-if="!readonly">
-    <a-row>
-      <a-tooltip title="New folder">
-        <a-button v-if="!isMulti" type="text" class="icon-btn" @click="() => onNewFolder('folder')">
-          <folder-add-filled class="icon-select" />
-        </a-button>
-      </a-tooltip>
-      <a-tooltip title="New file">
-        <a-button v-if="!isMulti" type="text" class="icon-btn" @click="() => onNewFolder('file')">
-          <file-add-filled class="icon-select" />
-        </a-button>
-      </a-tooltip>
-      <a-tooltip title="New image">
-        <a-button v-if="!isMulti" type="text" class="icon-btn" @click="() => (openUpload = true)">
-          <file-image-filled class="icon-select" />
-        </a-button>
-      </a-tooltip>
+  <div class="directory-div" :class="{ open: open1 }">
+    <a-row class="header-directory" align="middle" justify="space-between" @click="open1 = !open1">
+      <a-space>
+        <caret-right-outlined class="toggle-ic" />
+        <a-typography-text class="title-text-directory" strong>FILE EXPLORER</a-typography-text>
+      </a-space>
+
+      <a-space align="middle" class="control-btns">
+        <a-row>
+          <a-tooltip title="New folder">
+            <a-button
+              v-if="!isMulti"
+              type="text"
+              class="icon-btn"
+              @click="() => onNewFolder('folder')"
+            >
+              <img src="/icons/folder-add.svg" class="icon-select" />
+            </a-button>
+          </a-tooltip>
+
+          <a-tooltip title="New file">
+            <a-button
+              v-if="!isMulti"
+              type="text"
+              class="icon-btn"
+              @click="() => onNewFolder('file')"
+            >
+              <img src="/icons/file-add.svg" class="icon-select" />
+            </a-button>
+          </a-tooltip>
+          <a-tooltip title="New image">
+            <a-button
+              v-if="!isMulti"
+              type="text"
+              class="icon-btn"
+              @click="() => (openUpload = true)"
+            >
+              <img src="/icons/file-image.svg" class="icon-select" />
+            </a-button>
+          </a-tooltip>
+        </a-row>
+        <a-tooltip title="Delete">
+          <a-button type="text" class="icon-btn" @click="onDelete">
+            <img src="/icons/trash.svg" class="icon-select" />
+          </a-button>
+        </a-tooltip>
+      </a-space>
     </a-row>
-    <a-row>
-      <a-tooltip title="Delete">
-        <a-button type="text" class="icon-btn" @click="onDelete">
-          <delete-filled class="icon-select" />
-        </a-button>
-      </a-tooltip>
+    <div class="tree-container">
+      <a-directory-tree
+        mode="inline"
+        :style="{ height: '100%', borderRight: 0 }"
+        v-model:selectedKeys="selectedKeys"
+        v-model:expandedKeys="expandedKeys"
+        :tree-data="files"
+        multiple
+        @select="onChangeSelectedKeys"
+      >
+        <template #title="{ dataRef }">
+          <a-row justify="space-between" class="row-directory">
+            <span>{{ dataRef.title }}</span>
+            <span>M</span>
+          </a-row>
+        </template>
+        <template #icon="{ dataRef, expanded }">
+          <template v-if="dataRef.isLeaf && dataRef.typeFile === 'tex'">
+            <img src="/icons/file.svg" class="icon-directory" />
+          </template>
+          <template v-else-if="dataRef.isLeaf && dataRef.typeFile === 'img'">
+            <img src="/icons/file-image.svg" class="icon-directory" />
+          </template>
+          <template v-else-if="expanded">
+            <img src="/icons/folder-open.svg" class="icon-directory" />
+          </template>
+          <template v-else>
+            <img src="/icons/folder.svg" class="icon-directory" />
+          </template>
+        </template>
+      </a-directory-tree>
+    </div>
+  </div>
+  <div class="directory-div" :class="{ open: open2 }">
+    <a-row class="header-directory" align="middle" justify="space-between" @click="open1 = !open1">
+      <a-space>
+        <caret-right-outlined class="toggle-ic" />
+        <a-typography-text class="title-text-directory" strong>FILE EXPLORE</a-typography-text>
+      </a-space>
+
+      <a-space align="middle" class="control-btns">
+        <a-row>
+          <a-tooltip title="New folder">
+            <a-button
+              v-if="!isMulti"
+              type="text"
+              class="icon-btn"
+              @click="() => onNewFolder('folder')"
+            >
+              <img src="/icons/folder-add.svg" class="icon-select" />
+            </a-button>
+          </a-tooltip>
+
+          <a-tooltip title="New file">
+            <a-button
+              v-if="!isMulti"
+              type="text"
+              class="icon-btn"
+              @click="() => onNewFolder('file')"
+            >
+              <img src="/icons/file-add.svg" class="icon-select" />
+            </a-button>
+          </a-tooltip>
+          <a-tooltip title="New image">
+            <a-button
+              v-if="!isMulti"
+              type="text"
+              class="icon-btn"
+              @click="() => (openUpload = true)"
+            >
+              <img src="/icons/file-image.svg" class="icon-select" />
+            </a-button>
+          </a-tooltip>
+        </a-row>
+        <a-tooltip title="Delete">
+          <a-button type="text" class="icon-btn" @click="onDelete">
+            <img src="/icons/trash.svg" class="icon-select" />
+          </a-button>
+        </a-tooltip>
+      </a-space>
     </a-row>
-  </a-row>
-  <a-directory-tree
-    mode="inline"
-    :style="{ height: '100%', borderRight: 0 }"
-    v-model:selectedKeys="selectedKeys"
-    v-model:expandedKeys="expandedKeys"
-    :tree-data="files"
-    multiple
-    @select="onChangeSelectedKeys"
-  >
-  </a-directory-tree>
+    <div class="tree-container">
+      <a-directory-tree
+        mode="inline"
+        :style="{ height: '100%', borderRight: 0 }"
+        v-model:selectedKeys="selectedKeys"
+        v-model:expandedKeys="expandedKeys"
+        :tree-data="files"
+        multiple
+        @select="onChangeSelectedKeys"
+      >
+        <template #title="{ dataRef }">
+          <a-row justify="space-between" class="row-directory">
+            <span>{{ dataRef.title }}</span>
+            <span>M</span>
+          </a-row>
+        </template>
+        <template #icon="{ dataRef, expanded }">
+          <template v-if="dataRef.isLeaf && dataRef.typeFile === 'tex'">
+            <img src="/icons/file.svg" class="icon-directory" />
+          </template>
+          <template v-else-if="dataRef.isLeaf && dataRef.typeFile === 'img'">
+            <img src="/icons/file-image.svg" class="icon-directory" />
+          </template>
+          <template v-else-if="expanded">
+            <img src="/icons/folder-open.svg" class="icon-directory" />
+          </template>
+          <template v-else>
+            <img src="/icons/folder.svg" class="icon-directory" />
+          </template>
+        </template>
+      </a-directory-tree>
+    </div>
+  </div>
   <a-modal
     :open="newFolder == 'file' || newFolder == 'folder'"
     :title="`New ${newFolder}`"
@@ -59,10 +185,12 @@ import {
   FileOutlined,
   FileImageOutlined,
   FolderAddFilled,
-  FileAddFilled,
+  // FileAddFilled,
   FileImageFilled,
   UploadOutlined,
-  DeleteFilled
+  DeleteFilled,
+  CaretRightOutlined,
+  FileAddOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -76,10 +204,12 @@ export default defineComponent({
     FileOutlined,
     FileImageOutlined,
     FolderAddFilled,
-    FileAddFilled,
+    // FileAddFilled,
     FileImageFilled,
     UploadOutlined,
-    DeleteFilled
+    DeleteFilled,
+    CaretRightOutlined,
+    FileAddOutlined
   },
   props: {
     initData: {
@@ -105,6 +235,7 @@ export default defineComponent({
     const loading = ref(false)
     const imageFile = ref()
     const isMulti = computed(() => selectedKeys.value.length > 1)
+    const open1 = ref(true)
 
     const compareFile = (a, b) => {
       let aIsLeaf = a.isLeaf ? 1 : 0
@@ -154,7 +285,8 @@ export default defineComponent({
           title: part,
           key: node.key ? `${node.key}/${part}` : part,
           children: [],
-          isLeaf: false
+          isLeaf: false,
+          typeFile: item.typeFile
         }
         node.children.push(child)
         node.children.sort(compareFile)
@@ -163,7 +295,6 @@ export default defineComponent({
 
       if (parts.length === 0 && isLeaf) {
         child.isLeaf = true
-        child.icon = item.typeFile === 'img' ? h(FileImageOutlined) : h(FileOutlined)
       } else {
         insertPath(child, parts, item, isLeaf)
       }
@@ -350,7 +481,7 @@ export default defineComponent({
                     NotiDelete({
                       type: 'saveImage',
                       message: err.response.data.message,
-                      id: err.response.data.id,
+                      id: err.response.data.id
                     })
                   } else NotiError('Failed to delete this file!')
                 })
@@ -428,7 +559,21 @@ export default defineComponent({
       emit('changeSelected', null)
     }
 
-    watchEffect(() => (files.value = buildDirectoryStructure(props.initData).sort(compareFile)))
+    watchEffect(() => {
+      files.value = buildDirectoryStructure(props.initData).sort(compareFile)
+      console.log('change', files.value)
+    })
+
+    watch(() => [props.initData], () =>{
+      console.log('123', props.initData)
+    })
+
+    watch(
+      () => [props.initData],
+      () => {
+        console.log('change2222')
+      }
+    )
 
     watch(
       () => [nameFolder.value],
@@ -452,22 +597,91 @@ export default defineComponent({
       onFileChanged,
       isMulti,
       onDelete,
-      onChangeSelectedKeys
+      onChangeSelectedKeys,
+      open1
     }
   }
 })
 </script>
 
-<style>
+<style lang="scss">
 .ant-modal .ant-input {
   margin: 16px 0;
 }
 
-.icon-btn {
-  padding: 0 4px;
+.icon-select {
+  width: 20px;
 }
 
-.icon-select {
-  font-size: 20px;
+.icon-btn {
+  padding: 2px;
+  height: 24px;
+}
+
+.row-directory {
+  display: inline-flex;
+  width: calc(100% - 40px);
+  color: #ffeccc;
+}
+
+.directory-div {
+  .header-directory {
+    padding: 4px 8px;
+    background: #f4f2ff;
+    cursor: pointer;
+
+    .control-btns {
+      opacity: 0;
+      transition: all 0.1s ease-in-out;
+      pointer-events: none;
+    }
+
+    .toggle-ic {
+      font-size: 10px;
+      color: #6e6893;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .title-text-directory {
+      color: #6e6893;
+      font-size: 12px;
+      line-height: 30px;
+    }
+  }
+  .icon-directory {
+    width: 16px;
+    position: relative;
+    top: 4px;
+  }
+
+  .ant-tree {
+    border-radius: 0;
+
+    .ant-tree-treenode:hover {
+      background: #f2f0f9;
+    }
+  }
+
+  .tree-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  &.open {
+    .control-btns {
+      opacity: 100;
+      pointer-events: all;
+    }
+
+    .toggle-ic {
+      transform: rotate(90deg);
+    }
+
+    .tree-container {
+      max-height: calc(100vh - 102px);
+      overflow: auto;
+    }
+  }
 }
 </style>
