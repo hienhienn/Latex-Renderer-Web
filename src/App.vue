@@ -17,6 +17,9 @@ const theme = {
   components: {
     Tabs: {
       colorPrimary: '#25213B',
+    },
+    Tree: {
+      colorPrimary: '#ffeccc',
     }
   }
 }

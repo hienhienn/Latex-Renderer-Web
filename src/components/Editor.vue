@@ -95,8 +95,6 @@ export default defineComponent({
       }
     )
 
-    console.log(props.initData)
-
     const onSave = () => {
       if (loading.value) return
       loading.value = true
@@ -189,7 +187,10 @@ export default defineComponent({
     }
 
     const onChangeCode = () => {
-      emit('update:code', props.initData.id)
+      emit('update:code', {
+        id: props.initData.id,
+        isSave: isSave.value
+      })
       to && clearTimeout(to)
       to = setTimeout(() => {
         if (code.value !== props.initData.content) {

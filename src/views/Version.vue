@@ -35,7 +35,7 @@
         <Directory :initData="files" :readonly="true" @changeSelected="onChangeSelected" />
       </a-layout-sider>
       <a-layout style="padding: 0 8px">
-        <a-layout-content>
+        <a-layout-content class="project-content">
           <div class="editor">
             <Editor v-if="currentFile?.type === 'tex'" :initData="currentFile" :readonly="true" />
             <img
@@ -187,7 +187,7 @@ export default defineComponent({
   margin-bottom: 16px;
 }
 
-.ant-layout-content {
+.ant-layout-content.project-content {
   background: #f5f5f5;
   margin: 0;
   padding: 0;

@@ -1,12 +1,12 @@
 <template>
   <div class="directory-div" :class="{ open: open1 }">
-    <a-row class="header-directory" align="middle" justify="space-between" @click="open1 = !open1">
-      <a-space>
+    <a-row class="header-directory" align="center" justify="space-between">
+      <a-space @click="open1 = !open1">
         <caret-right-outlined class="toggle-ic" />
         <a-typography-text class="title-text-directory" strong>FILE EXPLORER</a-typography-text>
       </a-space>
 
-      <a-space align="middle" class="control-btns">
+      <a-space align="center" class="control-btns">
         <a-row>
           <a-tooltip title="New folder">
             <a-button
@@ -41,7 +41,12 @@
           </a-tooltip>
         </a-row>
         <a-tooltip title="Delete">
-          <a-button type="text" class="icon-btn" @click="onDelete">
+          <a-button
+            type="text"
+            class="icon-btn"
+            @click="onDelete"
+            style="position: relative; top: 4px"
+          >
             <img src="/icons/trash.svg" class="icon-select" />
           </a-button>
         </a-tooltip>
@@ -58,36 +63,49 @@
         @select="onChangeSelectedKeys"
       >
         <template #title="{ dataRef }">
-          <a-row justify="space-between" class="row-directory">
+          <a-row justify="space-between" class="row-directory" :class="{ save: dataRef.isSave }">
             <span>{{ dataRef.title }}</span>
-            <span>M</span>
+            <span style="font-weight: 600" v-if="!dataRef.isSave">U</span>
           </a-row>
         </template>
-        <template #icon="{ dataRef, expanded }">
+        <template #icon="{ dataRef, expanded, selected }">
+          <!-- <FileIcon class="icon-directory" /> -->
           <template v-if="dataRef.isLeaf && dataRef.typeFile === 'tex'">
-            <img src="/icons/file.svg" class="icon-directory" />
+            <FileIcon class="icon-directory" :class="{ save: dataRef.isSave }" />
           </template>
           <template v-else-if="dataRef.isLeaf && dataRef.typeFile === 'img'">
-            <img src="/icons/file-image.svg" class="icon-directory" />
+            <FileImageIcon class="icon-directory" :class="{ save: dataRef.isSave }" />
           </template>
           <template v-else-if="expanded">
-            <img src="/icons/folder-open.svg" class="icon-directory" />
+            <FolderOpenIcon class="icon-directory" :class="{ save: dataRef.isSave }" />
           </template>
           <template v-else>
-            <img src="/icons/folder.svg" class="icon-directory" />
+            <FolderIcon class="icon-directory" :class="{ save: dataRef.isSave }" />
           </template>
+          <!-- <div>
+              <div style="background-image: url('/icons/file.svg'); stroke: wheat;" class="icon-directory"></div>
+            </div> -->
+          <!-- <template v-if="dataRef.isLeaf && dataRef.typeFile === 'img'">
+            <object type="image/svg+xml" data="/icons/file-image.svg" class="icon-directory"></object>
+          </template>
+          <template v-if="expanded">
+            <object type="image/svg+xml" data="/icons/folder-open.svg" class="icon-directory"></object>
+          </template>
+          <template v-if="!expanded">
+            <object type="image/svg+xml" data="/icons/folder.svg" class="icon-directory"></object>
+          </template> -->
         </template>
       </a-directory-tree>
     </div>
   </div>
-  <div class="directory-div" :class="{ open: open2 }">
-    <a-row class="header-directory" align="middle" justify="space-between" @click="open1 = !open1">
+  <div class="directory-div" :class="{ open: open1 }">
+    <a-row class="header-directory" align="center" justify="space-between" @click="open1 = !open1">
       <a-space>
         <caret-right-outlined class="toggle-ic" />
-        <a-typography-text class="title-text-directory" strong>FILE EXPLORE</a-typography-text>
+        <a-typography-text class="title-text-directory" strong>UNSAVED FILES</a-typography-text>
       </a-space>
 
-      <a-space align="middle" class="control-btns">
+      <!-- <a-space align="center" class="control-btns">
         <a-row>
           <a-tooltip title="New folder">
             <a-button
@@ -126,10 +144,10 @@
             <img src="/icons/trash.svg" class="icon-select" />
           </a-button>
         </a-tooltip>
-      </a-space>
+      </a-space> -->
     </a-row>
     <div class="tree-container">
-      <a-directory-tree
+      <!-- <a-directory-tree
         mode="inline"
         :style="{ height: '100%', borderRight: 0 }"
         v-model:selectedKeys="selectedKeys"
@@ -158,7 +176,7 @@
             <img src="/icons/folder.svg" class="icon-directory" />
           </template>
         </template>
-      </a-directory-tree>
+      </a-directory-tree> -->
     </div>
   </div>
   <a-modal
@@ -181,12 +199,6 @@
 <script>
 import { computed, defineComponent, h, readonly, ref, watch, watchEffect } from 'vue'
 import {
-  FolderOutlined,
-  FileOutlined,
-  FileImageOutlined,
-  FolderAddFilled,
-  // FileAddFilled,
-  FileImageFilled,
   UploadOutlined,
   DeleteFilled,
   CaretRightOutlined,
@@ -197,19 +209,21 @@ import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
 import { Confirm } from '@/services/confirm'
 import { notification, Button } from 'ant-design-vue'
+import FileIcon from '../../public/icons/file.svg'
+import FileImageIcon from '../../public/icons/file-image.svg'
+import FolderIcon from '../../public/icons/folder.svg'
+import FolderOpenIcon from '../../public/icons/folder-open.svg'
 
 export default defineComponent({
   components: {
-    FolderOutlined,
-    FileOutlined,
-    FileImageOutlined,
-    FolderAddFilled,
-    // FileAddFilled,
-    FileImageFilled,
     UploadOutlined,
     DeleteFilled,
     CaretRightOutlined,
-    FileAddOutlined
+    FileAddOutlined,
+    FileIcon,
+    FileImageIcon,
+    FolderIcon,
+    FolderOpenIcon
   },
   props: {
     initData: {
@@ -286,7 +300,8 @@ export default defineComponent({
           key: node.key ? `${node.key}/${part}` : part,
           children: [],
           isLeaf: false,
-          typeFile: item.typeFile
+          typeFile: item.typeFile,
+          isSave: item.isSave
         }
         node.children.push(child)
         node.children.sort(compareFile)
@@ -312,7 +327,8 @@ export default defineComponent({
           key: `${root.path}/${file.path}`,
           children: [],
           isLeaf: false,
-          typeFile: file.type
+          typeFile: file.type,
+          isSave: file.isSave
         }
         insertPath(root, file.path.split('/'), leafNode, true)
       })
@@ -492,9 +508,6 @@ export default defineComponent({
           ).finally(() => {
             emit('update:files')
             console.log('done')
-            // files.value = buildDirectoryStructure(
-            //   props.initData.filter((e) => !deleteFiles.includes(e))
-            // )
             selectedKeys.value = []
           })
         }
@@ -564,9 +577,12 @@ export default defineComponent({
       console.log('change', files.value)
     })
 
-    watch(() => [props.initData], () =>{
-      console.log('123', props.initData)
-    })
+    watch(
+      () => [props.initData],
+      () => {
+        console.log('123', props.initData)
+      }
+    )
 
     watch(
       () => [props.initData],
@@ -621,7 +637,12 @@ export default defineComponent({
 .row-directory {
   display: inline-flex;
   width: calc(100% - 40px);
-  color: #ffeccc;
+  color: #965e00;
+
+  &.save {
+    color: #25213b;
+  }
+  // color: #ffeccc;
 }
 
 .directory-div {
@@ -646,12 +667,21 @@ export default defineComponent({
       color: #6e6893;
       font-size: 12px;
       line-height: 30px;
+      pointer-events: none;
+      user-select: none;
     }
   }
   .icon-directory {
-    width: 16px;
-    position: relative;
-    top: 4px;
+    transform: scale(0.667);
+    height: 21px;
+
+    path {
+      stroke: #965e00;
+    }
+
+    &.save path {
+      stroke: #25213b;
+    }
   }
 
   .ant-tree {
@@ -659,6 +689,10 @@ export default defineComponent({
 
     .ant-tree-treenode:hover {
       background: #f2f0f9;
+    }
+
+    .ant-tree-switcher {
+      color: #25213b !important
     }
   }
 

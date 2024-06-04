@@ -37,7 +37,7 @@
         />
       </a-layout-sider>
       <a-layout style="padding: 0 8px">
-        <a-layout-content v-if="!isConflict">
+        <a-layout-content class="project-content" v-if="!isConflict">
           <div class="editor">
             <Editor
               v-if="currentFile?.type === 'tex'"
@@ -157,9 +157,12 @@ export default defineComponent({
           files.value = res.data.map((e) => {
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
+              e.isSave = false
+            }
+            else {
+              e.isSave = true
             }
             if (localStorage.getItem(`sha-${e.id}`)) {
-              console.log(localStorage.getItem(`sha-${e.id}`))
               e.localShaCode = localStorage.getItem(`sha-${e.id}`)
               if (e.localShaCode !== e.shaCode) changeList.push(e)
             } else {
@@ -242,18 +245,18 @@ export default defineComponent({
 
     const onUpdateFiles = (send) => {
       if (send) sendMessage(JSON.stringify({ change: 'list-files' }))
-      console.log('1')
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
           const prev = files.value
           files.value = res.data.map((e, id) => {
+            const prevE = prev.find((prv) => prv.id === e.id)
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
-              e.localShaCode = localStorage.getItem(`sha-${e.id}`)
             }
             e.localShaCode = localStorage.getItem(`sha-${e.id}`) || e.shaCode
-            e.isCompile = prev.find((prv) => prv.id === e.id)?.isCompile || false
+            e.isCompile = prevE?.isCompile || false
+            e.isSave = prevE ? prevE.isSave : true
             return e
           })
         })
@@ -322,10 +325,14 @@ export default defineComponent({
         })
     }
 
-    const onUpdateCode = (id) => {
+    const onUpdateCode = (event) => {
       console.log('ok')
-      const idx = files.value.findIndex((e) => e.id === id)
+      const idx = files.value.findIndex((e) => e.id === event.id)
       files.value[idx].isCompile = false
+      if(files.value[idx].isSave !== event.isSave) {
+        files.value[idx].isSave = event.isSave
+        files.value = JSON.parse(JSON.stringify(files.value))
+      }
     }
 
     let socket
@@ -454,7 +461,7 @@ export default defineComponent({
   margin-bottom: 16px;
 }
 
-.ant-layout-content {
+.ant-layout-content.project-content {
   background: #f5f5f5;
   margin: 0;
   padding: 0;

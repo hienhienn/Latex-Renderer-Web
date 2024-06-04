@@ -18,7 +18,7 @@
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'name'">
         <a-row align="middle">
-          <a :href="`/project/${record.lastestVersionId}`" class="a-title">{{ text }}</a>
+          <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">{{ text }}</RouterLink>
           <a-tag class="mode-tag">
             <template #icon v-if="record.isPublic">
               <global-outlined />
@@ -34,12 +34,12 @@
         <AvatarApp :avatar-user="text" :current-user="user" />
       </template>
       <template v-if="column.dataIndex === 'lastModified'">
-        {{ dateTimeFormat(text) }}
+        {{ dateTimeFormat(record.mainVersion?.[0]?.modifiedTime) }}
         <a-row style="gap: 4px; color: #6E6893">
           by
           <AvatarApp
             :hide-avatar="true"
-            :avatar-user="record.lastModifiedUser"
+            :avatar-user="record.mainVersion?.[0]?.editor"
             :current-user="user"
           />
         </a-row>
