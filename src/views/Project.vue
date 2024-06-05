@@ -55,72 +55,71 @@
           <!-- <p>{{ item.modifiedTime }} by {{ item.editor.username }}</p> -->
         </div>
       </a-drawer>
-
-      <div
-        style="
-          background-color: white;
-          min-height: calc(100vh - 64px);
-          border-right: 6px solid #6d5bd030;
-        "
-      >
-        <Directory
-          :initData="files"
-          @changeSelected="onChangeSelected"
-          @update:files="() => onUpdateFiles(true)"
-        />
-      </div>
-      <vue-resizable :min-width="238" :max-width="5000" :disableAttributes="['h']">
-        <a-layout>
-          <a-layout-content class="project-content" v-if="!isConflict">
-            <vue-resizable :min-width="238" :max-width="500" :disableAttributes="['l', 'h']">
-              <div class="editor">
-                <Editor
-                  v-if="currentFile?.type === 'tex'"
-                  :initData="currentFile"
-                  @update:save="onSaveFile"
-                  @conflict="onConflict"
-                  @update:files="() => onUpdateFiles(true)"
-                  @update:code="onUpdateCode"
-                />
-                <img
-                  v-if="currentFile?.type === 'img' && currentFile?.content"
-                  :src="`${apiUrl}/${currentFile?.content}`"
-                />
-                <div v-if="currentFile == null">Select 1 file</div>
-              </div>
-            </vue-resizable>
-            <vue-resizable :min-width="238" :max-width="500" :disableAttributes="['w', 'h']">
-              <div class="editor-right">
-                <div class="editor-btns">
-                  <a-button
-                    type="primary"
-                    @click="onCompile"
-                    :loading="loading"
-                    :disabled="disableCompile"
-                  >
-                    Compile
-                  </a-button>
-                </div>
-                <br />
-                <embed
-                  v-show="pdf"
-                  style="width: 100%; height: calc(100% - 64px)"
-                  :src="apiUrl + pdf + '#toolbar=0'"
-                  :key="show"
-                />
-              </div>
-            </vue-resizable>
-          </a-layout-content>
-          <a-layout-content v-if="isConflict" style="display: grid">
-            <div class="container-conflict" v-for="item in conflictFiles">
-              <div class="title-path">{{ item.path }}</div>
-              <div class="compare-editor">
-                <Compare :oldData="item" @update:save="onSaveFile" />
-              </div>
-            </div>
-          </a-layout-content>
-        </a-layout>
+      <vue-resizable :min-width="238" :max-width="500" :active="['r']" :width="258">
+        <div
+          style="
+            background-color: white;
+            min-height: calc(100vh - 64px);
+            border-right: 6px solid #6d5bd030;
+          "
+        >
+          <Directory
+            :initData="files"
+            @changeSelected="onChangeSelected"
+            @update:files="() => onUpdateFiles(true)"
+          />
+        </div>
       </vue-resizable>
+      <a-layout>
+        <a-layout-content class="project-content" v-if="!isConflict">
+          <vue-resizable :min-width="238" :max-width="1000" :active="['r']">
+            <div class="editor">
+              <Editor
+                v-if="currentFile?.type === 'tex'"
+                :initData="currentFile"
+                @update:save="onSaveFile"
+                @conflict="onConflict"
+                @update:files="() => onUpdateFiles(true)"
+                @update:code="onUpdateCode"
+              />
+              <img
+                v-if="currentFile?.type === 'img' && currentFile?.content"
+                :src="`${apiUrl}/${currentFile?.content}`"
+              />
+              <div v-if="currentFile == null">Select 1 file</div>
+            </div>
+          </vue-resizable>
+          <!-- <vue-resizable :min-width="300" :disableAttributes="['h -->
+            <div class="editor-right">
+              <div class="editor-btns">
+                <a-button
+                  type="primary"
+                  @click="onCompile"
+                  :loading="loading"
+                  :disabled="disableCompile"
+                >
+                  Compile
+                </a-button>
+              </div>
+              <br />
+              <embed
+                v-show="pdf"
+                style="width: 100%; height: calc(100% - 64px)"
+                :src="apiUrl + pdf + '#toolbar=0'"
+                :key="show"
+              />
+            </div>
+          <!-- </vue-resizable> -->
+        </a-layout-content>
+        <a-layout-content v-if="isConflict" style="display: grid">
+          <div class="container-conflict" v-for="item in conflictFiles">
+            <div class="title-path">{{ item.path }}</div>
+            <div class="compare-editor">
+              <Compare :oldData="item" @update:save="onSaveFile" />
+            </div>
+          </div>
+        </a-layout-content>
+      </a-layout>
     </div>
   </a-layout>
 </template>
@@ -205,7 +204,7 @@ export default defineComponent({
             } else {
               e.isSave = true
             }
-            if (localStorage.getItem(`sha-${e.id}`)) {
+            if (localStorage.getItem(`sha-${e.id}`) && localStorage.getItem(`sha-${e.id}`) !== 'null') {
               e.localShaCode = localStorage.getItem(`sha-${e.id}`)
               if (e.localShaCode !== e.shaCode) changeList.push(e)
             } else {
@@ -532,7 +531,7 @@ export default defineComponent({
   }
 
   div.editor {
-    width: 50%;
+    width: 90%;
     height: 100%;
     display: flex;
   }
