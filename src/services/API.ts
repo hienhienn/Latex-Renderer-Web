@@ -21,6 +21,7 @@ const getListProject: (data) => Promise<any> = (data) =>
     params: data
   })
 const deleteProject: (id) => Promise<any> = (id) => API.delete(`/project/${id}`)
+const updateProject: (id, data) => Promise<any> = (id, data) => API.put(`/project/${id}`, data)
 
 const getFilesByVersionId: (id) => Promise<any> = (id) => API.get(`/file/getAll/${id}`)
 const createFile: (id) => Promise<any> = (data) => API.post(`/file/createFile/`, data)
@@ -49,6 +50,7 @@ export const serviceAPI = {
   newProject,
   getListProject,
   deleteProject,
+  updateProject,
   getFilesByVersionId,
   createFile,
   uploadFile,

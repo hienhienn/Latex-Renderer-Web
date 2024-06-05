@@ -242,10 +242,6 @@ export default defineComponent({
   margin-bottom: 16px !important;
 }
 
-.ant-input {
-  width: 200px;
-}
-
 .editor-input {
   display: flex;
   gap: 8px;

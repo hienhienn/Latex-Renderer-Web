@@ -11,37 +11,69 @@
         </a-space>
       </a-space>
       <a-space>
-        <a-space class="shared-div">
-          <team-outlined />
+        <a-space class="shared-div" align="center">
+          <a-button type="text" shape="circle" size="small">
+            <lock-outlined v-if="!project?.isPublic" />
+            <global-outlined v-if="project?.isPublic" />
+          </a-button>
           <a-avatar-group
+            :size="28"
             :max-count="3"
-            :max-style="{ color: '#4A4AFF', backgroundColor: '#E6E6F2' }"
+            :max-style="{ color: '#965E00', backgroundColor: '#FFECCC' }"
             :maxPopoverTrigger="''"
           >
             <a-avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-            <a-avatar style="background-color: #1890ff">K</a-avatar>
+            <a-avatar :size="24" style="background-color: #1890ff">K</a-avatar>
             <a-avatar style="background-color: #87d068"> M </a-avatar>
             <a-avatar style="background-color: #1890ff"> D </a-avatar>
           </a-avatar-group>
-          <a-dropdown :trigger="['click']">
-            <a-button size="small" type="text">
+          <a-dropdown :trigger="['click']" placement="bottomRight">
+            <a-button size="small" type="text" shape="circle" style="font-size: 12px">
               <DownOutlined />
             </a-button>
             <template #overlay>
-              <a-menu>
-                <a-menu-item key="0">
-                  <a href="http://www.alipay.com/">1st menu item</a>
-                </a-menu-item>
-                <a-menu-item key="1">
-                  <a href="http://www.taobao.com/">2nd menu item</a>
-                </a-menu-item>
-                <a-menu-divider />
-                <a-menu-item key="3">3rd menu item</a-menu-item>
-              </a-menu>
+              <div class="custom-overlay">
+                <a-typography-text class="title-text" strong style="font-size: 14px">
+                  GENERAL ACCESS
+                </a-typography-text>
+                <a-row>
+                  <div
+                    class="access-ic"
+                    :class="{ lock: !project?.isPublic, global: project?.isPublic }"
+                  >
+                    <global-outlined v-if="project?.isPublic" />
+                    <lock-outlined v-if="!project?.isPublic" />
+                  </div>
+                  <div style="display: grid">
+                    <a-select
+                      size="small"
+                      :value="!!project?.isPublic"
+                      @click="(e) => e.stopPropagation()"
+                      @select="onSelectAccess"
+                    >
+                      <a-select-option :value="true">Public</a-select-option>
+                      <a-select-option :value="false">Private</a-select-option>
+                    </a-select>
+                    <a-typography-text
+                      style="font-size: 12px; color: #6e6893; padding: 0 7px; width: 250px"
+                    >
+                      {{
+                        project?.isPublic
+                          ? 'Anyone on the internet can see this project.'
+                          : 'Only the members can see this project'
+                      }}
+                    </a-typography-text>
+                  </div>
+                </a-row>
+                <a-typography-text class="title-text" strong style="font-size: 14px; margin-top: 8px;">
+                  MEMBERS
+                </a-typography-text>
+                <a-input @click="(e) => e.stopPropagation()"></a-input>
+              </div>
             </template>
           </a-dropdown>
         </a-space>
-        <a-radio-group>
+        <a-radio-group size="large">
           <a-radio-button @click="() => (openModal = true)">
             <a-space align="center">
               <img src="/icons/version.svg" style="width: 16px; position: relative; top: 2px" />
@@ -53,12 +85,15 @@
           </a-radio-button>
         </a-radio-group>
         <a-dropdown placement="bottomRight">
-          <a-avatar :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname" />
+          <a-avatar
+            :size="40"
+            :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname"
+          />
           <template #overlay>
             <a-menu>
-              <a-menu-item @click="onLogout"
-                >{{ user?.fullname }} ({{ user?.username }})</a-menu-item
-              >
+              <a-menu-item @click="onLogout">
+                {{ user?.fullname }} ({{ user?.username }})
+              </a-menu-item>
               <a-menu-item @click="onLogout"> Logout </a-menu-item>
             </a-menu>
           </template>
@@ -171,7 +206,9 @@ import {
   FileImageFilled,
   FolderOpenOutlined,
   TeamOutlined,
-  DownOutlined
+  DownOutlined,
+  GlobalOutlined,
+  LockOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -182,6 +219,7 @@ import { Button, notification } from 'ant-design-vue'
 import router from '@/router'
 import StarIcon from '../../public/icons/star.svg'
 import VueResizable from 'vue-resizable'
+import { NotiError } from '@/services/notification'
 
 export default defineComponent({
   components: {
@@ -198,7 +236,9 @@ export default defineComponent({
     StarIcon,
     VueResizable,
     TeamOutlined,
-    DownOutlined
+    DownOutlined,
+    GlobalOutlined,
+    LockOutlined
   },
   setup() {
     const files = ref([])
@@ -513,6 +553,18 @@ export default defineComponent({
       document.getElementById('pdfDiv').style.width = `calc(100% - ${event.width}px)`
     }
 
+    const onSelectAccess = (e) => {
+      console.log(e)
+      if (e !== project.value.isPublic) {
+        serviceAPI
+          .updateProject(project.value.id, {
+            isPublic: e
+          })
+          .then((project.value.isPublic = e))
+          .catch(() => NotiError('Try again'))
+      }
+    }
+
     return {
       show,
       files,
@@ -541,7 +593,8 @@ export default defineComponent({
       openModal,
       description,
       user,
-      handleResize
+      handleResize,
+      onSelectAccess
     }
   }
 })
@@ -673,9 +726,55 @@ export default defineComponent({
   }
 
   .shared-div {
-    background-color: #f2f0f9;
+    // background-color: #f2f0f9;
     border-radius: 20px;
     line-height: 32px;
+    padding: 0 8px;
+    height: 40px;
+    border: 1px solid #6d5bd0;
+    color: #6d5bd0;
+
+    .ant-space-item {
+      display: flex;
+      align-items: center;
+    }
   }
+}
+
+.custom-overlay {
+  background-color: white;
+  padding: 16px 24px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 10px 0 #00000010;
+  display: grid;
+  gap: 8px;
+
+  .access-ic {
+    border-radius: 100%;
+    padding: 4px 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    margin-right: 16px;
+
+    &.lock {
+      color: #d30000;
+      background: #ffe0e0;
+    }
+
+    &.global {
+      color: #007f00;
+      background: #cdffcd;
+    }
+  }
+
+  .ant-select-selector {
+    border: none !important;
+  }
+
+  // .ant-select-arrow {
+  //   transform: translateY(-62%);
+  // }
 }
 </style>
