@@ -11,6 +11,36 @@
         </a-space>
       </a-space>
       <a-space>
+        <a-space class="shared-div">
+          <team-outlined />
+          <a-avatar-group
+            :max-count="3"
+            :max-style="{ color: '#4A4AFF', backgroundColor: '#E6E6F2' }"
+            :maxPopoverTrigger="''"
+          >
+            <a-avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
+            <a-avatar style="background-color: #1890ff">K</a-avatar>
+            <a-avatar style="background-color: #87d068"> M </a-avatar>
+            <a-avatar style="background-color: #1890ff"> D </a-avatar>
+          </a-avatar-group>
+          <a-dropdown :trigger="['click']">
+            <a-button size="small" type="text">
+              <DownOutlined />
+            </a-button>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item key="0">
+                  <a href="http://www.alipay.com/">1st menu item</a>
+                </a-menu-item>
+                <a-menu-item key="1">
+                  <a href="http://www.taobao.com/">2nd menu item</a>
+                </a-menu-item>
+                <a-menu-divider />
+                <a-menu-item key="3">3rd menu item</a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </a-space>
         <a-radio-group>
           <a-radio-button @click="() => (openModal = true)">
             <a-space align="center">
@@ -72,7 +102,13 @@
       </vue-resizable>
       <a-layout>
         <a-layout-content class="project-content" v-if="!isConflict">
-          <vue-resizable :min-width="238" :max-width="1000" :active="['r']">
+          <vue-resizable
+            :min-width="238"
+            :max-width="1000"
+            :width="650"
+            :active="['r']"
+            @resize:move="handleResize"
+          >
             <div class="editor">
               <Editor
                 v-if="currentFile?.type === 'tex'"
@@ -89,26 +125,26 @@
               <div v-if="currentFile == null">Select 1 file</div>
             </div>
           </vue-resizable>
-          <!-- <vue-resizable :min-width="300" :disableAttributes="['h -->
-            <div class="editor-right">
-              <div class="editor-btns">
-                <a-button
-                  type="primary"
-                  @click="onCompile"
-                  :loading="loading"
-                  :disabled="disableCompile"
-                >
-                  Compile
-                </a-button>
-              </div>
-              <br />
-              <embed
-                v-show="pdf"
-                style="width: 100%; height: calc(100% - 64px)"
-                :src="apiUrl + pdf + '#toolbar=0'"
-                :key="show"
-              />
+          <!-- <vue-resizable :max-width="300" :active="[]"> -->
+          <div class="editor-right" id="pdfDiv">
+            <div class="editor-btns">
+              <a-button
+                type="primary"
+                @click="onCompile"
+                :loading="loading"
+                :disabled="disableCompile"
+              >
+                Compile
+              </a-button>
             </div>
+            <br />
+            <embed
+              v-show="pdf"
+              style="width: 100%; height: calc(100% - 64px)"
+              :src="apiUrl + pdf + '#toolbar=0'"
+              :key="show"
+            />
+          </div>
           <!-- </vue-resizable> -->
         </a-layout-content>
         <a-layout-content v-if="isConflict" style="display: grid">
@@ -133,7 +169,9 @@ import {
   FolderAddFilled,
   FileAddFilled,
   FileImageFilled,
-  FolderOpenOutlined
+  FolderOpenOutlined,
+  TeamOutlined,
+  DownOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -158,7 +196,9 @@ export default defineComponent({
     Editor,
     Compare,
     StarIcon,
-    VueResizable
+    VueResizable,
+    TeamOutlined,
+    DownOutlined
   },
   setup() {
     const files = ref([])
@@ -204,7 +244,10 @@ export default defineComponent({
             } else {
               e.isSave = true
             }
-            if (localStorage.getItem(`sha-${e.id}`) && localStorage.getItem(`sha-${e.id}`) !== 'null') {
+            if (
+              localStorage.getItem(`sha-${e.id}`) &&
+              localStorage.getItem(`sha-${e.id}`) !== 'null'
+            ) {
               e.localShaCode = localStorage.getItem(`sha-${e.id}`)
               if (e.localShaCode !== e.shaCode) changeList.push(e)
             } else {
@@ -465,6 +508,11 @@ export default defineComponent({
       router.push(`/version/${v.id}`)
     }
 
+    const handleResize = (event) => {
+      console.log(event)
+      document.getElementById('pdfDiv').style.width = `calc(100% - ${event.width}px)`
+    }
+
     return {
       show,
       files,
@@ -492,7 +540,8 @@ export default defineComponent({
       onClose,
       openModal,
       description,
-      user
+      user,
+      handleResize
     }
   }
 })
@@ -527,17 +576,17 @@ export default defineComponent({
     padding: 0;
     min-height: calc(100vh - 64px) !important;
     display: flex;
-    gap: 8px;
   }
 
   div.editor {
-    width: 90%;
+    width: 100%;
     height: 100%;
     display: flex;
+    border-right: 6px solid rgba(109, 91, 208, 0.19);
   }
 
   div.editor-right {
-    width: 50%;
+    width: calc(100% - 650px);
     height: 100%;
     background: white;
     padding: 8px 16px;
@@ -621,6 +670,12 @@ export default defineComponent({
 
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
     background-color: white;
+  }
+
+  .shared-div {
+    background-color: #f2f0f9;
+    border-radius: 20px;
+    line-height: 32px;
   }
 }
 </style>

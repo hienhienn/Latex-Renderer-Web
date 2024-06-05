@@ -19,12 +19,10 @@
         Save
       </a-button>
     </div>
-    <div style="width: 100%; min-height: calc(100vh - 64px)">
+    <div style="position: absolute; left: 0; right: 16px; top: 56px; bottom: 16px;">
       <vue-monaco-editor
         v-model:value="code"
         theme="vs"
-        width="100%"
-        height="calc(100vh - 64px)"
         @mount="handleMount"
         language="latex"
         :options="OPTIONS"
@@ -227,7 +225,7 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   background: white;
-  display: grid;
+  /* display: grid; */
   gap: 16px;
 }
 
@@ -236,6 +234,8 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  top: 0
 }
 
 .ant-button {
