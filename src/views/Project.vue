@@ -1,15 +1,41 @@
 <template>
-  <a-layout>
+  <a-layout class="project-page">
     <a-layout-header class="custom-header">
-      {{ version?.version.project.name }}
+      <a-space>
+        <a style="line-height: 20px; background: blue" href="/">
+          <img src="/icons/user.svg" />
+        </a>
+        <a-space style="line-height: 24px">
+          <p class="title-project">{{ project?.name }}</p>
+          <StarIcon />
+        </a-space>
+      </a-space>
       <a-space>
         <a-radio-group>
-          <a-radio-button @click="() => (openModal = true)">Save Version</a-radio-button>
-          <a-radio-button @click="showDrawer">{{ version?.listVersion.length }}</a-radio-button>
+          <a-radio-button @click="() => (openModal = true)">
+            <a-space align="center">
+              <img src="/icons/version.svg" style="width: 16px; position: relative; top: 2px" />
+              <span style="font-weight: 600">Save Version</span>
+            </a-space>
+          </a-radio-button>
+          <a-radio-button @click="showDrawer">
+            <span style="font-weight: 600">{{ project?.versions.length }}</span>
+          </a-radio-button>
         </a-radio-group>
+        <a-dropdown placement="bottomRight">
+          <a-avatar :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname" />
+          <template #overlay>
+            <a-menu>
+              <a-menu-item @click="onLogout"
+                >{{ user?.fullname }} ({{ user?.username }})</a-menu-item
+              >
+              <a-menu-item @click="onLogout"> Logout </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </a-space>
     </a-layout-header>
-    <a-layout>
+    <div style="display: flex">
       <a-modal v-model:open="openModal" title="Save version" okText="Save" @ok="onSaveVersion">
         <a-input v-model:value="description" placeholder="Description" />
       </a-modal>
@@ -21,68 +47,81 @@
         @close="onClose"
       >
         <div
-          v-for="item in version?.listVersion"
+          v-for="item in project?.versions"
           class="version-div"
           @click="() => clickVersion(item)"
         >
           <p class="title-version">{{ item?.isMainVersion ? 'Main version' : item.description }}</p>
-          <p>{{ item.modifiedTime }} by {{ item.editor.username }}</p>
+          <!-- <p>{{ item.modifiedTime }} by {{ item.editor.username }}</p> -->
         </div>
       </a-drawer>
-      <a-layout-sider width="250" style="background: #fff">
+
+      <div
+        style="
+          background-color: white;
+          min-height: calc(100vh - 64px);
+          border-right: 6px solid #6d5bd030;
+        "
+      >
         <Directory
           :initData="files"
           @changeSelected="onChangeSelected"
           @update:files="() => onUpdateFiles(true)"
         />
-      </a-layout-sider>
-      <a-layout style="padding: 0 8px">
-        <a-layout-content class="project-content" v-if="!isConflict">
-          <div class="editor">
-            <Editor
-              v-if="currentFile?.type === 'tex'"
-              :initData="currentFile"
-              @update:save="onSaveFile"
-              @conflict="onConflict"
-              @update:files="() => onUpdateFiles(true)"
-              @update:code="onUpdateCode"
-            />
-            <img
-              v-if="currentFile?.type === 'img' && currentFile?.content"
-              :src="`${apiUrl}/${currentFile?.content}`"
-            />
-            <div v-if="currentFile == null">Select 1 file</div>
-          </div>
-          <div class="editor-right">
-            <div class="editor-btns">
-              <a-button
-                type="primary"
-                @click="onCompile"
-                :loading="loading"
-                :disabled="disableCompile"
-              >
-                Compile
-              </a-button>
+      </div>
+      <vue-resizable :min-width="238" :max-width="5000" :disableAttributes="['h']">
+        <a-layout>
+          <a-layout-content class="project-content" v-if="!isConflict">
+            <vue-resizable :min-width="238" :max-width="500" :disableAttributes="['l', 'h']">
+              <div class="editor">
+                <Editor
+                  v-if="currentFile?.type === 'tex'"
+                  :initData="currentFile"
+                  @update:save="onSaveFile"
+                  @conflict="onConflict"
+                  @update:files="() => onUpdateFiles(true)"
+                  @update:code="onUpdateCode"
+                />
+                <img
+                  v-if="currentFile?.type === 'img' && currentFile?.content"
+                  :src="`${apiUrl}/${currentFile?.content}`"
+                />
+                <div v-if="currentFile == null">Select 1 file</div>
+              </div>
+            </vue-resizable>
+            <vue-resizable :min-width="238" :max-width="500" :disableAttributes="['w', 'h']">
+              <div class="editor-right">
+                <div class="editor-btns">
+                  <a-button
+                    type="primary"
+                    @click="onCompile"
+                    :loading="loading"
+                    :disabled="disableCompile"
+                  >
+                    Compile
+                  </a-button>
+                </div>
+                <br />
+                <embed
+                  v-show="pdf"
+                  style="width: 100%; height: calc(100% - 64px)"
+                  :src="apiUrl + pdf + '#toolbar=0'"
+                  :key="show"
+                />
+              </div>
+            </vue-resizable>
+          </a-layout-content>
+          <a-layout-content v-if="isConflict" style="display: grid">
+            <div class="container-conflict" v-for="item in conflictFiles">
+              <div class="title-path">{{ item.path }}</div>
+              <div class="compare-editor">
+                <Compare :oldData="item" @update:save="onSaveFile" />
+              </div>
             </div>
-            <br />
-            <embed
-              v-show="pdf"
-              style="width: 100%; height: calc(100% - 64px)"
-              :src="apiUrl + pdf + '#toolbar=0'"
-              :key="show"
-            />
-          </div>
-        </a-layout-content>
-        <a-layout-content v-if="isConflict" style="display: grid">
-          <div class="container-conflict" v-for="item in conflictFiles">
-            <div class="title-path">{{ item.path }}</div>
-            <div class="compare-editor">
-              <Compare :oldData="item" @update:save="onSaveFile" />
-            </div>
-          </div>
-        </a-layout-content>
-      </a-layout>
-    </a-layout>
+          </a-layout-content>
+        </a-layout>
+      </vue-resizable>
+    </div>
   </a-layout>
 </template>
 
@@ -103,7 +142,9 @@ import Directory from '@/components/Directory.vue'
 import Editor from '@/components/Editor.vue'
 import Compare from '@/components/Compare.vue'
 import { Button, notification } from 'ant-design-vue'
-import router from '@/router';
+import router from '@/router'
+import StarIcon from '../../public/icons/star.svg'
+import VueResizable from 'vue-resizable'
 
 export default defineComponent({
   components: {
@@ -116,11 +157,13 @@ export default defineComponent({
     FolderOpenOutlined,
     Directory,
     Editor,
-    Compare
+    Compare,
+    StarIcon,
+    VueResizable
   },
   setup() {
     const files = ref([])
-    const version = ref()
+    const project = ref()
     const route = useRoute()
     const loading = ref(false)
     const loadingVersion = ref(false)
@@ -135,6 +178,7 @@ export default defineComponent({
     const open = ref(false)
     const openModal = ref(false)
     const description = ref('')
+    const user = ref()
 
     const showDrawer = () => {
       open.value = true
@@ -158,8 +202,7 @@ export default defineComponent({
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
               e.isSave = false
-            }
-            else {
+            } else {
               e.isSave = true
             }
             if (localStorage.getItem(`sha-${e.id}`)) {
@@ -171,7 +214,8 @@ export default defineComponent({
             e.isCompile = false
             return e
           })
-          if (files.value.length > 0) {
+          const main = files.value.find((e) => e.path === 'main.tex')
+          if (main && main.content) {
             compileAPI()
               .then((res) => {
                 pdf.value = res.data
@@ -198,16 +242,24 @@ export default defineComponent({
       serviceAPI
         .getVersionById(route.params.versionId)
         .then((res) => {
-          version.value = res.data
+          project.value = res.data
         })
         .catch((err) => {
           console.log(err)
+        })
+      serviceAPI
+        .getCurrentUser()
+        .then((res) => {
+          user.value = res.data
+        })
+        .catch(() => {
+          NotiError('Your authorized failed')
         })
       connectWebSocket()
     })
 
     watchEffect(() => {
-      description.value = 'Version ' + version.value?.listVersion.length
+      description.value = 'Version ' + project.value?.versions.length
     })
 
     const onChangeSelected = (event) => {
@@ -296,7 +348,7 @@ export default defineComponent({
     }
 
     const onSaveVersion = () => {
-      if (!version.value.version) return
+      if (!project.value) return
       serviceAPI
         .saveVersion(version.value.version.projectId, {
           description: description.value,
@@ -311,7 +363,7 @@ export default defineComponent({
           serviceAPI
             .getVersionById(route.params.versionId)
             .then((res) => {
-              version.value = res.data
+              project.value = res.data
             })
             .catch((err) => {
               console.log(err)
@@ -329,7 +381,7 @@ export default defineComponent({
       console.log('ok')
       const idx = files.value.findIndex((e) => e.id === event.id)
       files.value[idx].isCompile = false
-      if(files.value[idx].isSave !== event.isSave) {
+      if (files.value[idx].isSave !== event.isSave) {
         files.value[idx].isSave = event.isSave
         files.value = JSON.parse(JSON.stringify(files.value))
       }
@@ -434,105 +486,142 @@ export default defineComponent({
       sendMessage,
       disableCompile,
       onUpdateCode,
-      version,
+      project,
       clickVersion,
       open,
       showDrawer,
       onClose,
       openModal,
-      description
+      description,
+      user
     }
   }
 })
 </script>
 
-<style>
-.logo {
-  background-color: white;
-  width: 48px;
-  height: 48px;
-  margin-top: 8px;
-}
+<style lang="scss">
+.project-page {
+  .custom-header {
+    .title-project {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
 
-.row-search {
-  width: 100%;
-  flex-flow: nowrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
+  .logo {
+    background-color: white;
+    width: 48px;
+    height: 48px;
+    margin-top: 8px;
+  }
 
-.ant-layout-content.project-content {
-  background: #f5f5f5;
-  margin: 0;
-  padding: 0;
-  min-height: calc(100vh - 64px) !important;
-  display: flex;
-  gap: 8px;
-}
+  .row-search {
+    width: 100%;
+    flex-flow: nowrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
 
-div.editor {
-  width: 50%;
-  height: 100%;
-  display: flex;
-}
+  .ant-layout-content.project-content {
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    min-height: calc(100vh - 64px) !important;
+    display: flex;
+    gap: 8px;
+  }
 
-div.editor-right {
-  width: 50%;
-  height: 100%;
-  background: white;
-  padding: 8px 16px;
-}
+  div.editor {
+    width: 50%;
+    height: 100%;
+    display: flex;
+  }
 
-.editor-btns {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
+  div.editor-right {
+    width: 50%;
+    height: 100%;
+    background: white;
+    padding: 8px 16px;
+  }
 
-div.editor img {
-  width: 100%;
-  margin: auto;
-}
+  .editor-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
 
-.title-path {
-  width: 100%;
-  background: white;
-  padding: 4px 16px;
-}
+  div.editor img {
+    width: 100%;
+    margin: auto;
+  }
 
-.container-conflict {
-  width: 100%;
-  position: relative;
-}
+  .title-path {
+    width: 100%;
+    background: white;
+    padding: 4px 16px;
+  }
 
-.compare-editor {
-  height: calc(100% - 32px);
-  margin-bottom: 20px;
-}
+  .container-conflict {
+    width: 100%;
+    position: relative;
+  }
 
-.ant-layout-header.custom-header {
-  background: white;
-  border-bottom: 1px solid #ccc;
-  justify-content: space-between;
-  display: flex;
-}
+  .compare-editor {
+    height: calc(100% - 32px);
+    margin-bottom: 20px;
+  }
 
-.title-version {
-  font-size: 18px;
-  font-weight: bold;
-}
+  .ant-layout-header.custom-header {
+    background: white;
+    border-bottom: 1px solid #d9d5ec;
+    justify-content: space-between;
+    display: flex;
+    box-shadow: 0 4px 10px 0 #00000010;
+    z-index: 10;
+  }
 
-.version-div:hover {
-  background: #eee;
-  cursor: pointer;
-}
+  .title-version {
+    font-size: 18px;
+    font-weight: bold;
+  }
 
-.version-div {
-  padding: 8px 16px;
-  border-radius: 8px;
-}
+  .version-div:hover {
+    background: #eee;
+    cursor: pointer;
+  }
 
-.ant-input {
-  width: 100%;
+  .version-div {
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+
+  .ant-input {
+    width: 100%;
+  }
+
+  .ant-radio-group {
+    .ant-radio-button-wrapper {
+      background: #6d5bd0;
+      color: white;
+
+      &:hover {
+        color: white;
+      }
+
+      &:first-child {
+        border-start-start-radius: 20px;
+        border-end-start-radius: 20px;
+      }
+
+      &:last-child {
+        border-start-end-radius: 20px;
+        border-end-end-radius: 20px;
+      }
+    }
+  }
+
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+    background-color: white;
+  }
 }
 </style>
