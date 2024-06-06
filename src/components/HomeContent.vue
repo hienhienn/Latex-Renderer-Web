@@ -18,7 +18,9 @@
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'name'">
         <a-row align="middle">
-          <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">{{ text }}</RouterLink>
+          <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">{{
+            text
+          }}</RouterLink>
           <a-tag class="mode-tag">
             <template #icon v-if="record.isPublic">
               <global-outlined />
@@ -30,18 +32,24 @@
           </a-tag>
         </a-row>
       </template>
-      <template v-if="column.dataIndex === 'owner'">
-        <AvatarApp :avatar-user="text" :current-user="user" />
+      <template v-if="column.dataIndex === 'userProjects'">
+        <a-avatar-group
+          :size="28"
+          :max-count="3"
+          :max-style="{ color: '#965E00', backgroundColor: '#FFECCC' }"
+          :maxPopoverTrigger="''"
+        >
+          <a-avatar
+            v-for="member in text"
+            :src="'https://ui-avatars.com/api/?background=random&name=' + member?.fullname"
+          ></a-avatar>
+        </a-avatar-group>
       </template>
-      <template v-if="column.dataIndex === 'lastModified'">
-        {{ dateTimeFormat(record.mainVersion?.[0]?.modifiedTime) }}
-        <a-row style="gap: 4px; color: #6E6893">
+      <template v-if="column.dataIndex === 'modifiedTime'">
+        {{ dateTimeFormat(text) }}
+        <a-row style="gap: 4px; color: #6e6893">
           by
-          <AvatarApp
-            :hide-avatar="true"
-            :avatar-user="record.mainVersion?.[0]?.editor"
-            :current-user="user"
-          />
+          <AvatarApp :hide-avatar="true" :avatar-user="record.editor" :current-user="user" />
         </a-row>
       </template>
       <template v-if="column.dataIndex === 'actions'">
@@ -66,7 +74,7 @@
 <script lang="ts">
 import { serviceAPI } from '@/services/API'
 import { NotiError, NotiSuccess } from '@/services/notification'
-import { defineComponent, reactive, readonly, ref, watch } from 'vue'
+import { defineComponent, reactive, readonly, ref, watch, watchEffect } from 'vue'
 import { dateTimeFormat } from '@/services/functions'
 import { DeleteOutlined, GlobalOutlined, LockOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import debounce from 'lodash.debounce'
@@ -74,7 +82,14 @@ import { Confirm } from '@/services/confirm'
 import AvatarApp from '@/components/common/AvatarApp.vue'
 
 export default defineComponent({
-  props: ['category', 'user'],
+  props: {
+    category: {
+      type: String,
+    },
+    user: {
+      type: Object
+    }
+  },
   components: {
     DeleteOutlined,
     SearchOutlined,
@@ -83,7 +98,7 @@ export default defineComponent({
     AvatarApp
   },
   name: 'HomeContent',
-  setup({ category, user }) {
+  setup(props) {
     const searchText = ref<string>('')
     const errorText = ref<string>('')
     const pagination = reactive({
@@ -110,16 +125,12 @@ export default defineComponent({
         dataIndex: 'status'
       },
       {
-        title: 'Owner',
-        dataIndex: 'owner'
-      },
-      {
         title: 'Member',
-        dataIndex: 'member'
+        dataIndex: 'userProjects'
       },
       {
         title: 'Last Modified',
-        dataIndex: 'lastModified',
+        dataIndex: 'modifiedTime',
         sorter: true
       },
       {
@@ -201,7 +212,7 @@ export default defineComponent({
       if (loading.value) return
       loading.value = true
       let query = {
-        category: 'all',
+        category: props.category,
         pageSize: pagination.pageSize,
         page: pagination.page,
         keyword: searchText.value
@@ -214,7 +225,6 @@ export default defineComponent({
         .then((res) => {
           dataSource.value = res?.data?.list
           pagination.total = res?.data?.total
-
         })
         .catch((err) => {
           NotiError(err.data?.title || 'Failed to load projects')
@@ -225,7 +235,7 @@ export default defineComponent({
     }
 
     watch(
-      () => [category, pagination.page, pagination.pageSize, sorter.fieldSort, sorter.sort],
+      () => [props.category, pagination.page, pagination.pageSize, sorter.fieldSort, sorter.sort],
       getData,
       {
         immediate: true

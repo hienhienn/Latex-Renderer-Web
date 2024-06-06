@@ -140,14 +140,16 @@
                       <a-select
                         size="small"
                         :value="member?.role"
-                        @click="(e) => e.stopImmediatePropagation()"
+                        @click="(e) => e.stopPropagation()"
                         :bordered="false"
                         :disabled="member?.role === 'owner'"
                         :showArrow="member?.role !== 'owner'"
                         @select="(e) => onChangeRole(e, member.id)"
                         style="width: 120px"
                       >
-                        <a-select-option value="owner" style="display: none">Owner</a-select-option>
+                        <a-select-option value="owner" style="display: none" :id="member.id"
+                          >Owner</a-select-option
+                        >
                         <a-select-option value="editor">Editor</a-select-option>
                         <a-select-option value="viewer">Viewer</a-select-option>
                         <template #dropdownRender="{ menuNode }">
@@ -680,6 +682,7 @@ export default defineComponent({
     }
 
     const onChangeRole = (role, id) => {
+      if (role === 'owner') return
       serviceAPI
         .changeRole({
           role,
@@ -716,32 +719,34 @@ export default defineComponent({
     const cancelAdd = (e) => {
       e.stopPropagation()
       stepAdd.value = 1
-      addMemberState = {
+      Object.assign(addMemberState, {
         members: [],
         role: 'viewer'
-      }
+      })
     }
 
     const addMember = (e) => {
       e.stopPropagation()
       Promise.all(
         addMemberState.members.map((id) =>
-          serviceAPI.addMember({
-            projectId: project.value.id,
-            editorId: id,
-            role: addMemberState.role
-          })
+          serviceAPI
+            .addMember({
+              projectId: project.value.id,
+              editorId: id,
+              role: addMemberState.role
+            })
+            .then((res) => {
+              project.value.userProjects = res.data
+              stepAdd.value = 1
+
+              Object.assign(addMemberState, {
+                members: [],
+                role: 'viewer'
+              })
+            })
+            .catch(() => NotiError('failed'))
         )
       )
-        .then((res) => {
-          project.value.userProjects = res.data
-          stepAdd.value = 1
-          addMemberState = {
-            members: [],
-            role: 'viewer'
-          }
-        })
-        .catch(() => NotiError('failed'))
     }
 
     const removeMember = (e, id) => {
@@ -750,8 +755,12 @@ export default defineComponent({
         .removeMember(id)
         .then((res) => {
           project.value.userProjects = res.data
+          document.getElementById(id).click()
         })
-        .catch(() => NotiError('Try again'))
+        .catch((err) => {
+          console.log(err)
+          NotiError('Try again')
+        })
     }
 
     return {

@@ -7,17 +7,17 @@
       <img class="bg-table bg-table-horizontal" src="/images/bg-table.png" />
       <a-space direction="vertical">
         <a-typography-text class="title-text" strong>PROJECTS</a-typography-text>
-        <a-tabs v-model:activeKey="selectedKeys" size="small">
-          <a-tab-pane key="all" tab="Personal"></a-tab-pane>
-          <a-tab-pane key="" tab="Stared"></a-tab-pane>
+        <a-tabs v-model:activeKey="selectedKeys1" size="small">
+          <a-tab-pane key="personal" tab="Personal"></a-tab-pane>
+          <a-tab-pane key="starred" tab="Stared"></a-tab-pane>
         </a-tabs>
-        <a-tabs v-model:activeKey="selectedKeys" size="small">
-          <a-tab-pane key="1" tab="All"></a-tab-pane>
-          <a-tab-pane key="1" tab="Yours"></a-tab-pane>
-          <a-tab-pane key="2" tab="Shared with you"></a-tab-pane>
+        <a-tabs v-model:activeKey="selectedKeys2" size="small">
+          <a-tab-pane key="all" tab="All"></a-tab-pane>
+          <a-tab-pane key="yours" tab="Yours"></a-tab-pane>
+          <a-tab-pane key="shared" tab="Shared with you"></a-tab-pane>
         </a-tabs>
         <a-layout-content>
-          <HomeContent :category="selectedKeys[0]" :user="user" />
+          <HomeContent :category="category" :user="user" />
         </a-layout-content>
       </a-space>
     </a-layout>
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref, watchEffect } from 'vue'
 import HomeContent from '@/components/HomeContent.vue'
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
@@ -36,8 +36,14 @@ export default defineComponent({
   },
   setup() {
     const user = ref()
-    const selectedKeys = ref<string>('all')
+    const selectedKeys1 = ref<string>('personal')
+    const selectedKeys2 = ref<string>('all')
 
+    const category = computed(() => {
+      if (selectedKeys1.value === 'personal') return selectedKeys2.value
+      else return 'starred'
+    })
+    
     onMounted(() => {
       serviceAPI
         .getCurrentUser()
@@ -50,7 +56,9 @@ export default defineComponent({
     })
 
     return {
-      selectedKeys,
+      selectedKeys1,
+      selectedKeys2,
+      category,
       user
     }
   }
