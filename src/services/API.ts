@@ -43,6 +43,12 @@ const getVersionById: (id) => Promise<any> = (id) => API.get(`version/${id}`)
 const saveVersion: (id, data) => Promise<any> = (id, data) =>
   API.post(`version/saveVersion/${id}`, data)
 
+const getUserToProject: (projectId, name) => Promise<any> = (projectId, name) =>
+  API.get(`userProject/userAdd/${projectId}?name=${name}`)
+const addMember: (data) => Promise<any> = (data) => API.post(`userProject`, data)
+const changeRole: (data) => Promise<any> = (data) => API.put(`userProject`, data)
+const removeMember: (id) => Promise<any> = (id) => API.delete(`userProject/${id}`)
+
 export const serviceAPI = {
   signIn,
   signUp,
@@ -61,5 +67,9 @@ export const serviceAPI = {
   compile,
   getVersionById,
   saveVersion,
-  deleteCompile
+  deleteCompile,
+  getUserToProject,
+  addMember,
+  changeRole,
+  removeMember
 }

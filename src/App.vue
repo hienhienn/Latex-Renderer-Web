@@ -16,10 +16,10 @@ const theme = {
   },
   components: {
     Tabs: {
-      colorPrimary: '#25213B',
+      colorPrimary: '#25213B'
     },
     Tree: {
-      colorPrimary: '#ffeccc',
+      colorPrimary: '#ffeccc'
     }
   }
 }
@@ -31,4 +31,20 @@ const theme = {
   </a-config-provider>
 </template>
 
-<style scoped></style>
+<style>
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+  background-color: #f2f0f9;
+  
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f2f0f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6D5BD080;
+  border-radius: 10px;
+}
+</style>

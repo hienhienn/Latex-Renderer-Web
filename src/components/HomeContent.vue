@@ -215,15 +215,12 @@ export default defineComponent({
           dataSource.value = res?.data?.list
           pagination.total = res?.data?.total
 
-          console.log('1', loading.value)
         })
         .catch((err) => {
           NotiError(err.data?.title || 'Failed to load projects')
         })
         .finally(() => {
           loading.value = false
-          console.log('2', loading.value)
-
         })
     }
 

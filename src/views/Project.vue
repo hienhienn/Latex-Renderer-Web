@@ -22,10 +22,10 @@
             :max-style="{ color: '#965E00', backgroundColor: '#FFECCC' }"
             :maxPopoverTrigger="''"
           >
-            <a-avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-            <a-avatar :size="24" style="background-color: #1890ff">K</a-avatar>
-            <a-avatar style="background-color: #87d068"> M </a-avatar>
-            <a-avatar style="background-color: #1890ff"> D </a-avatar>
+            <a-avatar
+              v-for="member in project?.userProjects"
+              :src="'https://ui-avatars.com/api/?background=random&name=' + member?.fullname"
+            ></a-avatar>
           </a-avatar-group>
           <a-dropdown :trigger="['click']" placement="bottomRight">
             <a-button size="small" type="text" shape="circle" style="font-size: 12px">
@@ -50,6 +50,7 @@
                       :value="!!project?.isPublic"
                       @click="(e) => e.stopPropagation()"
                       @select="onSelectAccess"
+                      :bordered="false"
                     >
                       <a-select-option :value="true">Public</a-select-option>
                       <a-select-option :value="false">Private</a-select-option>
@@ -65,10 +66,108 @@
                     </a-typography-text>
                   </div>
                 </a-row>
-                <a-typography-text class="title-text" strong style="font-size: 14px; margin-top: 8px;">
+                <a-typography-text
+                  class="title-text"
+                  strong
+                  style="font-size: 14px; margin-top: 8px"
+                >
                   MEMBERS
                 </a-typography-text>
-                <a-input @click="(e) => e.stopPropagation()"></a-input>
+                <a-row align="center" v-if="stepAdd === 1">
+                  <a-select
+                    v-model:value="addMemberState.members"
+                    style="width: calc(100% - 45px); margin-right: 8px"
+                    @click="(e) => e.stopPropagation()"
+                    show-search
+                    @search="onFilterUser"
+                    placeholder="Add members to project"
+                    mode="multiple"
+                    max-tag-count="responsive"
+                    :max-tag-text-length="10"
+                    :options="userOptions"
+                    :filterOption="filterOption"
+                  ></a-select>
+                  <a-button
+                    size="small"
+                    shapre="circle"
+                    type="link"
+                    style="margin: auto 0"
+                    @click="nextStep"
+                    :disabled="addMemberState.members.length == 0"
+                  >
+                    <ArrowRightOutlined />
+                  </a-button>
+                </a-row>
+                <a-row align="center" v-if="stepAdd === 2">
+                  <a-select
+                    v-model:value="addMemberState.role"
+                    style="width: calc(100% - 100px); margin-right: 8px"
+                    @click="(e) => e.stopPropagation()"
+                  >
+                    <a-select-option value="editor">Editor</a-select-option>
+                    <a-select-option value="viewer">Viewer</a-select-option>
+                  </a-select>
+                  <a-button size="small" type="link" style="margin: auto 0" @click="addMember">
+                    Add
+                  </a-button>
+                  <a-button
+                    size="small"
+                    shapre="circle"
+                    type="link"
+                    style="margin: auto 0"
+                    @click="cancelAdd"
+                    danger
+                  >
+                    <CloseOutlined />
+                  </a-button>
+                </a-row>
+
+                <a-space direction="vertical" :size="0" class="member">
+                  <a-space v-for="member in project.userProjects">
+                    <a-avatar
+                      :size="40"
+                      :src="
+                        'https://ui-avatars.com/api/?background=random&name=' + member?.fullname
+                      "
+                    />
+                    <div>
+                      <div style="margin: 0 7px">
+                        <span style="font-weight: 600; margin-right: 4px">
+                          {{ member?.fullname }}
+                        </span>
+                        {{ member?.username }}
+                      </div>
+                      <a-select
+                        size="small"
+                        :value="member?.role"
+                        @click="(e) => e.stopImmediatePropagation()"
+                        :bordered="false"
+                        :disabled="member?.role === 'owner'"
+                        :showArrow="member?.role !== 'owner'"
+                        @select="(e) => onChangeRole(e, member.id)"
+                        style="width: 120px"
+                      >
+                        <a-select-option value="owner" style="display: none">Owner</a-select-option>
+                        <a-select-option value="editor">Editor</a-select-option>
+                        <a-select-option value="viewer">Viewer</a-select-option>
+                        <template #dropdownRender="{ menuNode }">
+                          <VNodes :vnodes="menuNode" />
+                          <a-divider style="margin: 4px 0" />
+                          <a-button type="text" style="width: 100%; text-align: start"
+                            >Set owner</a-button
+                          >
+                          <a-button
+                            danger
+                            type="text"
+                            style="width: 100%; text-align: start"
+                            @click="(e) => removeMember(e, member.id)"
+                            >Remove</a-button
+                          >
+                        </template>
+                      </a-select>
+                    </div>
+                  </a-space>
+                </a-space>
               </div>
             </template>
           </a-dropdown>
@@ -91,10 +190,8 @@
           />
           <template #overlay>
             <a-menu>
-              <a-menu-item @click="onLogout">
-                {{ user?.fullname }} ({{ user?.username }})
-              </a-menu-item>
-              <a-menu-item @click="onLogout"> Logout </a-menu-item>
+              <a-menu-item> {{ user?.fullname }} ({{ user?.username }}) </a-menu-item>
+              <a-menu-item> Logout </a-menu-item>
             </a-menu>
           </template>
         </a-dropdown>
@@ -117,7 +214,6 @@
           @click="() => clickVersion(item)"
         >
           <p class="title-version">{{ item?.isMainVersion ? 'Main version' : item.description }}</p>
-          <!-- <p>{{ item.modifiedTime }} by {{ item.editor.username }}</p> -->
         </div>
       </a-drawer>
       <vue-resizable :min-width="238" :max-width="500" :active="['r']" :width="258">
@@ -160,7 +256,6 @@
               <div v-if="currentFile == null">Select 1 file</div>
             </div>
           </vue-resizable>
-          <!-- <vue-resizable :max-width="300" :active="[]"> -->
           <div class="editor-right" id="pdfDiv">
             <div class="editor-btns">
               <a-button
@@ -180,7 +275,6 @@
               :key="show"
             />
           </div>
-          <!-- </vue-resizable> -->
         </a-layout-content>
         <a-layout-content v-if="isConflict" style="display: grid">
           <div class="container-conflict" v-for="item in conflictFiles">
@@ -196,7 +290,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, onMounted, ref, watchEffect } from 'vue'
+import { computed, defineComponent, h, onMounted, reactive, ref, watchEffect } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -208,7 +302,9 @@ import {
   TeamOutlined,
   DownOutlined,
   GlobalOutlined,
-  LockOutlined
+  LockOutlined,
+  ArrowRightOutlined,
+  CloseOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -220,6 +316,18 @@ import router from '@/router'
 import StarIcon from '../../public/icons/star.svg'
 import VueResizable from 'vue-resizable'
 import { NotiError } from '@/services/notification'
+
+const VNodes = defineComponent({
+  props: {
+    vnodes: {
+      type: Object,
+      required: true
+    }
+  },
+  render() {
+    return this.vnodes
+  }
+})
 
 export default defineComponent({
   components: {
@@ -238,7 +346,10 @@ export default defineComponent({
     TeamOutlined,
     DownOutlined,
     GlobalOutlined,
-    LockOutlined
+    LockOutlined,
+    ArrowRightOutlined,
+    CloseOutlined,
+    VNodes
   },
   setup() {
     const files = ref([])
@@ -258,6 +369,12 @@ export default defineComponent({
     const openModal = ref(false)
     const description = ref('')
     const user = ref()
+    const userOptions = ref()
+    const stepAdd = ref(1)
+    const addMemberState = reactive({
+      members: [],
+      role: 'viewer'
+    })
 
     const showDrawer = () => {
       open.value = true
@@ -460,7 +577,6 @@ export default defineComponent({
     }
 
     const onUpdateCode = (event) => {
-      console.log('ok')
       const idx = files.value.findIndex((e) => e.id === event.id)
       files.value[idx].isCompile = false
       if (files.value[idx].isSave !== event.isSave) {
@@ -475,7 +591,7 @@ export default defineComponent({
       socket = new WebSocket(`ws://localhost:5000/ws/${route.params.versionId}`)
 
       socket.onmessage = function (event) {
-        console.log('ms', JSON.parse(event.data))
+        // console.log('ms', JSON.parse(event.data))
         // notiChange(JSON.parse(event.data))
       }
     }
@@ -533,10 +649,10 @@ export default defineComponent({
             { default: () => 'Update' }
           )
         ],
-        key: 'notiChange',
-        onClose: () => {
-          console.log('close')
-        }
+        key: 'notiChange'
+        // onClose: () => {
+        //   console.log('close')
+        // }
       })
     }
 
@@ -549,12 +665,10 @@ export default defineComponent({
     }
 
     const handleResize = (event) => {
-      console.log(event)
       document.getElementById('pdfDiv').style.width = `calc(100% - ${event.width}px)`
     }
 
     const onSelectAccess = (e) => {
-      console.log(e)
       if (e !== project.value.isPublic) {
         serviceAPI
           .updateProject(project.value.id, {
@@ -563,6 +677,81 @@ export default defineComponent({
           .then((project.value.isPublic = e))
           .catch(() => NotiError('Try again'))
       }
+    }
+
+    const onChangeRole = (role, id) => {
+      serviceAPI
+        .changeRole({
+          role,
+          id
+        })
+        .then((res) => {
+          project.value.userProjects = res.data
+        })
+        .catch(() => NotiError('Try again'))
+    }
+
+    const onFilterUser = async (input) => {
+      try {
+        const res = await serviceAPI.getUserToProject(project.value.id, input)
+        userOptions.value = res.data.map((e) => ({
+          value: e.id,
+          label: e.fullname
+        }))
+      } catch (err) {
+        NotiError('Failed')
+        userOptions.value = []
+      }
+    }
+
+    const filterOption = async (input, option) => {
+      return option
+    }
+
+    const nextStep = (e) => {
+      e.stopPropagation()
+      stepAdd.value = 2
+    }
+
+    const cancelAdd = (e) => {
+      e.stopPropagation()
+      stepAdd.value = 1
+      addMemberState = {
+        members: [],
+        role: 'viewer'
+      }
+    }
+
+    const addMember = (e) => {
+      e.stopPropagation()
+      Promise.all(
+        addMemberState.members.map((id) =>
+          serviceAPI.addMember({
+            projectId: project.value.id,
+            editorId: id,
+            role: addMemberState.role
+          })
+        )
+      )
+        .then((res) => {
+          project.value.userProjects = res.data
+          stepAdd.value = 1
+          addMemberState = {
+            members: [],
+            role: 'viewer'
+          }
+        })
+        .catch(() => NotiError('failed'))
+    }
+
+    const removeMember = (e, id) => {
+      e = e.originalEvent
+      serviceAPI
+        .removeMember(id)
+        .then((res) => {
+          project.value.userProjects = res.data
+        })
+        .catch(() => NotiError('Try again'))
     }
 
     return {
@@ -594,7 +783,17 @@ export default defineComponent({
       description,
       user,
       handleResize,
-      onSelectAccess
+      onSelectAccess,
+      onChangeRole,
+      onFilterUser,
+      userOptions,
+      filterOption,
+      stepAdd,
+      nextStep,
+      addMemberState,
+      cancelAdd,
+      addMember,
+      removeMember
     }
   }
 })
@@ -749,6 +948,8 @@ export default defineComponent({
   box-shadow: 0 8px 10px 0 #00000010;
   display: grid;
   gap: 8px;
+  max-height: 500px;
+  overflow: auto;
 
   .access-ic {
     border-radius: 100%;
@@ -769,8 +970,18 @@ export default defineComponent({
     }
   }
 
-  .ant-select-selector {
-    border: none !important;
+  .member {
+    margin-top: 8px;
+    > .ant-space-item {
+      margin: 0 -24px;
+      padding: 8px 24px;
+
+      &:hover {
+        background: #f2f0f9;
+        cursor: default;
+      }
+      // border-bottom: 1px solid #d9d5ec;
+    }
   }
 
   // .ant-select-arrow {

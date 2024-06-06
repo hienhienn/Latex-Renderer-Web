@@ -507,7 +507,6 @@ export default defineComponent({
             )
           ).finally(() => {
             emit('update:files')
-            console.log('done')
             selectedKeys.value = []
           })
         }
@@ -574,23 +573,8 @@ export default defineComponent({
 
     watchEffect(() => {
       files.value = buildDirectoryStructure(props.initData).sort(compareFile)
-      console.log('change', files.value)
     })
-
-    watch(
-      () => [props.initData],
-      () => {
-        console.log('123', props.initData)
-      }
-    )
-
-    watch(
-      () => [props.initData],
-      () => {
-        console.log('change2222')
-      }
-    )
-
+    
     watch(
       () => [nameFolder.value],
       ([value]) => {
