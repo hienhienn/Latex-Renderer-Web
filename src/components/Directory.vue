@@ -65,11 +65,24 @@
         <template #title="{ dataRef }">
           <a-row justify="space-between" class="row-directory" :class="{ save: dataRef.isSave }">
             <span>{{ dataRef.title }}</span>
-            <span style="font-weight: 600" v-if="!dataRef.isSave">U</span>
+            <a-space>
+              <span style="font-weight: 600" v-if="!dataRef.isSave">U</span>
+              <a-dropdown :trigger="['click']">
+                <div @click.prevent>
+                  <MoreOutlined />
+                </div>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item>Download</a-menu-item>
+                    <a-menu-item>Rename</a-menu-item>
+                    <a-menu-item>Delete</a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </a-space>
           </a-row>
         </template>
-        <template #icon="{ dataRef, expanded, selected }">
-          <!-- <FileIcon class="icon-directory" /> -->
+        <template #icon="{ dataRef, expanded }">
           <template v-if="dataRef.isLeaf && dataRef.typeFile === 'tex'">
             <FileIcon class="icon-directory" :class="{ save: dataRef.isSave }" />
           </template>
@@ -82,18 +95,6 @@
           <template v-else>
             <FolderIcon class="icon-directory" :class="{ save: dataRef.isSave }" />
           </template>
-          <!-- <div>
-              <div style="background-image: url('/icons/file.svg'); stroke: wheat;" class="icon-directory"></div>
-            </div> -->
-          <!-- <template v-if="dataRef.isLeaf && dataRef.typeFile === 'img'">
-            <object type="image/svg+xml" data="/icons/file-image.svg" class="icon-directory"></object>
-          </template>
-          <template v-if="expanded">
-            <object type="image/svg+xml" data="/icons/folder-open.svg" class="icon-directory"></object>
-          </template>
-          <template v-if="!expanded">
-            <object type="image/svg+xml" data="/icons/folder.svg" class="icon-directory"></object>
-          </template> -->
         </template>
       </a-directory-tree>
     </div>
@@ -202,7 +203,8 @@ import {
   UploadOutlined,
   DeleteFilled,
   CaretRightOutlined,
-  FileAddOutlined
+  FileAddOutlined,
+  MoreOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -223,7 +225,8 @@ export default defineComponent({
     FileIcon,
     FileImageIcon,
     FolderIcon,
-    FolderOpenIcon
+    FolderOpenIcon,
+    MoreOutlined
   },
   props: {
     initData: {
@@ -574,7 +577,7 @@ export default defineComponent({
     watchEffect(() => {
       files.value = buildDirectoryStructure(props.initData).sort(compareFile)
     })
-    
+
     watch(
       () => [nameFolder.value],
       ([value]) => {
@@ -620,8 +623,17 @@ export default defineComponent({
 
 .row-directory {
   display: inline-flex;
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   color: #965e00;
+
+  .anticon {
+    opacity: 0;
+    transition: all 150ms ease-in-out;
+  }
+
+  &:hover .anticon {
+    opacity: 100;
+  }
 
   &.save {
     color: #25213b;
@@ -676,7 +688,7 @@ export default defineComponent({
     }
 
     .ant-tree-switcher {
-      color: #25213b !important
+      color: #25213b !important;
     }
   }
 

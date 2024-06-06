@@ -551,7 +551,7 @@ export default defineComponent({
     const onSaveVersion = () => {
       if (!project.value) return
       serviceAPI
-        .saveVersion(version.value.version.projectId, {
+        .saveVersion(project.value.id, {
           description: description.value,
           files: files.value.map((e) => ({
             name: e.name,
