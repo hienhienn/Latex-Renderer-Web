@@ -32,12 +32,20 @@ const uploadFile: (id) => Promise<any> = (data) =>
     }
   })
 const getFile: (id) => Promise<any> = (id) => API.get(`file/${id}`)
+const downloadFile: (id) => Promise<any> = (id) =>
+  API.get(`file/download/${id}`, {
+    responseType: 'blob'
+  })
 const updateFile: (id, data) => Promise<any> = (id, data) => API.put(`file/updateFile/${id}`, data)
 const renameFile: (id, data) => Promise<any> = (id, data) => API.put(`file/renameFile/${id}`, data)
 const deleteFile: (id, shaCode) => Promise<any> = (id, shaCode) =>
   API.delete(`file/deleteFile/${id}?shaCode=${shaCode}`)
 
 const compile: (data) => Promise<any> = (data) => API.post(`version/compile`, data)
+const downloadFolder: (data) => Promise<any> = (data) =>
+  API.post(`version/downloadFolder`, data, {
+    responseType: 'blob'
+  })
 const deleteCompile: (code) => Promise<any> = (code) => API.delete(`version/compile/${code}`)
 const getVersionById: (id) => Promise<any> = (id) => API.get(`version/${id}`)
 const saveVersion: (id, data) => Promise<any> = (id, data) =>
@@ -61,10 +69,12 @@ export const serviceAPI = {
   createFile,
   uploadFile,
   getFile,
+  downloadFile,
   updateFile,
   renameFile,
   deleteFile,
   compile,
+  downloadFolder,
   getVersionById,
   saveVersion,
   deleteCompile,

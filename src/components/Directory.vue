@@ -13,7 +13,7 @@
               v-if="!isMulti"
               type="text"
               class="icon-btn"
-              @click="() => onNewFolder('folder')"
+              @click="() => onNewFolder('folder', 'add')"
             >
               <img src="/icons/folder-add.svg" class="icon-select" />
             </a-button>
@@ -24,18 +24,13 @@
               v-if="!isMulti"
               type="text"
               class="icon-btn"
-              @click="() => onNewFolder('file')"
+              @click="() => onNewFolder('file', 'add')"
             >
               <img src="/icons/file-add.svg" class="icon-select" />
             </a-button>
           </a-tooltip>
           <a-tooltip title="New image">
-            <a-button
-              v-if="!isMulti"
-              type="text"
-              class="icon-btn"
-              @click="() => (openUpload = true)"
-            >
+            <a-button v-if="!isMulti" type="text" class="icon-btn">
               <img src="/icons/file-image.svg" class="icon-select" />
             </a-button>
           </a-tooltip>
@@ -68,12 +63,12 @@
             <a-space>
               <span style="font-weight: 600" v-if="!dataRef.isSave">U</span>
               <a-dropdown :trigger="['click']">
-                <div @click.prevent>
+                <div @click="(e) => e.stopPropagation()">
                   <MoreOutlined />
                 </div>
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item>Download</a-menu-item>
+                    <a-menu-item @click="() => onDownload(dataRef)">Download</a-menu-item>
                     <a-menu-item>Rename</a-menu-item>
                     <a-menu-item>Delete</a-menu-item>
                   </a-menu>
@@ -180,7 +175,7 @@
       </a-directory-tree> -->
     </div>
   </div>
-  <a-modal
+  <!-- <a-modal
     :open="newFolder == 'file' || newFolder == 'folder'"
     :title="`New ${newFolder}`"
     okText="Save"
@@ -194,11 +189,12 @@
     <input type="file" @change="onFileChanged($event)" accept="image/*" capture />
     <a-input v-model:value="nameFolder" placeholder="Image name" />
     <a-typography-text type="danger">{{ errorText }}</a-typography-text>
-  </a-modal>
+  </a-modal> -->
+  <AddFolderPopUp :open="popup.open === 'folder'" :typePopUp="popup.typePopUp" />
 </template>
 
 <script>
-import { computed, defineComponent, h, readonly, ref, watch, watchEffect } from 'vue'
+import { computed, defineComponent, h, ref, watch, watchEffect } from 'vue'
 import {
   UploadOutlined,
   DeleteFilled,
@@ -210,6 +206,7 @@ import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
 import { Confirm } from '@/services/confirm'
+import AddFolderPopUp from '@/components/AddFolderPopUp.vue'
 import { notification, Button } from 'ant-design-vue'
 import FileIcon from '../../public/icons/file.svg'
 import FileImageIcon from '../../public/icons/file-image.svg'
@@ -226,7 +223,8 @@ export default defineComponent({
     FileImageIcon,
     FolderIcon,
     FolderOpenIcon,
-    MoreOutlined
+    MoreOutlined,
+    AddFolderPopUp
   },
   props: {
     initData: {
@@ -238,17 +236,17 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['changeSelected', 'update:files'],
+  emits: ['changeSelected', 'update:files', 'downloadFolder'],
   setup(props, { emit }) {
     const selectedKeys = ref([])
     const expandedKeys = ref([])
     const files = ref([])
     const route = useRoute()
-    const nameFolder = ref('')
-    const errorText = ref('')
-    const newFolder = ref('')
+    const popup = ref({
+      typePopUp: '',
+      open: ''
+    })
     const paths = new Set()
-    const openUpload = ref(false)
     const loading = ref(false)
     const imageFile = ref()
     const isMulti = computed(() => selectedKeys.value.length > 1)
@@ -272,10 +270,14 @@ export default defineComponent({
       return 0
     }
 
-    const onNewFolder = (val) => {
-      newFolder.value = val
-      errorText.value = ''
-      imageFile.value = null
+    console.log(popup.value.open === 'folder')
+
+    const onNewFolder = (open, typePopUp) => {
+      console.log('o')
+      popup.value = {
+        open,
+        typePopUp
+      }
     }
 
     const deepSet = (obj, path, value) => {
@@ -303,7 +305,6 @@ export default defineComponent({
           key: node.key ? `${node.key}/${part}` : part,
           children: [],
           isLeaf: false,
-          typeFile: item.typeFile,
           isSave: item.isSave
         }
         node.children.push(child)
@@ -313,6 +314,8 @@ export default defineComponent({
 
       if (parts.length === 0 && isLeaf) {
         child.isLeaf = true
+        child.id = item.id
+        child.typeFile = item.typeFile
       } else {
         insertPath(child, parts, item, isLeaf)
       }
@@ -331,7 +334,8 @@ export default defineComponent({
           children: [],
           isLeaf: false,
           typeFile: file.type,
-          isSave: file.isSave
+          isSave: file.isSave,
+          id: file.id
         }
         insertPath(root, file.path.split('/'), leafNode, true)
       })
@@ -339,140 +343,142 @@ export default defineComponent({
       return root.children
     }
 
-    const saveFolder = () => {
-      if (!nameFolder.value) {
-        errorText.value = `${newFolder.value} name is required!`
-        return
-      }
+    console.log('123', popup.value)
 
-      if (newFolder.value === 'file') nameFolder.value += '.tex'
+    // const saveFolder = () => {
+    //   if (!nameFolder.value) {
+    //     errorText.value = `${newFolder.value} name is required!`
+    //     return
+    //   }
 
-      let path = selectedKeys.value[0]?.split('/') || []
-      if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
+    //   if (newFolder.value === 'file') nameFolder.value += '.tex'
 
-      if (paths.has([...path, nameFolder.value].join('/'))) {
-        errorText.value = `A ${newFolder.value} with this name already exists`
-        return
-      }
+    //   let path = selectedKeys.value[0]?.split('/') || []
+    //   if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
 
-      if (newFolder.value === 'folder') {
-        let pathToObj = []
-        let id = []
+    //   if (paths.has([...path, nameFolder.value].join('/'))) {
+    //     errorText.value = `A ${newFolder.value} with this name already exists`
+    //     return
+    //   }
 
-        path.forEach((p) => {
-          let i = -1
-          if (id.length === 0) {
-            i = files.value.findIndex((e) => e.title === p)
-          } else {
-            let targetArray = [...files.value]
-            for (const idx of id) {
-              targetArray = targetArray[idx].children
-            }
-            i = targetArray.findIndex((e) => e.title === p)
-          }
-          pathToObj.push(i, 'children')
-          id.push(i)
-        })
-        if (pathToObj.length === 0) {
-          files.value = [
-            ...files.value,
-            {
-              key: nameFolder.value,
-              title: nameFolder.value,
-              children: [],
-              isLeaf: false
-            }
-          ]
-          files.value.sort(compareFile)
-          paths.add(nameFolder.value)
-        } else {
-          deepSet(files.value, pathToObj, {
-            title: nameFolder.value,
-            key: [...path, nameFolder.value].join('/'),
-            children: [],
-            isLeaf: false
-          })
-          paths.add([...path, nameFolder.value].join('/'))
-        }
-        newFolder.value = ''
-        nameFolder.value = ''
-      } else {
-        if (loading.value) return
-        loading.value = true
-        serviceAPI
-          .createFile({
-            versionId: route.params.versionId,
-            name: nameFolder.value,
-            path: [...path, nameFolder.value].join('/')
-          })
-          .then(() => {
-            emit('update:files')
-            paths.add([...path, nameFolder.value].join('/'))
-          })
-          .catch((err) => {
-            if (err.response.status == 400) {
-              NotiFileList({
-                type: 'saveImage',
-                message: err.response.data.message
-              })
-            } else NotiError('Failed to create new file!')
-          })
-          .finally(() => {
-            newFolder.value = ''
-            nameFolder.value = ''
-            loading.value = false
-          })
-      }
-      return
-    }
+    //   if (newFolder.value === 'folder') {
+    //     let pathToObj = []
+    //     let id = []
 
-    const saveImage = () => {
-      if (!imageFile.value) {
-        errorText.value = `Image file is required!`
-        return
-      }
+    //     path.forEach((p) => {
+    //       let i = -1
+    //       if (id.length === 0) {
+    //         i = files.value.findIndex((e) => e.title === p)
+    //       } else {
+    //         let targetArray = [...files.value]
+    //         for (const idx of id) {
+    //           targetArray = targetArray[idx].children
+    //         }
+    //         i = targetArray.findIndex((e) => e.title === p)
+    //       }
+    //       pathToObj.push(i, 'children')
+    //       id.push(i)
+    //     })
+    //     if (pathToObj.length === 0) {
+    //       files.value = [
+    //         ...files.value,
+    //         {
+    //           key: nameFolder.value,
+    //           title: nameFolder.value,
+    //           children: [],
+    //           isLeaf: false
+    //         }
+    //       ]
+    //       files.value.sort(compareFile)
+    //       paths.add(nameFolder.value)
+    //     } else {
+    //       deepSet(files.value, pathToObj, {
+    //         title: nameFolder.value,
+    //         key: [...path, nameFolder.value].join('/'),
+    //         children: [],
+    //         isLeaf: false
+    //       })
+    //       paths.add([...path, nameFolder.value].join('/'))
+    //     }
+    //     newFolder.value = ''
+    //     nameFolder.value = ''
+    //   } else {
+    //     if (loading.value) return
+    //     loading.value = true
+    //     serviceAPI
+    //       .createFile({
+    //         versionId: route.params.versionId,
+    //         name: nameFolder.value,
+    //         path: [...path, nameFolder.value].join('/')
+    //       })
+    //       .then(() => {
+    //         emit('update:files')
+    //         paths.add([...path, nameFolder.value].join('/'))
+    //       })
+    //       .catch((err) => {
+    //         if (err.response.status == 400) {
+    //           NotiFileList({
+    //             type: 'saveImage',
+    //             message: err.response.data.message
+    //           })
+    //         } else NotiError('Failed to create new file!')
+    //       })
+    //       .finally(() => {
+    //         newFolder.value = ''
+    //         nameFolder.value = ''
+    //         loading.value = false
+    //       })
+    //   }
+    //   return
+    // }
 
-      if (!nameFolder.value) {
-        errorText.value = `Image name is required!`
-        return
-      }
-      let path = selectedKeys.value[0]?.split('/') || []
-      if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
+    // const saveImage = () => {
+    //   if (!imageFile.value) {
+    //     errorText.value = `Image file is required!`
+    //     return
+    //   }
 
-      const ext = imageFile.value.name.split('.').pop()
-      const filePath = [...path, nameFolder.value].join('/') + '.' + ext
+    //   if (!nameFolder.value) {
+    //     errorText.value = `Image name is required!`
+    //     return
+    //   }
+    //   let path = selectedKeys.value[0]?.split('/') || []
+    //   if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
 
-      if (paths.has(filePath)) {
-        errorText.value = `A image with this name already exists`
-        return
-      }
+    //   const ext = imageFile.value.name.split('.').pop()
+    //   const filePath = [...path, nameFolder.value].join('/') + '.' + ext
 
-      const formData = new FormData()
-      formData.append('file', imageFile.value)
-      formData.append('name', nameFolder.value)
-      formData.append('versionId', route.params.versionId)
-      formData.append('path', filePath)
+    //   if (paths.has(filePath)) {
+    //     errorText.value = `A image with this name already exists`
+    //     return
+    //   }
 
-      serviceAPI
-        .uploadFile(formData)
-        .then(() => {
-          emit('update:files')
-          paths.add(filePath)
-        })
-        .catch((err) => {
-          if (err.response.status == 400) {
-            NotiFileList({
-              type: 'saveImage',
-              message: err.response.data.message
-            })
-          } else NotiError('Failed to create new file!')
-        })
-        .finally(() => {
-          openUpload.value = false
-          nameFolder.value = ''
-          loading.value = false
-        })
-    }
+    //   const formData = new FormData()
+    //   formData.append('file', imageFile.value)
+    //   formData.append('name', nameFolder.value)
+    //   formData.append('versionId', route.params.versionId)
+    //   formData.append('path', filePath)
+
+    //   serviceAPI
+    //     .uploadFile(formData)
+    //     .then(() => {
+    //       emit('update:files')
+    //       paths.add(filePath)
+    //     })
+    //     .catch((err) => {
+    //       if (err.response.status == 400) {
+    //         NotiFileList({
+    //           type: 'saveImage',
+    //           message: err.response.data.message
+    //         })
+    //       } else NotiError('Failed to create new file!')
+    //     })
+    //     .finally(() => {
+    //       openUpload.value = false
+    //       nameFolder.value = ''
+    //       loading.value = false
+    //     })
+    // }
 
     function onFileChanged($event) {
       const target = $event.target
@@ -578,39 +584,80 @@ export default defineComponent({
       files.value = buildDirectoryStructure(props.initData).sort(compareFile)
     })
 
-    watch(
-      () => [nameFolder.value],
-      ([value]) => {
-        if (errorText.value && value) errorText.value = ''
+    // watch(
+    //   () => [nameFolder.value],
+    //   ([value]) => {
+    //     if (errorText.value && value) errorText.value = ''
+    //   }
+    // )
+
+    const onDownload = (dataRef) => {
+      console.log(dataRef)
+      if (!dataRef.id) {
+        emit('downloadFolder', dataRef)
+        return
       }
-    )
+      if (dataRef.typeFile === 'tex') {
+        const fileInfo = props.initData.find((e) => e.id === dataRef.id)
+        let file = new Blob([localStorage.getItem(dataRef.id) || fileInfo.content], {
+          type: 'text/plain'
+        })
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(file)
+        link.setAttribute('download', dataRef.title)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        return
+      }
+
+      if (loading.value) return
+
+      loading.value = true
+      serviceAPI
+        .downloadFile(dataRef.id)
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', dataRef.title)
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        })
+        .catch((err) => {
+          NotiError('failed')
+        })
+        .finally(() => {
+          loading.value = false
+        })
+    }
 
     return {
       selectedKeys,
       expandedKeys,
       files,
-      nameFolder,
-      newFolder,
-      saveFolder,
+      // saveFolder,
       onNewFolder,
-      errorText,
-      openUpload,
-      saveImage,
+      // openUpload,
+      // saveImage,
       imageFile,
       onFileChanged,
       isMulti,
       onDelete,
       onChangeSelectedKeys,
-      open1
+      open1,
+      onDownload,
+      popup
     }
   }
 })
 </script>
 
 <style lang="scss">
-.ant-modal .ant-input {
-  margin: 16px 0;
-}
+// .ant-modal .ant-input {
+//   margin: 16px 0;
+// }
 
 .icon-select {
   width: 20px;
@@ -619,6 +666,10 @@ export default defineComponent({
 .icon-btn {
   padding: 2px;
   height: 24px;
+}
+
+.ant-tree-treenode-selected .row-directory .anticon {
+  opacity: 100;
 }
 
 .row-directory {

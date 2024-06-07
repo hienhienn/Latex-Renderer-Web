@@ -66,9 +66,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.ant-modal .ant-input {
-  margin: 16px 0 4px;
-}
+// .ant-modal .ant-input {
+//   margin: 16px 0 4px;
+// }
 
 .title-text {
   font-size: 18px;

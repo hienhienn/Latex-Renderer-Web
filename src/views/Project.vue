@@ -147,24 +147,25 @@
                         @select="(e) => onChangeRole(e, member.id)"
                         style="width: 120px"
                       >
-                        <a-select-option value="owner" style="display: none" :id="member.id"
-                          >Owner</a-select-option
-                        >
+                        <a-select-option value="owner" style="display: none" :id="member.id">
+                          Owner
+                        </a-select-option>
                         <a-select-option value="editor">Editor</a-select-option>
                         <a-select-option value="viewer">Viewer</a-select-option>
                         <template #dropdownRender="{ menuNode }">
                           <VNodes :vnodes="menuNode" />
                           <a-divider style="margin: 4px 0" />
-                          <a-button type="text" style="width: 100%; text-align: start"
-                            >Set owner</a-button
-                          >
+                          <a-button type="text" style="width: 100%; text-align: start">
+                            Set owner
+                          </a-button>
                           <a-button
                             danger
                             type="text"
                             style="width: 100%; text-align: start"
                             @click="(e) => removeMember(e, member.id)"
-                            >Remove</a-button
                           >
+                            Remove
+                          </a-button>
                         </template>
                       </a-select>
                     </div>
@@ -230,6 +231,7 @@
             :initData="files"
             @changeSelected="onChangeSelected"
             @update:files="() => onUpdateFiles(true)"
+            @downloadFolder="onDownloadFolder"
           />
         </div>
       </vue-resizable>
@@ -763,6 +765,33 @@ export default defineComponent({
         })
     }
 
+    const onDownloadFolder = (event) => {
+      console.log(event)
+      serviceAPI
+        .downloadFolder({
+          code: code,
+          files: files.value
+            .filter((e) => e.isCompile === false)
+            .map((e) => ({
+              name: e.name,
+              path: e.path,
+              content: localStorage.getItem(e.id) || e.content,
+              type: e.type
+            })),
+          folderPath: event.key,
+          folderName: event.title
+        })
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', `${event.title}.zip`)
+          document.body.appendChild(link)
+          link.click()
+        })
+        .catch(() => NotiError(''))
+    }
+
     return {
       show,
       files,
@@ -802,7 +831,8 @@ export default defineComponent({
       addMemberState,
       cancelAdd,
       addMember,
-      removeMember
+      removeMember,
+      onDownloadFolder
     }
   }
 })
