@@ -387,6 +387,7 @@ export default defineComponent({
     const onClose = () => {
       open.value = false
     }
+    console.log(currentFile)
 
     window.addEventListener('beforeunload', function (event) {
       serviceAPI.deleteCompile(code)
@@ -466,6 +467,7 @@ export default defineComponent({
     })
 
     const onChangeSelected = (event) => {
+      console.log(event)
       if (event == null) {
         currentFile.value = null
         return

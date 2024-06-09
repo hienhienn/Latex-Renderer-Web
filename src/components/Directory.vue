@@ -30,7 +30,12 @@
             </a-button>
           </a-tooltip>
           <a-tooltip title="New image">
-            <a-button v-if="!isMulti" type="text" class="icon-btn">
+            <a-button
+              v-if="!isMulti"
+              type="text"
+              class="icon-btn"
+              @click="() => (openImage = true)"
+            >
               <img src="/icons/file-image.svg" class="icon-select" />
             </a-button>
           </a-tooltip>
@@ -65,7 +70,7 @@
                 size="small"
                 v-model:value="name"
                 ref="input"
-                @blur="() => handleBlurName(dataRef.typeFile)"
+                @blur="() => handleBlurName(dataRef)"
                 @pressEnter="() => input.blur()"
               ></a-input>
             </span>
@@ -112,11 +117,17 @@
     </a-row>
     <div class="tree-container"></div>
   </div>
-  <a-modal v-model:open="openUpload" title="Upload new image" okText="Save" @ok="saveImage">
+  <!-- <a-modal v-model:open="openUpload" title="Upload new image" okText="Save" @ok="saveImage">
     <input type="file" @change="onFileChanged($event)" accept="image/*" capture />
     <a-input v-model:value="nameFolder" placeholder="Image name" />
     <a-typography-text type="danger">{{ errorText }}</a-typography-text>
-  </a-modal>
+  </a-modal> -->
+  <AddNewImage
+    v-model:open="openImage"
+    :selectedKeys="selectedKeys"
+    :listFile="initData"
+    @update:files="onUpdateFiles"
+  />
 </template>
 
 <script>
@@ -132,7 +143,7 @@ import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
 import { Confirm } from '@/services/confirm'
-import AddFolderPopUp from '@/components/AddFolderPopUp.vue'
+import AddNewImage from '@/components/AddNewImage.vue'
 import { notification, Button } from 'ant-design-vue'
 import FileIcon from '../../public/icons/file.svg'
 import FileImageIcon from '../../public/icons/file-image.svg'
@@ -150,7 +161,7 @@ export default defineComponent({
     FolderIcon,
     FolderOpenIcon,
     MoreOutlined,
-    AddFolderPopUp
+    AddNewImage
   },
   props: {
     initData: {
@@ -272,28 +283,90 @@ export default defineComponent({
       console.log(files.value)
     }
 
-    const handleBlurName = (type) => {
-      if (!name.value) {
-        files.value = deleteNode(files.value, [...parts])
-      }
-      let parts = selectedKeys.value[0]?.split('/') || []
-      if (parts.length > 0 && parts[parts.length - 1].includes('.')) parts.pop()
-      const oldPath = [...parts]
-      const newName = generateUniqueName(name.value, parts)
-      parts.push(newName)
-      files.value = updateNode(files.value, [...oldPath, 'new'], {
-        title: newName,
-        key: parts.join('/'),
-        isSave: true,
-        id: 'folder'
-      })
-      paths.add(parts.join('/'))
-      if (type === 'tex') {
+    const handleBlurName = (dataRef) => {
+      console.log(dataRef.title)
+      if (dataRef.title === 'new') {
+        let parts = selectedKeys.value[0]?.split('/') || []
+        if (parts.length > 0 && parts[parts.length - 1].includes('.')) parts.pop()
+        const oldPath = [...parts]
+
+        const newName = generateUniqueName(name.value, parts)
+        parts.push(newName)
+
+        if (!name.value) {
+          files.value = deleteNode(files.value, [...oldPath, 'new'])
+          return
+        }
+
+        files.value = updateNode(files.value, [...oldPath, 'new'], {
+          title: newName,
+          key: parts.join('/'),
+          isSave: true,
+          id: 'folder'
+        })
+        paths.add(parts.join('/'))
+        if (dataRef.typeFile === 'tex') {
+          serviceAPI
+            .createFile({
+              versionId: route.params.versionId,
+              name: newName,
+              path: parts.join('/')
+            })
+            .then(() => {
+              emit('update:files')
+            })
+            .catch((err) => {
+              files.value = deleteNode(files.value, selectedKeys.value[0].split('/'))
+              if (err.response.status == 400) {
+                NotiFileList({
+                  type: 'saveImage',
+                  message: err.response.data.message
+                })
+              } else NotiError('Failed to create new file!')
+            })
+        }
+      } else if (dataRef.title === 'folder') {
+        const parts = dataRef.key.split('/')
+        parts.shift()
+        const updateFiles = props.initData.filter((e) => e.path.startsWith(parts.join('/')))
+        parts.pop()
+        const newName = generateUniqueName(name.value, parts)
+        parts.push(newName)
+        Promise.all(
+          updateFiles.map((e) => {
+            return serviceAPI
+              .updateFile(e.id, {
+                versionId: route.params.versionId,
+                name: newName,
+                path: parts.concat(e.path.split('/').slice(parts.length)).join('/'),
+                shaCode: e.localShaCode || e.shaCode
+              })
+              .catch((err) => {
+                if (err.response.status == 400) {
+                  NotiFileList({
+                    type: 'saveImage',
+                    message: err.response.data.message,
+                    id: err.response.data.id
+                  })
+                } else NotiError('Failed to rename this file!')
+              })
+          })
+        ).finally(() => {
+          emit('update:files')
+        })
+      } else {
+        const parts = dataRef.key.split('/')
+        parts.shift()
+        parts.pop()
+        const newName = generateUniqueName(name.value, parts)
+        parts.push(newName)
+        const file = props.initData.find((e) => e.id === dataRef.title)
         serviceAPI
-          .createFile({
+          .updateFile(dataRef.title, {
             versionId: route.params.versionId,
             name: newName,
-            path: parts.join('/')
+            path: parts.join('/'),
+            shaCode: file.localShaCode || file.shaCode
           })
           .then(() => {
             emit('update:files')
@@ -305,7 +378,7 @@ export default defineComponent({
                 type: 'saveImage',
                 message: err.response.data.message
               })
-            } else NotiError('Failed to create new file!')
+            } else NotiError('Failed to update this file!')
           })
       }
     }
@@ -412,54 +485,6 @@ export default defineComponent({
       return root
     }
 
-    // const saveImage = () => {
-    //   if (!imageFile.value) {
-    //     errorText.value = `Image file is required!`
-    //     return
-    //   }
-
-    //   if (!nameFolder.value) {
-    //     errorText.value = `Image name is required!`
-    //     return
-    //   }
-    //   let path = selectedKeys.value[0]?.split('/') || []
-    //   if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
-
-    //   const ext = imageFile.value.name.split('.').pop()
-    //   const filePath = [...path, nameFolder.value].join('/') + '.' + ext
-
-    //   if (paths.has(filePath)) {
-    //     errorText.value = `A image with this name already exists`
-    //     return
-    //   }
-
-    //   const formData = new FormData()
-    //   formData.append('file', imageFile.value)
-    //   formData.append('name', nameFolder.value)
-    //   formData.append('versionId', route.params.versionId)
-    //   formData.append('path', filePath)
-
-    //   serviceAPI
-    //     .uploadFile(formData)
-    //     .then(() => {
-    //       emit('update:files')
-    //       paths.add(filePath)
-    //     })
-    //     .catch((err) => {
-    //       if (err.response.status == 400) {
-    //         NotiFileList({
-    //           type: 'saveImage',
-    //           message: err.response.data.message
-    //         })
-    //       } else NotiError('Failed to create new file!')
-    //     })
-    //     .finally(() => {
-    //       openUpload.value = false
-    //       nameFolder.value = ''
-    //       loading.value = false
-    //     })
-    // }
-
     function onFileChanged($event) {
       const target = $event.target
       if (target && target.files) {
@@ -543,6 +568,7 @@ export default defineComponent({
     }
 
     const onChangeSelectedKeys = (event) => {
+      console.log(event)
       // không chọn file nào
       if (event.length === 0 || !event) {
         emit('changeSelected', null)
@@ -609,6 +635,10 @@ export default defineComponent({
         })
     }
 
+    const onUpdateFiles = () => {
+      emit('update:files')
+    }
+
     return {
       selectedKeys,
       expandedKeys,
@@ -626,7 +656,8 @@ export default defineComponent({
       handleBlurName,
       input,
       onRename,
-      openImage
+      openImage,
+      onUpdateFiles
     }
   }
 })
@@ -753,7 +784,7 @@ export default defineComponent({
     }
 
     .tree-container {
-      max-height: calc(100vh - 102px);
+      max-height: calc(100vh - 140px);
       overflow: auto;
     }
   }
