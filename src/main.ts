@@ -1,6 +1,5 @@
 import './assets/main.css'
-
-import { createApp } from 'vue'
+import { createApp, type Directive } from 'vue'
 import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor'
 import App from './App.vue'
 import router from './router'

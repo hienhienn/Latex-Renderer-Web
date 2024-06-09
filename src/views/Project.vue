@@ -504,7 +504,7 @@ export default defineComponent({
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
           const prev = files.value
-          files.value = res.data.map((e, id) => {
+          files.value = res.data.map((e) => {
             const prevE = prev.find((prv) => prv.id === e.id)
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)

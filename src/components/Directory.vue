@@ -13,7 +13,7 @@
               v-if="!isMulti"
               type="text"
               class="icon-btn"
-              @click="() => onNewFolder('folder', 'add')"
+              @click="() => onNewDirectory('folder')"
             >
               <img src="/icons/folder-add.svg" class="icon-select" />
             </a-button>
@@ -24,7 +24,7 @@
               v-if="!isMulti"
               type="text"
               class="icon-btn"
-              @click="() => onNewFolder('file', 'add')"
+              @click="() => onNewDirectory('file')"
             >
               <img src="/icons/file-add.svg" class="icon-select" />
             </a-button>
@@ -39,7 +39,7 @@
           <a-button
             type="text"
             class="icon-btn"
-            @click="onDelete"
+            @click="() => onDelete(selectedKeys)"
             style="position: relative; top: 4px"
           >
             <img src="/icons/trash.svg" class="icon-select" />
@@ -53,24 +53,33 @@
         :style="{ height: '100%', borderRight: 0 }"
         v-model:selectedKeys="selectedKeys"
         v-model:expandedKeys="expandedKeys"
-        :tree-data="files"
+        :tree-data="files.children"
         multiple
         @select="onChangeSelectedKeys"
       >
         <template #title="{ dataRef }">
           <a-row justify="space-between" class="row-directory" :class="{ save: dataRef.isSave }">
-            <span>{{ dataRef.title }}</span>
+            <span v-if="dataRef.id !== 'input'">{{ dataRef.title }}</span>
+            <span v-if="dataRef.id === 'input'">
+              <a-input
+                size="small"
+                v-model:value="name"
+                ref="input"
+                @blur="() => handleBlurName(dataRef.typeFile)"
+                @pressEnter="() => input.blur()"
+              ></a-input>
+            </span>
             <a-space>
               <span style="font-weight: 600" v-if="!dataRef.isSave">U</span>
-              <a-dropdown :trigger="['click']">
+              <a-dropdown :trigger="['click']" v-if="dataRef.id !== 'input'">
                 <div @click="(e) => e.stopPropagation()">
                   <MoreOutlined />
                 </div>
                 <template #overlay>
                   <a-menu>
                     <a-menu-item @click="() => onDownload(dataRef)">Download</a-menu-item>
-                    <a-menu-item>Rename</a-menu-item>
-                    <a-menu-item>Delete</a-menu-item>
+                    <a-menu-item @click="() => onRename(dataRef)">Rename</a-menu-item>
+                    <a-menu-item @click="() => onDelete([dataRef.key])">Delete</a-menu-item>
                   </a-menu>
                 </template>
               </a-dropdown>
@@ -100,101 +109,18 @@
         <caret-right-outlined class="toggle-ic" />
         <a-typography-text class="title-text-directory" strong>UNSAVED FILES</a-typography-text>
       </a-space>
-
-      <!-- <a-space align="center" class="control-btns">
-        <a-row>
-          <a-tooltip title="New folder">
-            <a-button
-              v-if="!isMulti"
-              type="text"
-              class="icon-btn"
-              @click="() => onNewFolder('folder')"
-            >
-              <img src="/icons/folder-add.svg" class="icon-select" />
-            </a-button>
-          </a-tooltip>
-
-          <a-tooltip title="New file">
-            <a-button
-              v-if="!isMulti"
-              type="text"
-              class="icon-btn"
-              @click="() => onNewFolder('file')"
-            >
-              <img src="/icons/file-add.svg" class="icon-select" />
-            </a-button>
-          </a-tooltip>
-          <a-tooltip title="New image">
-            <a-button
-              v-if="!isMulti"
-              type="text"
-              class="icon-btn"
-              @click="() => (openUpload = true)"
-            >
-              <img src="/icons/file-image.svg" class="icon-select" />
-            </a-button>
-          </a-tooltip>
-        </a-row>
-        <a-tooltip title="Delete">
-          <a-button type="text" class="icon-btn" @click="onDelete">
-            <img src="/icons/trash.svg" class="icon-select" />
-          </a-button>
-        </a-tooltip>
-      </a-space> -->
     </a-row>
-    <div class="tree-container">
-      <!-- <a-directory-tree
-        mode="inline"
-        :style="{ height: '100%', borderRight: 0 }"
-        v-model:selectedKeys="selectedKeys"
-        v-model:expandedKeys="expandedKeys"
-        :tree-data="files"
-        multiple
-        @select="onChangeSelectedKeys"
-      >
-        <template #title="{ dataRef }">
-          <a-row justify="space-between" class="row-directory">
-            <span>{{ dataRef.title }}</span>
-            <span>M</span>
-          </a-row>
-        </template>
-        <template #icon="{ dataRef, expanded }">
-          <template v-if="dataRef.isLeaf && dataRef.typeFile === 'tex'">
-            <img src="/icons/file.svg" class="icon-directory" />
-          </template>
-          <template v-else-if="dataRef.isLeaf && dataRef.typeFile === 'img'">
-            <img src="/icons/file-image.svg" class="icon-directory" />
-          </template>
-          <template v-else-if="expanded">
-            <img src="/icons/folder-open.svg" class="icon-directory" />
-          </template>
-          <template v-else>
-            <img src="/icons/folder.svg" class="icon-directory" />
-          </template>
-        </template>
-      </a-directory-tree> -->
-    </div>
+    <div class="tree-container"></div>
   </div>
-  <!-- <a-modal
-    :open="newFolder == 'file' || newFolder == 'folder'"
-    :title="`New ${newFolder}`"
-    okText="Save"
-    @ok="saveFolder"
-    @cancel="() => (newFolder = '')"
-  >
-    <a-input v-model:value="nameFolder" :placeholder="`${newFolder} name`" />
-    <a-typography-text type="danger">{{ errorText }}</a-typography-text>
-  </a-modal>
   <a-modal v-model:open="openUpload" title="Upload new image" okText="Save" @ok="saveImage">
     <input type="file" @change="onFileChanged($event)" accept="image/*" capture />
     <a-input v-model:value="nameFolder" placeholder="Image name" />
     <a-typography-text type="danger">{{ errorText }}</a-typography-text>
-  </a-modal> -->
-  <AddFolderPopUp :open="popup.open === 'folder'" :typePopUp="popup.typePopUp" />
+  </a-modal>
 </template>
 
 <script>
-import { computed, defineComponent, h, ref, watch, watchEffect } from 'vue'
+import { computed, defineComponent, h, ref, watchEffect } from 'vue'
 import {
   UploadOutlined,
   DeleteFilled,
@@ -251,6 +177,9 @@ export default defineComponent({
     const imageFile = ref()
     const isMulti = computed(() => selectedKeys.value.length > 1)
     const open1 = ref(true)
+    const name = ref('')
+    const input = ref()
+    const openImage = ref(false)
 
     const compareFile = (a, b) => {
       let aIsLeaf = a.isLeaf ? 1 : 0
@@ -270,55 +199,196 @@ export default defineComponent({
       return 0
     }
 
-    console.log(popup.value.open === 'folder')
+    const onNewDirectory = (open) => {
+      let parts = selectedKeys.value[0]?.split('/') || []
+      if (parts.length > 0 && parts[parts.length - 1].includes('.')) parts.pop()
+      parts.push('new')
+      const id = parts.join('/')
+      if (open === 'folder') {
+        name.value = 'New folder'
 
-    const onNewFolder = (open, typePopUp) => {
-      console.log('o')
-      popup.value = {
-        open,
-        typePopUp
+        files.value = insertPath(files.value, [...parts], {
+          title: '',
+          key: `/${id}`,
+          children: [],
+          isLeaf: false,
+          id: 'input',
+          isSave: true
+        })
+        parts.pop()
+        const key = parts.join('/')
+        if (!!key && !expandedKeys.value.includes(key)) {
+          expandedKeys.value.push(key)
+          expandedKeys.value = [...expandedKeys.value]
+        }
+        setTimeout(() => {
+          input.value.focus()
+          input.value.select()
+        }, 300)
+      } else if (open === 'file') {
+        name.value = 'New file.tex'
+        files.value = insertPath(
+          files.value,
+          [...parts],
+          {
+            title: '',
+            key: `/${id}`,
+            isLeaf: true,
+            id: 'input',
+            isSave: true,
+            typeFile: 'tex'
+          },
+          true
+        )
+        parts.pop()
+        const key = parts.join('/')
+        if (!!key && !expandedKeys.value.includes(key)) {
+          expandedKeys.value.push(key)
+          expandedKeys.value = [...expandedKeys.value]
+        }
+        setTimeout(() => {
+          input.value.focus()
+          input.value.setSelectionRange(0, 8)
+        }, 300)
       }
     }
 
-    const deepSet = (obj, path, value) => {
-      let lastKey = path.pop()
-      let lastObj = path.reduce((acc, key) => {
-        if (acc[key] === undefined) {
-          acc[key] = {}
-        }
-        return acc[key]
-      }, obj)
+    const onRename = (event) => {
+      const title = event.title
+      const path = event.key.split('/')
+      name.value = event.title
+      files.value = updateNode(files.value, path, {
+        title: event.id,
+        key: '/' + event.key,
+        id: 'input'
+      })
+      setTimeout(() => {
+        const ext = title.split('.').pop()
+        input.value.focus()
+        input.value.setSelectionRange(0, title.length - ext.length - 1)
+        console.log(title, ext, title.length - ext.length - 1)
+      }, 0)
 
-      lastObj[lastKey].push(value)
-      lastObj[lastKey].sort(compareFile)
+      console.log(files.value)
+    }
+
+    const handleBlurName = (type) => {
+      if (!name.value) {
+        files.value = deleteNode(files.value, [...parts])
+      }
+      let parts = selectedKeys.value[0]?.split('/') || []
+      if (parts.length > 0 && parts[parts.length - 1].includes('.')) parts.pop()
+      const oldPath = [...parts]
+      const newName = generateUniqueName(name.value, parts)
+      parts.push(newName)
+      files.value = updateNode(files.value, [...oldPath, 'new'], {
+        title: newName,
+        key: parts.join('/'),
+        isSave: true,
+        id: 'folder'
+      })
+      paths.add(parts.join('/'))
+      if (type === 'tex') {
+        serviceAPI
+          .createFile({
+            versionId: route.params.versionId,
+            name: newName,
+            path: parts.join('/')
+          })
+          .then(() => {
+            emit('update:files')
+          })
+          .catch((err) => {
+            files.value = deleteNode(files.value, selectedKeys.value[0].split('/'))
+            if (err.response.status == 400) {
+              NotiFileList({
+                type: 'saveImage',
+                message: err.response.data.message
+              })
+            } else NotiError('Failed to create new file!')
+          })
+      }
+    }
+
+    function generateUniqueName(baseName, parts) {
+      const ext = baseName.split('.').pop()
+      const noExt = ext.length === baseName.length
+
+      const nameWithoutExt = noExt ? baseName : baseName.slice(0, baseName.length - ext.length - 1)
+
+      let folderName = baseName
+      let counter = 1
+      while (paths.has([...parts, folderName].join('/'))) {
+        folderName = noExt ? `${baseName} (${counter})` : `${nameWithoutExt} (${counter}).${ext}`
+        counter += 1
+      }
+      return folderName
     }
 
     function insertPath(node, parts, item, isLeaf = false) {
-      if (parts.length === 0) return
-
+      if (parts.length === 0) return node
       const part = parts.shift()
       let child = node.children.find((c) => c.title === part)
-
       if (!child) {
         child = {
           title: part,
           key: node.key ? `${node.key}/${part}` : part,
           children: [],
           isLeaf: false,
-          isSave: item.isSave
+          isSave: true,
+          id: item.id === 'input' ? 'input' : 'folder'
         }
         node.children.push(child)
         node.children.sort(compareFile)
         paths.add(node.key ? `${node.key}/${part}` : part)
       }
-
       if (parts.length === 0 && isLeaf) {
         child.isLeaf = true
         child.id = item.id
         child.typeFile = item.typeFile
+        child.isSave = item.isSave
       } else {
         insertPath(child, parts, item, isLeaf)
       }
+      return node
+    }
+
+    function updateNode(node, parts, newItem) {
+      console.log(parts)
+      if (parts.length === 0) return
+
+      const part = parts.shift()
+      let child = node.children.find((c) => c.title === part)
+
+      if (!child) return node
+
+      if (parts.length === 0) {
+        child.title = newItem.title !== undefined ? newItem.title : child.title
+        child.key = newItem.key !== undefined ? newItem.key : child.key
+        child.isSave = newItem.isSave !== undefined ? newItem.isSave : child.isSave
+        child.id = newItem.id !== undefined ? newItem.id : child.id
+        child.typeFile = newItem.typeFile !== undefined ? newItem.typeFile : child.typeFile
+      } else {
+        updateNode(child, parts, newItem)
+      }
+
+      return node
+    }
+
+    function deleteNode(node, parts) {
+      if (parts.length === 0) return node
+
+      const part = parts.shift()
+      const childIndex = node.children.findIndex((c) => c.title === part)
+
+      if (childIndex === -1) return node
+
+      if (parts.length === 0) {
+        node.children.splice(childIndex, 1)
+      } else {
+        deleteNode(node.children[childIndex], parts)
+      }
+      return node
     }
 
     function buildDirectoryStructure(files) {
@@ -327,7 +397,6 @@ export default defineComponent({
       files.forEach((file) => {
         const parts = file.path.split('/')
         const fileName = parts.pop()
-        insertPath(root, parts, file)
         const leafNode = {
           title: fileName,
           key: `${root.path}/${file.path}`,
@@ -340,97 +409,8 @@ export default defineComponent({
         insertPath(root, file.path.split('/'), leafNode, true)
       })
 
-      return root.children
+      return root
     }
-
-    console.log('123', popup.value)
-
-    // const saveFolder = () => {
-    //   if (!nameFolder.value) {
-    //     errorText.value = `${newFolder.value} name is required!`
-    //     return
-    //   }
-
-    //   if (newFolder.value === 'file') nameFolder.value += '.tex'
-
-    //   let path = selectedKeys.value[0]?.split('/') || []
-    //   if (path.length > 0 && path[path.length - 1].includes('.')) path.pop()
-
-    //   if (paths.has([...path, nameFolder.value].join('/'))) {
-    //     errorText.value = `A ${newFolder.value} with this name already exists`
-    //     return
-    //   }
-
-    //   if (newFolder.value === 'folder') {
-    //     let pathToObj = []
-    //     let id = []
-
-    //     path.forEach((p) => {
-    //       let i = -1
-    //       if (id.length === 0) {
-    //         i = files.value.findIndex((e) => e.title === p)
-    //       } else {
-    //         let targetArray = [...files.value]
-    //         for (const idx of id) {
-    //           targetArray = targetArray[idx].children
-    //         }
-    //         i = targetArray.findIndex((e) => e.title === p)
-    //       }
-    //       pathToObj.push(i, 'children')
-    //       id.push(i)
-    //     })
-    //     if (pathToObj.length === 0) {
-    //       files.value = [
-    //         ...files.value,
-    //         {
-    //           key: nameFolder.value,
-    //           title: nameFolder.value,
-    //           children: [],
-    //           isLeaf: false
-    //         }
-    //       ]
-    //       files.value.sort(compareFile)
-    //       paths.add(nameFolder.value)
-    //     } else {
-    //       deepSet(files.value, pathToObj, {
-    //         title: nameFolder.value,
-    //         key: [...path, nameFolder.value].join('/'),
-    //         children: [],
-    //         isLeaf: false
-    //       })
-    //       paths.add([...path, nameFolder.value].join('/'))
-    //     }
-    //     newFolder.value = ''
-    //     nameFolder.value = ''
-    //   } else {
-    //     if (loading.value) return
-    //     loading.value = true
-    //     serviceAPI
-    //       .createFile({
-    //         versionId: route.params.versionId,
-    //         name: nameFolder.value,
-    //         path: [...path, nameFolder.value].join('/')
-    //       })
-    //       .then(() => {
-    //         emit('update:files')
-    //         paths.add([...path, nameFolder.value].join('/'))
-    //       })
-    //       .catch((err) => {
-    //         if (err.response.status == 400) {
-    //           NotiFileList({
-    //             type: 'saveImage',
-    //             message: err.response.data.message
-    //           })
-    //         } else NotiError('Failed to create new file!')
-    //       })
-    //       .finally(() => {
-    //         newFolder.value = ''
-    //         nameFolder.value = ''
-    //         loading.value = false
-    //       })
-    //   }
-    //   return
-    // }
 
     // const saveImage = () => {
     //   if (!imageFile.value) {
@@ -487,13 +467,13 @@ export default defineComponent({
       }
     }
 
-    const onDelete = () => {
+    const onDelete = (keys) => {
       Confirm({
         content: 'Are you sure to delete these files?',
         okText: 'Delete',
         onOk() {
           const deleteFiles = props.initData.filter(
-            (e) => selectedKeys.value.findIndex((k) => e.path.startsWith(k)) !== -1
+            (e) => keys.findIndex((k) => e.path.startsWith(k)) !== -1
           )
           if (loading.value) return
           loading.value = true
@@ -581,19 +561,15 @@ export default defineComponent({
     }
 
     watchEffect(() => {
-      files.value = buildDirectoryStructure(props.initData).sort(compareFile)
+      files.value = buildDirectoryStructure(props.initData)
     })
 
-    // watch(
-    //   () => [nameFolder.value],
-    //   ([value]) => {
-    //     if (errorText.value && value) errorText.value = ''
-    //   }
-    // )
+    watchEffect(() => {
+      console.log(props.initData)
+    })
 
     const onDownload = (dataRef) => {
-      console.log(dataRef)
-      if (!dataRef.id) {
+      if (!dataRef.isLeaf) {
         emit('downloadFolder', dataRef)
         return
       }
@@ -637,10 +613,7 @@ export default defineComponent({
       selectedKeys,
       expandedKeys,
       files,
-      // saveFolder,
-      onNewFolder,
-      // openUpload,
-      // saveImage,
+      onNewDirectory,
       imageFile,
       onFileChanged,
       isMulti,
@@ -648,7 +621,12 @@ export default defineComponent({
       onChangeSelectedKeys,
       open1,
       onDownload,
-      popup
+      popup,
+      name,
+      handleBlurName,
+      input,
+      onRename,
+      openImage
     }
   }
 })
@@ -674,8 +652,16 @@ export default defineComponent({
 
 .row-directory {
   display: inline-flex;
+  flex-wrap: nowrap;
   width: calc(100% - 30px);
   color: #965e00;
+
+  > span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: auto;
+    overflow: hidden;
+  }
 
   .anticon {
     opacity: 0;
@@ -719,8 +705,10 @@ export default defineComponent({
     }
   }
   .icon-directory {
-    transform: scale(0.667);
-    height: 21px;
+    transform: scale(0.8);
+    position: relative;
+    top: 2px;
+    // height: 21px;
 
     path {
       stroke: #965e00;
@@ -733,6 +721,11 @@ export default defineComponent({
 
   .ant-tree {
     border-radius: 0;
+
+    .ant-tree-treenode {
+      padding: 4px 0 8px 0;
+      font-size: 18px;
+    }
 
     .ant-tree-treenode:hover {
       background: #f2f0f9;
