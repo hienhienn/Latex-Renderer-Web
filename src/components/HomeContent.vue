@@ -1,6 +1,6 @@
 <template>
   <a-row justify="space-between" class="row-search">
-    <a-input v-model:value="searchText" placeholder="Type here to search">
+    <a-input v-model:value="searchText" placeholder="Type here to search" allow-clear>
       <template #prefix>
         <search-outlined />
       </template>
@@ -84,7 +84,7 @@ import AvatarApp from '@/components/common/AvatarApp.vue'
 export default defineComponent({
   props: {
     category: {
-      type: String,
+      type: String
     },
     user: {
       type: Object

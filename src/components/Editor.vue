@@ -36,7 +36,8 @@ import { defineComponent, h, ref, shallowRef, watch, computed } from 'vue'
 import { serviceAPI } from '@/services/API'
 import { Button, notification } from 'ant-design-vue'
 import { NotiError } from '@/services/notification'
-import latexLang from '@/latex/latex-lang'
+import tokensProvider from '@/latex/tokens-provider'
+import languageConfig from '@/latex/language-config'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
@@ -67,8 +68,8 @@ export default defineComponent({
       formatOnPaste: true,
       autoClosingBrackets: 'always',
       scrollBeyondLastLine: false,
-      wordWrap: 'wordWrapColumn',
-      wordWrapColumn: 80,
+      // wordWrap: 'wordWrapColumn',
+      // wordWrapColumn: 80,
       readOnly: props.readonly
     }
     const isSave = computed(() => code.value === props.initData.content)
@@ -82,7 +83,8 @@ export default defineComponent({
     const editorRef = shallowRef()
     const handleMount = (editor, monaco) => {
       monaco.languages.register({ id: 'latex' })
-      monaco.languages.setMonarchTokensProvider('latex', latexLang as any)
+      monaco.languages.setMonarchTokensProvider('latex', tokensProvider as any)
+      monaco.languages.setLanguageConfiguration('latex', languageConfig as any)
       editorRef.value = editor
     }
 

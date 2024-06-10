@@ -6,7 +6,14 @@
           <img src="/icons/user.svg" />
         </a>
         <a-space style="line-height: 24px">
-          <p class="title-project">{{ project?.name }}</p>
+          <a-input
+            ref="inputRef"
+            v-model:value="editProjectName"
+            @blur="onBlurInput"
+            @pressEnter="() => inputRef.blur()"
+            :style="{ width: inputWidth + 'px'}"
+          />
+          <!-- <p class="title-project">{{ project?.name }}</p> -->
           <StarIcon />
         </a-space>
       </a-space>
@@ -379,6 +386,9 @@ export default defineComponent({
       members: [],
       role: 'viewer'
     })
+    const editProjectName = ref('')
+    const inputWidth = computed(() => 24 + editProjectName.value.length * 9.2)
+    const inputRef = ref()
 
     const showDrawer = () => {
       open.value = true
@@ -387,7 +397,6 @@ export default defineComponent({
     const onClose = () => {
       open.value = false
     }
-    console.log(currentFile)
 
     window.addEventListener('beforeunload', function (event) {
       serviceAPI.deleteCompile(code)
@@ -464,6 +473,10 @@ export default defineComponent({
 
     watchEffect(() => {
       description.value = 'Version ' + project.value?.versions.length
+    })
+
+    watchEffect(() => {
+      editProjectName.value = project.value?.name || ''
     })
 
     const onChangeSelected = (event) => {
@@ -794,6 +807,28 @@ export default defineComponent({
         .catch(() => NotiError(''))
     }
 
+    const onBlurInput = (e) => {
+      if (!e.target.value) {
+        editProjectName.value = project.value?.name
+        return
+      }
+      if (e.target.value === project.value?.name) {
+        return
+      }
+      console.log(e)
+
+      serviceAPI
+        .updateProject(project.value?.id, {
+          name: e.target.value
+        })
+        .then((res) => {
+          project.value.name = res.data.name
+        })
+        .catch((err) => {
+          NotiError('failed')
+        })
+    }
+
     return {
       show,
       files,
@@ -834,7 +869,11 @@ export default defineComponent({
       cancelAdd,
       addMember,
       removeMember,
-      onDownloadFolder
+      onDownloadFolder,
+      editProjectName,
+      onBlurInput,
+      inputWidth,
+      inputRef
     }
   }
 })
@@ -937,7 +976,13 @@ export default defineComponent({
   }
 
   .ant-input {
-    width: 100%;
+    padding: 0 11px;
+    line-height: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    &:not(:hover) {
+      border-color: transparent;
+    }
   }
 
   .ant-radio-group {

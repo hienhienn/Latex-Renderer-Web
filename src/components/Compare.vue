@@ -15,7 +15,7 @@ import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
 import { Button, notification } from 'ant-design-vue'
 import { defineComponent, h, ref, shallowRef, watch } from 'vue'
-import latexLang from '@/latex/latex-lang'
+import latexLang from '@/latex/tokens-provider'
 
 export default defineComponent({
   props: {
