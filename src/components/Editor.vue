@@ -19,7 +19,7 @@
         Save
       </a-button>
     </div>
-    <div style="position: absolute; left: 0; right: 16px; top: 56px; bottom: 16px;">
+    <div style="position: absolute; left: 0; right: 16px; top: 56px; bottom: 16px">
       <vue-monaco-editor
         v-model:value="code"
         theme="vs"
@@ -39,6 +39,7 @@ import { NotiError } from '@/services/notification'
 import tokensProvider from '@/latex/tokens-provider'
 import languageConfig from '@/latex/language-config'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons-vue'
+import { getCompletionItemProvider } from '@/latex/completion-item-provider';
 
 export default defineComponent({
   components: {
@@ -68,6 +69,7 @@ export default defineComponent({
       formatOnPaste: true,
       autoClosingBrackets: 'always',
       scrollBeyondLastLine: false,
+      quickSuggestions: true,
       // wordWrap: 'wordWrapColumn',
       // wordWrapColumn: 80,
       readOnly: props.readonly
@@ -85,6 +87,7 @@ export default defineComponent({
       monaco.languages.register({ id: 'latex' })
       monaco.languages.setMonarchTokensProvider('latex', tokensProvider as any)
       monaco.languages.setLanguageConfiguration('latex', languageConfig as any)
+      monaco.languages.registerCompletionItemProvider('latex', getCompletionItemProvider(monaco))
       editorRef.value = editor
     }
 
@@ -237,7 +240,7 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   position: relative;
-  top: 0
+  top: 0;
 }
 
 .ant-button {

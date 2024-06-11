@@ -1,4 +1,8 @@
 export default {
+  wordPattern: /\\(?:[a-zA-Z]*|.)|\$|[^\s]+/,
+  comments: {
+    lineComment: '%'
+  },
   brackets: [
     ['{', '}'],
     ['[', ']'],
@@ -8,15 +12,13 @@ export default {
     { open: '{', close: '}' },
     { open: '[', close: ']' },
     { open: '(', close: ')' },
-    { open: '$', close: '$' },
-    { open: '\\[', close: '\\]' },
-    { open: '\\begin{', close: '\\end{}' }
+    { open: '\\begin{', close: '}' },
+    { open: '\\[', close: '\\]' }
   ],
   surroundingPairs: [
     { open: '{', close: '}' },
     { open: '[', close: ']' },
     { open: '(', close: ')' },
-    { open: '$', close: '$' },
     { open: '\\[', close: '\\]' }
   ]
 }
