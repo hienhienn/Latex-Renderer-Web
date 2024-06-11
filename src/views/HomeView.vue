@@ -11,7 +11,7 @@
           <a-tab-pane key="personal" tab="Personal"></a-tab-pane>
           <a-tab-pane key="starred" tab="Stared"></a-tab-pane>
         </a-tabs>
-        <a-tabs v-model:activeKey="selectedKeys2" size="small">
+        <a-tabs v-model:activeKey="selectedKeys2" size="small" v-if="selectedKeys1 === 'personal'">
           <a-tab-pane key="all" tab="All"></a-tab-pane>
           <a-tab-pane key="yours" tab="Yours"></a-tab-pane>
           <a-tab-pane key="shared" tab="Shared with you"></a-tab-pane>

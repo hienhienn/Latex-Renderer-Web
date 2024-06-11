@@ -2,8 +2,8 @@
   <a-layout-header class="home-header">
     <a-row justify="space-between" align="middle">
       <a-row align="middle">
-        <a style="line-height: 20px; background: white;" href="/">
-          <img src="/icons/user.svg" />
+        <a href="/" style="height: 40px;">
+          <img src="/icons/logo-white.svg" width="40" />
         </a>
         <div class="title">Latex Editor Online</div>
       </a-row>

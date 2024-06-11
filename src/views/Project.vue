@@ -1,20 +1,29 @@
 <template>
   <a-layout class="project-page">
     <a-layout-header class="custom-header">
-      <a-space>
-        <a style="line-height: 20px; background: blue" href="/">
-          <img src="/icons/user.svg" />
+      <a-space align="center">
+        <a href="/" style="display: flex" title="Go to home page">
+          <img src="/icons/logo-primary.svg" width="40" />
         </a>
-        <a-space style="line-height: 24px">
-          <a-input
-            ref="inputRef"
-            v-model:value="editProjectName"
-            @blur="onBlurInput"
-            @pressEnter="() => inputRef.blur()"
-            :style="{ width: inputWidth + 'px'}"
-          />
-          <!-- <p class="title-project">{{ project?.name }}</p> -->
-          <StarIcon />
+        <a-space direction="vertical" :size="0" class="header-info">
+          <a-space style="line-height: 24px">
+            <a-input
+              class="input-project"
+              ref="inputRef"
+              v-model:value="editProjectName"
+              @blur="onBlurInput"
+              @pressEnter="() => inputRef.blur()"
+              :style="{ width: inputWidth + 'px' }"
+            />
+            <a-space class="starred-div">
+              <span>
+                <StarOutlined v-if="!project?.starred" @click="addStarred" />
+                <StarFilled v-if="project?.starred" style="color: #fbc725" @click="removeStarred" />
+              </span>
+              <span>{{ project?.totalStar }}</span>
+            </a-space>
+          </a-space>
+          <SettingBar />
         </a-space>
       </a-space>
       <a-space>
@@ -315,16 +324,19 @@ import {
   GlobalOutlined,
   LockOutlined,
   ArrowRightOutlined,
-  CloseOutlined
+  CloseOutlined,
+  StarOutlined,
+  StarFilled
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
 import Directory from '@/components/Directory.vue'
 import Editor from '@/components/Editor.vue'
 import Compare from '@/components/Compare.vue'
+import SettingBar from '@/components/SettingBar.vue'
 import { Button, notification } from 'ant-design-vue'
 import router from '@/router'
-import StarIcon from '../../public/icons/star.svg'
+// import StarIcon from '../../public/icons/star.svg'
 import VueResizable from 'vue-resizable'
 import { NotiError } from '@/services/notification'
 
@@ -352,7 +364,6 @@ export default defineComponent({
     Directory,
     Editor,
     Compare,
-    StarIcon,
     VueResizable,
     TeamOutlined,
     DownOutlined,
@@ -360,7 +371,10 @@ export default defineComponent({
     LockOutlined,
     ArrowRightOutlined,
     CloseOutlined,
-    VNodes
+    VNodes,
+    StarOutlined,
+    StarFilled,
+    SettingBar
   },
   setup() {
     const files = ref([])
@@ -456,6 +470,10 @@ export default defineComponent({
         .getVersionById(route.params.versionId)
         .then((res) => {
           project.value = res.data
+          if (!res.data.role) {
+            NotiError('You do not have permission to see this project!')
+            router.push('/')
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -829,6 +847,29 @@ export default defineComponent({
         })
     }
 
+    const addStarred = () => {
+      serviceAPI
+        .addStarProject({
+          projectId: project.value.id,
+          editorId: user.value.id
+        })
+        .then((res) => {
+          project.value.totalStar = res.data.totalStar
+          project.value.starred = true
+          project.value.starredId = res.data.id
+        })
+        .catch((err) => {
+          NotiError('Failed')
+        })
+    }
+
+    const removeStarred = () => {
+      serviceAPI.removeStarProject(project.value.starredId).then((res) => {
+        project.value.totalStar = res.data.totalStar
+        project.value.starred = false
+      })
+    }
+
     return {
       show,
       files,
@@ -873,7 +914,9 @@ export default defineComponent({
       editProjectName,
       onBlurInput,
       inputWidth,
-      inputRef
+      inputRef,
+      addStarred,
+      removeStarred
     }
   }
 })
@@ -899,7 +942,14 @@ export default defineComponent({
     width: 100%;
     flex-flow: nowrap;
     gap: 8px;
+    // margin-bottom: 8px;
+  }
+
+  .header-info {
     margin-bottom: 16px;
+    & > .ant-space-item {
+      line-height: 24px;
+    }
   }
 
   .ant-layout-content.project-content {
@@ -975,7 +1025,7 @@ export default defineComponent({
     border-radius: 8px;
   }
 
-  .ant-input {
+  .ant-input.input-project {
     padding: 0 11px;
     line-height: 24px;
     font-size: 18px;
@@ -1016,12 +1066,30 @@ export default defineComponent({
     line-height: 32px;
     padding: 0 8px;
     height: 40px;
-    border: 1px solid #6d5bd0;
-    color: #6d5bd0;
+    background-color: #f4f2ff;
+    border: 1px solid #d9d5ec;
 
     .ant-space-item {
       display: flex;
       align-items: center;
+    }
+  }
+
+  .starred-div {
+    background: #f4f2ff;
+    padding: 0 8px;
+    border-radius: 12px;
+    border: 1px solid #d9d5ec;
+
+    .anticon {
+      transition: all 150ms ease-in-out;
+      cursor: pointer;
+      &:hover {
+        scale: 1.2;
+      }
+    }
+    span {
+      font-weight: 600;
     }
   }
 }
@@ -1069,9 +1137,5 @@ export default defineComponent({
       // border-bottom: 1px solid #d9d5ec;
     }
   }
-
-  // .ant-select-arrow {
-  //   transform: translateY(-62%);
-  // }
 }
 </style>

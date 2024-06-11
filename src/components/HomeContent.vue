@@ -62,8 +62,18 @@
     </template>
   </a-table>
   <a-row justify="space-between" align="middle" class="custom-pagination-row">
-    <span>Show 20-30 of 58 items</span>
-    <a-pagination :current="1" :page-size="2" :total="85" :showSizeChanger="false" />
+    <span>
+      Show {{ pagination.pageSize * (pagination.page - 1) + 1 }} -
+      {{ pagination.pageSize * (pagination.page - 1) + dataSource.length }} of
+      {{ pagination.total }} items
+    </span>
+    <a-pagination
+      :current="pagination.page"
+      :page-size="pagination.pageSize"
+      :total="pagination.total"
+      :showSizeChanger="false"
+      @change="onChangePagination"
+    />
   </a-row>
   <a-modal v-model:open="openModal" title="New Project" okText="Save" @ok="saveProject">
     <a-input v-model:value="namePrj" placeholder="Project Name" />
@@ -251,6 +261,12 @@ export default defineComponent({
       }
     )
 
+    const onChangePagination = (page) => {
+      if (page === pagination.page) return
+      pagination.page = page
+      getData()
+    }
+
     return {
       searchText,
       errorText,
@@ -265,7 +281,8 @@ export default defineComponent({
       pagination,
       onChangeTable,
       debounce,
-      onDelete
+      onDelete,
+      onChangePagination
     }
   }
 })

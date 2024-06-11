@@ -40,16 +40,17 @@
             </a-button>
           </a-tooltip>
         </a-row>
-        <a-tooltip title="Delete">
-          <a-button
-            type="text"
-            class="icon-btn"
-            @click="() => onDelete(selectedKeys)"
-            style="position: relative; top: 4px"
-          >
-            <img src="/icons/trash.svg" class="icon-select" />
-          </a-button>
-        </a-tooltip>
+        <a-row>
+          <a-tooltip title="Delete">
+            <a-button
+              type="text"
+              class="icon-btn"
+              @click="() => onDelete(selectedKeys)"
+            >
+              <img src="/icons/trash.svg" class="icon-select" />
+            </a-button>
+          </a-tooltip>
+        </a-row>
       </a-space>
     </a-row>
     <div class="tree-container">

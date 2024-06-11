@@ -58,6 +58,9 @@ const addMember: (data) => Promise<any> = (data) => API.post(`userProject`, data
 const changeRole: (data) => Promise<any> = (data) => API.put(`userProject`, data)
 const removeMember: (id) => Promise<any> = (id) => API.delete(`userProject/${id}`)
 
+const addStarProject: (data) => Promise<any> = (data) => API.post('starProject', data)
+const removeStarProject: (id) => Promise<any> = (id) => API.delete(`starProject/${id}`)
+
 export const serviceAPI = {
   signIn,
   signUp,
@@ -82,5 +85,7 @@ export const serviceAPI = {
   getUserToProject,
   addMember,
   changeRole,
-  removeMember
+  removeMember,
+  addStarProject,
+  removeStarProject
 }
