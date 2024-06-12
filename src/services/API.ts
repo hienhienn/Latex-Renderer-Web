@@ -49,6 +49,7 @@ const downloadFolder: (data) => Promise<any> = (data) =>
   })
 const deleteCompile: (code) => Promise<any> = (code) => API.delete(`version/compile/${code}`)
 const getVersionById: (id) => Promise<any> = (id) => API.get(`version/${id}`)
+const updateVersion: (id, data) => Promise<any> = (id, data) => API.put(`version/${id}`, data)
 const saveVersion: (id, data) => Promise<any> = (id, data) =>
   API.post(`version/saveVersion/${id}`, data)
 
@@ -80,6 +81,7 @@ export const serviceAPI = {
   compile,
   downloadFolder,
   getVersionById,
+  updateVersion,
   saveVersion,
   deleteCompile,
   getUserToProject,

@@ -1,4 +1,9 @@
 <template>
+  <CopyProject
+    v-model:open="openCopyProject"
+    :initData="{ name: project.name, version: project.mainVersionId }"
+    :versions="project.versions"
+  />
   <a-space :size="0" class="space-setting">
     <a-dropdown placement="bottomLeft" :trigger="['click']">
       <a-button type="text" size="small">Project</a-button>
@@ -40,7 +45,12 @@
             </a-space>
             <a-space>
               Main file
-              <a-select size="small" ></a-select>
+              <a-select
+                size="small"
+                :options="fileOptions"
+                :value="mainFileId"
+                @select="onChangeMainFile"
+              ></a-select>
             </a-space>
           </a-space>
         </a-menu>
@@ -50,19 +60,36 @@
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
-
+import { serviceAPI } from '@/services/API'
+import { NotiError } from '@/services/notification'
+import { computed, defineComponent, ref, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
+import CopyProject from '@/components/CopyProject.vue'
 export default defineComponent({
+  components: {
+    CopyProject
+  },
   props: {
     files: {
       type: Array,
       default: {}
+    },
+    mainFileId: {
+      type: String,
+      default: ''
+    },
+    project: {
+      type: Object,
+      default: {}
     }
   },
-  setup(props) {
+  emits: ['update:mainFileId', 'downloadFolder'],
+  setup(props, { emit }) {
+    const route = useRoute()
     const fontSize = [10, 11, 12, 13, 14, 16, 18, 20, 24]
-    const fontSizeOptions = fontSize.map((e) => ({ key: e, value: e + 'px' }))
-    const fileOptions = computed(() => props.files.map(e => ({ key: e.id, value: e.path})))
+    const fontSizeOptions = fontSize.map((e) => ({ value: e, label: e + 'px' }))
+    const fileOptions = computed(() => props.files.map((e) => ({ value: e.id, label: e.path })))
+    const openCopyProject = ref(false)
     const projectItems = computed(() => [
       {
         label: 'Download',
@@ -111,15 +138,41 @@ export default defineComponent({
 
     const handleClick = (e) => {
       console.log(e)
+      if (e.key === 'download-source') {
+        emit('downloadFolder', {
+          title: props.project.name,
+          key: ''
+        })
+        return
+      }
+      if (e.key === 'copy-project') {
+        openCopyProject.value = true
+        return
+      }
     }
 
-    console.log(fileOptions.value)
+    const onChangeMainFile = (e) => {
+      if (e === props.mainFileId) return
+      serviceAPI
+        .updateVersion(route.params.versionId, {
+          mainFileId: e
+        })
+        .then((res) => {
+          emit('update:mainFileId', res.data.mainFileId)
+        })
+        .catch(() => NotiError('failed'))
+    }
+    watchEffect(() => {
+      console.log(fileOptions.value)
+    })
 
     return {
       projectItems,
       handleClick,
       fontSizeOptions,
-      // fileOptions
+      fileOptions,
+      onChangeMainFile,
+      openCopyProject
     }
   }
 })

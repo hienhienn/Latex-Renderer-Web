@@ -10,7 +10,6 @@ declare module 'vue' {
     AAvatar: typeof import('ant-design-vue/es')['Avatar']
     AAvatarGroup: typeof import('ant-design-vue/es')['AvatarGroup']
     AButton: typeof import('ant-design-vue/es')['Button']
-    ACol: typeof import('ant-design-vue/es')['Col']
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
     AddNewImage: typeof import('./src/components/AddNewImage.vue')['default']
     ADirectoryTree: typeof import('ant-design-vue/es')['DirectoryTree']
@@ -35,7 +34,6 @@ declare module 'vue' {
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpace: typeof import('ant-design-vue/es')['Space']
-    ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATable: typeof import('ant-design-vue/es')['Table']
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
@@ -46,6 +44,7 @@ declare module 'vue' {
     AUploadDragger: typeof import('ant-design-vue/es')['UploadDragger']
     AvatarApp: typeof import('./src/components/common/AvatarApp.vue')['default']
     Compare: typeof import('./src/components/Compare.vue')['default']
+    CopyProject: typeof import('./src/components/CopyProject.vue')['default']
     Directory: typeof import('./src/components/Directory.vue')['default']
     Editor: typeof import('./src/components/Editor.vue')['default']
     HeaderHome: typeof import('./src/components/layouts/HeaderHome.vue')['default']
@@ -53,5 +52,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SettingBar: typeof import('./src/components/SettingBar.vue')['default']
+    ShareMode: typeof import('./src/components/ShareMode.vue')['default']
   }
 }
