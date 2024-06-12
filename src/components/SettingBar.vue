@@ -40,7 +40,7 @@
             </a-space>
             <a-space>
               Main file
-              <a-select size="small" :options="fileOptions"></a-select>
+              <a-select size="small" ></a-select>
             </a-space>
           </a-space>
         </a-menu>
@@ -53,13 +53,13 @@
 import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
-  props: [{
+  props: {
     files: {
       type: Array,
-      default: []
+      default: {}
     }
-  }],
-  setup({ props }) {
+  },
+  setup(props) {
     const fontSize = [10, 11, 12, 13, 14, 16, 18, 20, 24]
     const fontSizeOptions = fontSize.map((e) => ({ key: e, value: e + 'px' }))
     const fileOptions = computed(() => props.files.map(e => ({ key: e.id, value: e.path})))
@@ -113,11 +113,13 @@ export default defineComponent({
       console.log(e)
     }
 
+    console.log(fileOptions.value)
+
     return {
       projectItems,
       handleClick,
       fontSizeOptions,
-      fileOptions
+      // fileOptions
     }
   }
 })

@@ -23,7 +23,7 @@
               <span>{{ project?.totalStar }}</span>
             </a-space>
           </a-space>
-          <SettingBar :files="[]"/>
+          <SettingBar :files="files"/>
         </a-space>
       </a-space>
       <a-space>
