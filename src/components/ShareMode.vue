@@ -104,51 +104,57 @@
           </a-row>
 
           <a-space direction="vertical" :size="0" class="member">
-            <a-space v-for="member in userProjects">
-              <a-avatar
-                :size="40"
-                :src="'https://ui-avatars.com/api/?background=random&name=' + member?.fullname"
-              />
-              <div>
-                <div style="margin: 0 7px">
-                  <span style="font-weight: 600; margin-right: 4px">
-                    {{ member?.fullname }}
-                  </span>
-                  {{ member?.username }}
+            <a-row v-for="member in userProjects" justify="space-between">
+              <a-space>
+                <a-avatar
+                  :size="40"
+                  :src="'https://ui-avatars.com/api/?background=random&name=' + member?.fullname"
+                />
+                <div>
+                  <div style="margin: 0 7px">
+                    <span style="font-weight: 600; margin-right: 4px">
+                      {{ member?.fullname }}
+                    </span>
+                    {{ member?.username }}
+                  </div>
+                  <a-select
+                    size="small"
+                    :value="member?.role"
+                    @click="(e) => e.stopPropagation()"
+                    :bordered="false"
+                    :disabled="member?.role === 'owner'"
+                    :showArrow="member?.role !== 'owner'"
+                    @select="(e) => onChangeRole(e, member.id)"
+                    style="width: 120px"
+                  >
+                    <a-select-option value="owner" style="display: none" :id="member.id">
+                      Owner
+                    </a-select-option>
+                    <a-select-option value="editor">Editor</a-select-option>
+                    <a-select-option value="viewer">Viewer</a-select-option>
+                    <template #dropdownRender="{ menuNode }">
+                      <VNodes :vnodes="menuNode" />
+                      <a-divider style="margin: 4px 0" />
+                      <a-button type="text" style="width: 100%; text-align: start">
+                        Set owner
+                      </a-button>
+                      <a-button
+                        danger
+                        type="text"
+                        style="width: 100%; text-align: start"
+                        @click="(e) => removeMember(e, member.id)"
+                      >
+                        Remove
+                      </a-button>
+                    </template>
+                  </a-select>
                 </div>
-                <a-select
-                  size="small"
-                  :value="member?.role"
-                  @click="(e) => e.stopPropagation()"
-                  :bordered="false"
-                  :disabled="member?.role === 'owner'"
-                  :showArrow="member?.role !== 'owner'"
-                  @select="(e) => onChangeRole(e, member.id)"
-                  style="width: 120px"
-                >
-                  <a-select-option value="owner" style="display: none" :id="member.id">
-                    Owner
-                  </a-select-option>
-                  <a-select-option value="editor">Editor</a-select-option>
-                  <a-select-option value="viewer">Viewer</a-select-option>
-                  <template #dropdownRender="{ menuNode }">
-                    <VNodes :vnodes="menuNode" />
-                    <a-divider style="margin: 4px 0" />
-                    <a-button type="text" style="width: 100%; text-align: start">
-                      Set owner
-                    </a-button>
-                    <a-button
-                      danger
-                      type="text"
-                      style="width: 100%; text-align: start"
-                      @click="(e) => removeMember(e, member.id)"
-                    >
-                      Remove
-                    </a-button>
-                  </template>
-                </a-select>
+              </a-space>
+              <div class="active-tag" :class="{ active: activeUsers.has(member.editorId) }">
+                <div class="circle"></div>
+                {{ activeUsers.has(member.editorId) ? 'Active' : 'Inactive' }}
               </div>
-            </a-space>
+            </a-row>
           </a-space>
         </div>
       </template>
@@ -156,7 +162,7 @@
   </a-space>
 </template>
 <script>
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, watchEffect } from 'vue'
 import {
   DownOutlined,
   GlobalOutlined,
@@ -199,6 +205,10 @@ export default defineComponent({
     projectId: {
       type: String,
       default: ''
+    },
+    activeUsers: {
+      type: Set,
+      default: new Set()
     }
   },
   emits: ['update:isPublic', 'update:userProjects'],
@@ -302,6 +312,11 @@ export default defineComponent({
           NotiError('Try again')
         })
     }
+
+    watchEffect(() => {
+      console.log(props.activeUsers, props.userProjects)
+    })
+
     return {
       userOptions,
       stepAdd,
@@ -375,6 +390,36 @@ export default defineComponent({
         background: #f2f0f9;
         cursor: default;
       }
+    }
+  }
+}
+
+.active-tag {
+  color: #6e6893;
+  background: #f2f0f9;
+  font-size: 12px;
+  height: fit-content;
+  padding: 2px 8px;
+  display: flex;
+  gap: 6px;
+  border-radius: 12px;
+  align-items: center;
+  margin: auto 0;
+
+  .circle {
+    background-color: #6e6893;
+    border-radius: 100%;
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+
+  &.active {
+    color: #007f00;
+    background: #cdffcd;
+    .circle {
+      background-color: #007f00;
     }
   }
 }

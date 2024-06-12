@@ -29,7 +29,9 @@
   </a-modal>
 </template>
 <script>
-import { computed, defineComponent, reactive, watch, watchEffect } from 'vue'
+import { serviceAPI } from '@/services/API'
+import { NotiError, NotiSuccess } from '@/services/notification'
+import { computed, defineComponent, reactive, watch } from 'vue'
 
 export default defineComponent({
   props: {
@@ -70,16 +72,22 @@ export default defineComponent({
     )
 
     const onFinish = (values) => {
-      console.log(values)
+      serviceAPI
+        .copyProject({
+          name: values.name,
+          versionId: values.version
+        })
+        .then(() => {
+          NotiSuccess('Success')
+          emit('update:open', false)
+        })
+        .catch(() => NotiError('failed'))
     }
 
     const onCancel = () => {
       emit('update:open', false)
     }
 
-    watchEffect(() => {
-      console.log('fs', formState)
-    })
     return {
       versionOptions,
       formState,

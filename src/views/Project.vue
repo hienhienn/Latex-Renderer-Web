@@ -36,6 +36,7 @@
           v-model:isPublic="project.isPublic"
           :projectId="project.id"
           v-model:userProjects="project.userProjects"
+          :activeUsers="activeUsers"
         />
         <a-radio-group size="large">
           <a-radio-button @click="() => (openModal = true)">
@@ -63,24 +64,7 @@
       </a-space>
     </a-layout-header>
     <div style="display: flex">
-      <a-modal v-model:open="openModal" title="Save version" okText="Save" @ok="onSaveVersion">
-        <a-input v-model:value="description" placeholder="Description" />
-      </a-modal>
-      <a-drawer
-        title="Version History"
-        placement="right"
-        :closable="false"
-        :open="open"
-        @close="onClose"
-      >
-        <div
-          v-for="item in project?.versions"
-          class="version-div"
-          @click="() => clickVersion(item)"
-        >
-          <p class="title-version">{{ item?.isMainVersion ? 'Main version' : item.description }}</p>
-        </div>
-      </a-drawer>
+      <!-- <button @click="() => sendMessage('ok')">Send</button> -->
       <vue-resizable :min-width="238" :max-width="500" :active="['r']" :width="258">
         <div
           style="
@@ -152,6 +136,20 @@
         </a-layout-content>
       </a-layout>
     </div>
+    <a-modal v-model:open="openModal" title="Save version" okText="Save" @ok="onSaveVersion">
+      <a-input v-model:value="description" placeholder="Description" />
+    </a-modal>
+    <a-drawer
+      title="Version History"
+      placement="right"
+      :closable="false"
+      :open="open"
+      @close="onClose"
+    >
+      <div v-for="item in project?.versions" class="version-div" @click="() => clickVersion(item)">
+        <p class="title-version">{{ item?.isMainVersion ? 'Main version' : item.description }}</p>
+      </div>
+    </a-drawer>
   </a-layout>
 </template>
 
@@ -228,6 +226,7 @@ export default defineComponent({
     const editProjectName = ref('')
     const inputWidth = computed(() => 24 + editProjectName.value.length * 9.2)
     const inputRef = ref()
+    const activeUsers = ref(new Set())
 
     const showDrawer = () => {
       open.value = true
@@ -243,23 +242,15 @@ export default defineComponent({
 
     onMounted(async () => {
       loading.value = true
-      serviceAPI
-        .getCurrentUser()
-        .then((res) => {
-          user.value = res.data
-        })
-        .catch(() => {
-          NotiError('Your authorized failed')
-        })
-
-      connectWebSocket()
-
       try {
-        const [filesRes, infoRes] = await Promise.all([
+        const [filesRes, infoRes, userRes] = await Promise.all([
           serviceAPI.getFilesByVersionId(route.params.versionId),
-          serviceAPI.getVersionById(route.params.versionId)
+          serviceAPI.getVersionById(route.params.versionId),
+          serviceAPI.getCurrentUser()
         ])
 
+        user.value = userRes.data
+        activeUsers.value.add(user.value.id)
         project.value = infoRes.data
 
         if (!infoRes.data.role) {
@@ -307,72 +298,13 @@ export default defineComponent({
         } else {
           files.value = filesRes.data
         }
+
+        connectWebSocket()
       } catch (err) {
         console.log(err)
       }
 
-      // serviceAPI
-      //   .getFilesByVersionId(route.params.versionId)
-      //   .then((res) => {
-      //     const changeList = []
-      //     // if(res)
-      //     // files.value = res.data.map((e) => {
-      //     //   if (localStorage.getItem(e.id)) {
-      //     //     e.localContent = localStorage.getItem(e.id)
-      //     //     e.isSave = false
-      //     //   } else {
-      //     //     e.isSave = true
-      //     //   }
-      //     //   if (
-      //     //     localStorage.getItem(`sha-${e.id}`) &&
-      //     //     localStorage.getItem(`sha-${e.id}`) !== 'null'
-      //     //   ) {
-      //     //     e.localShaCode = localStorage.getItem(`sha-${e.id}`)
-      //     //     if (e.localShaCode !== e.shaCode) changeList.push(e)
-      //     //   } else {
-      //     //     e.localShaCode = e.shaCode
-      //     //   }
-      //     //   e.isCompile = false
-      //     //   return e
-      //     // })
-      //     // const main = files.value.find((e) => e.path === 'main.tex')
-      //     // if (main && main.content) {
-      //     //   compileAPI()
-      //     //     .then((res) => {
-      //     //       pdf.value = res.data
-      //     //       files.value = files.value.map((e) => ({
-      //     //         ...e,
-      //     //         isCompile: true
-      //     //       }))
-      //     //     })
-      //     //     .catch()
-      //     // }
-      //     // if (changeList.length > 0) {
-      //     //   notiChange({
-      //     //     change: 'file',
-      //     //     file: changeList
-      //     //   })
-      //     // }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
-      //   .finally(() => {
-      //     loading.value = false
-      //   })
-      // serviceAPI
-      //   .getVersionById(route.params.versionId)
-      //   .then((res) => {
-      //     project.value = res.data
-      //     if (!res.data.role) {
-      //       NotiError('You do not have permission to see this project!')
-      //       router.push('/')
-      //     }
-      //     if(res.data.role === 'editor' || res.data.role === 'vie')
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
+      loading.value = false
     })
 
     watchEffect(() => {
@@ -418,7 +350,7 @@ export default defineComponent({
     }
 
     const onUpdateFiles = (send) => {
-      if (send) sendMessage(JSON.stringify({ change: 'list-files' }))
+      // if (send) sendMessage(JSON.stringify({ change: 'list-files' }))
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
@@ -440,19 +372,19 @@ export default defineComponent({
     }
 
     const onSaveFile = (event) => {
-      sendMessage(
-        JSON.stringify({
-          change: 'file',
-          file: [
-            {
-              id: event.id,
-              name: event.name,
-              path: event.path,
-              content: event.content
-            }
-          ]
-        })
-      )
+      // sendMessage(
+      //   JSON.stringify({
+      //     change: 'file',
+      //     file: [
+      //       {
+      //         id: event.id,
+      //         name: event.name,
+      //         path: event.path,
+      //         content: event.content
+      //       }
+      //     ]
+      //   })
+      // )
 
       currentFile.value = event
       const idx = files.value.findIndex((e) => e.id === event.id)
@@ -511,11 +443,18 @@ export default defineComponent({
     let socket
 
     function connectWebSocket() {
-      socket = new WebSocket(`ws://localhost:5000/ws/${route.params.versionId}`)
+      socket = new WebSocket(`ws://localhost:5000/ws/${route.params.versionId}/${user.value.id}`)
 
       socket.onmessage = function (event) {
-        // console.log('ms', JSON.parse(event.data))
-        // notiChange(JSON.parse(event.data))
+        console.log('ms', event)
+        const data = JSON.parse(event.data)
+        console.log(data)
+        if (data.type === 'user') handleUserActive(data)
+        if (data.type === 'userList') handleListUserAcitve(data)
+      }
+
+      socket.onopen = () => {
+        sendMessage(JSON.stringify({ type: 'user', active: true, userId: user.value.id }))
       }
     }
 
@@ -663,6 +602,22 @@ export default defineComponent({
       })
     }
 
+    const handleUserActive = (data) => {
+      if (data.active) {
+        activeUsers.add(data.userId)
+      } else activeUsers.delete(data.userId)
+    }
+
+    const handleListUserAcitve = (data) => {
+      console.log('hd', activeUsers)
+
+      if (user?.value?.id) activeUsers.value.add(user.value.id)
+      data.list.forEach((e) => {
+        activeUsers.value.add(e)
+      })
+      console.log('hd', activeUsers)
+    }
+
     return {
       show,
       files,
@@ -698,7 +653,8 @@ export default defineComponent({
       inputWidth,
       inputRef,
       addStarred,
-      removeStarred
+      removeStarred,
+      activeUsers
     }
   }
 })

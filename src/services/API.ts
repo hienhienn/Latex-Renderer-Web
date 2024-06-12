@@ -22,6 +22,7 @@ const getListProject: (data) => Promise<any> = (data) =>
   })
 const deleteProject: (id) => Promise<any> = (id) => API.delete(`/project/${id}`)
 const updateProject: (id, data) => Promise<any> = (id, data) => API.put(`/project/${id}`, data)
+const copyProject: (data) => Promise<any> = (data) => API.post(`/project/copyProject`, data)
 
 const getFilesByVersionId: (id) => Promise<any> = (id) => API.get(`/file/getAll/${id}`)
 const createFile: (id) => Promise<any> = (data) => API.post(`/file/createFile/`, data)
@@ -70,6 +71,7 @@ export const serviceAPI = {
   getListProject,
   deleteProject,
   updateProject,
+  copyProject,
   getFilesByVersionId,
   createFile,
   uploadFile,

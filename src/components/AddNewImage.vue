@@ -1,5 +1,10 @@
 <template>
   <a-modal v-model:open="openRef" title="Upload new Image" okText="Save" :footer="null">
+    <a-tabs v-model:activeKey="activeKey" size="small">
+      <a-tab-pane key="img" tab="Image"></a-tab-pane>
+      <a-tab-pane key="tex" tab=".tex file"></a-tab-pane>
+    </a-tabs>
+    <br />
     <a-upload-dragger
       v-model:fileList="formState.file"
       name="file"
@@ -7,8 +12,29 @@
       accept="image/*"
       :maxCount="5"
       :multiple="true"
-      :customRequest="request"
+      :customRequest="uploadImage"
       @remove="onRemove"
+      v-if="activeKey === 'img'"
+    >
+      <p class="ant-upload-drag-icon">
+        <inbox-outlined></inbox-outlined>
+      </p>
+      <p class="ant-upload-text">Click or drag file to this area to upload</p>
+      <p class="ant-upload-hint">
+        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+        band files
+      </p>
+    </a-upload-dragger>
+
+    <a-upload-dragger
+      v-model:fileList="formStateTex.file"
+      name="file"
+      accept=".tex"
+      :maxCount="5"
+      :multiple="true"
+      :customRequest="createFile"
+      @remove="onRemove"
+      v-if="activeKey === 'tex'"
     >
       <p class="ant-upload-drag-icon">
         <inbox-outlined></inbox-outlined>
@@ -53,22 +79,31 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const activeKey = ref('img')
     const openRef = ref(props.open)
     const route = useRoute()
     const formState = reactive({
       name: '',
       file: null
     })
+    const formStateTex = reactive({
+      name: '',
+      file: null
+    })
 
     watchEffect(() => {
       emit('update:open', openRef.value)
+      if (openRef.value == false) {
+        Object.assign(formState, { name: '', file: null })
+        Object.assign(formStateTex, { name: '', file: null })
+      }
     })
 
     watchEffect(() => {
       if (props.open == true) openRef.value = props.open
     })
 
-    const request = ({ onSuccess, onError, file, onProgress }) => {
+    const uploadImage = ({ onSuccess, onError, file, onProgress }) => {
       let parts = props.selectedKeys[0]?.split('/') || []
       if (parts.length > 0 && parts[parts.length - 1].includes('.')) parts.pop()
       parts.push(file.name)
@@ -82,7 +117,6 @@ export default defineComponent({
       serviceAPI
         .uploadFile(formData, {
           onUploadProgress: (event) => {
-            console.log((event.loaded / event.total) * 100)
             onProgress({ percent: (event.loaded / event.total) * 100 }, file)
           }
         })
@@ -96,8 +130,39 @@ export default defineComponent({
         })
     }
 
+    const createFile = ({ onSuccess, onError, file, onProgress, data }) => {
+      let parts = props.selectedKeys[0]?.split('/') || []
+      if (parts.length > 0 && parts[parts.length - 1].includes('.')) parts.pop()
+      parts.push(file.name)
+
+      const reader = new FileReader(file)
+      reader.onload = (event) => {
+        const content = event.target.result
+
+        serviceAPI
+          .createFile({
+            name: file.name,
+            versionId: route.params.versionId,
+            path: parts.join('/'),
+            content: content
+          })
+          .then(() => {
+            onSuccess(file)
+            emit('update:files')
+          })
+          .catch((err) => {
+            onError({ event: err })
+            NotiError(err.response.data.message || 'Failed to create new file!')
+          })
+      }
+
+      reader.onerror = () => {
+        onError()
+      }
+      reader.readAsText(file)
+    }
+
     const onRemove = (file) => {
-      console.log(file)
       if (file.error) return
 
       let parts = props.selectedKeys[0]?.split('/') || []
@@ -112,9 +177,12 @@ export default defineComponent({
 
     return {
       formState,
+      formStateTex,
       openRef,
-      request,
-      onRemove
+      uploadImage,
+      createFile,
+      onRemove,
+      activeKey
     }
   }
 })
