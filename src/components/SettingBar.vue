@@ -83,7 +83,7 @@ export default defineComponent({
       default: {}
     }
   },
-  emits: ['update:mainFileId', 'downloadFolder'],
+  emits: ['update:mainFileId', 'downloadFolder', 'downloadPdf'],
   setup(props, { emit }) {
     const route = useRoute()
     const fontSize = [10, 11, 12, 13, 14, 16, 18, 20, 24]
@@ -147,6 +147,10 @@ export default defineComponent({
       }
       if (e.key === 'copy-project') {
         openCopyProject.value = true
+        return
+      }
+      if (e.key === 'download-pdf') {
+        emit('downloadPdf')
         return
       }
     }

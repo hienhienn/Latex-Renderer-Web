@@ -28,6 +28,7 @@
             :project="project"
             v-model:mainFileId="project.mainFileId"
             @downloadFolder="onDownloadFolder"
+            @downloadPdf="onDownloadPdf"
           />
         </a-space>
       </a-space>
@@ -64,7 +65,6 @@
       </a-space>
     </a-layout-header>
     <div style="display: flex">
-      <!-- <button @click="() => sendMessage('ok')">Send</button> -->
       <vue-resizable :min-width="238" :max-width="500" :active="['r']" :width="258">
         <div
           style="
@@ -75,6 +75,7 @@
         >
           <Directory
             :initData="files"
+            :mainFile="files?.find((e) => e.id === project.mainFileId)"
             @changeSelected="onChangeSelected"
             @update:files="() => onUpdateFiles(true)"
             @downloadFolder="onDownloadFolder"
@@ -111,7 +112,7 @@
               <a-button
                 type="primary"
                 @click="onCompile"
-                :loading="loading"
+                :loading="loadingCompile"
                 :disabled="disableCompile"
               >
                 Compile
@@ -119,9 +120,9 @@
             </div>
             <br />
             <embed
-              v-show="pdf"
+              v-show="resCompile.pdf"
               style="width: 100%; height: calc(100% - 64px)"
-              :src="apiUrl + pdf + '#toolbar=0'"
+              :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&width=700&height=500`"
               :key="show"
             />
           </div>
@@ -209,15 +210,20 @@ export default defineComponent({
       id: '',
       userProjects: []
     })
-    const loading = ref(false)
+    const loadingCompile = ref(false)
     const loadingVersion = ref(false)
     const currentFile = ref()
-    const pdf = ref()
+    const resCompile = ref({
+      pdf: '',
+      log: ''
+    })
     const conflictFiles = ref([])
     const isConflict = computed(() => conflictFiles.value && conflictFiles.value.length > 0)
-    const code = 'v-code' + Math.random().toString(16).slice(2)
+    const code = ref('v-code' + Math.random().toString(16).slice(2))
     const show = ref(Math.random() * 1000)
-    const disableCompile = computed(() => files.value.every((e) => e.isCompile == true))
+    const disableCompile = computed(
+      () => files.value.every((e) => e.isCompile == true) && !currentFile
+    )
     let showChange = false
     const open = ref(false)
     const openModal = ref(false)
@@ -237,11 +243,13 @@ export default defineComponent({
     }
 
     window.addEventListener('beforeunload', function (event) {
-      serviceAPI.deleteCompile(code)
+      serviceAPI.deleteCompile(code.value)
+      sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
     })
 
+    watchEffect(() => console.log('pdf', resCompile.value))
+
     onMounted(async () => {
-      loading.value = true
       try {
         const [filesRes, infoRes, userRes] = await Promise.all([
           serviceAPI.getFilesByVersionId(route.params.versionId),
@@ -278,17 +286,26 @@ export default defineComponent({
             e.isCompile = false
             return e
           })
-          // const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
-          // if (main && (main.localContent || main.content)) {
-          //   compileAPI()
-          //     .then((res) => {
-          //       pdf.value = res.data
-          //       files.value = files.value.map((e) => ({
-          //         ...e,
-          //         isCompile: true
-          //       }))
-          //     })
-          //     .catch()
+          const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
+          if (main && (main.localContent || main.content)) {
+            loadingCompile.value = true
+            compileAPI(infoRes.data.mainFileId)
+              .then((res) => {
+                const path = res.data.path.split('.')
+                path.pop()
+                if (res.data.compileSuccess) {
+                  resCompile.value.pdf = path.join('.') + '.pdf'
+                }
+                resCompile.value.log = path.join('.') + '.log'
+
+                files.value = files.value.map((e) => ({
+                  ...e,
+                  isCompile: true
+                }))
+              })
+              .catch()
+              .finally(() => (loadingCompile.value = false))
+          }
           if (changeList.length > 0) {
             notiChange({
               change: 'file',
@@ -303,8 +320,6 @@ export default defineComponent({
       } catch (err) {
         console.log(err)
       }
-
-      loading.value = false
     })
 
     watchEffect(() => {
@@ -318,7 +333,7 @@ export default defineComponent({
     const onChangeSelected = (event) => {
       console.log(event)
       if (event == null) {
-        currentFile.value = null
+        // currentFile.value = null
         return
       }
       const idx = files.value.findIndex((e) => e.id === event.id)
@@ -333,11 +348,35 @@ export default defineComponent({
     }
 
     const onCompile = () => {
-      if (loading.value) return
-      loading.value = true
-      compileAPI()
-        .then(() => {
+      if (loadingCompile.value) return
+      loadingCompile.value = true
+
+      let mainId = project.value.mainFileId
+      if (
+        currentFile.value &&
+        currentFile.value.type === 'tex' &&
+        currentFile.value.name.split('.').pop() === 'tex'
+      ) {
+        mainId = currentFile.value.id
+      }
+
+      compileAPI(mainId)
+        .then((res) => {
           show.value = Math.random() * 1000
+          const path = res.data.path.split('.')
+          path.pop()
+          if (res.data.compileSuccess) {
+            resCompile.value = {
+              pdf: path.join('.') + '.pdf',
+              log: path.join('.') + '.log'
+            }
+          } else {
+            resCompile.value = {
+              pdf: '',
+              log: path.join('.') + '.log'
+            }
+          }
+          console.log('resbtn', resCompile.value)
           files.value = files.value.map((e) => ({
             ...e,
             isCompile: true
@@ -345,12 +384,12 @@ export default defineComponent({
         })
         .catch()
         .finally(() => {
-          loading.value = false
+          loadingCompile.value = false
         })
     }
 
     const onUpdateFiles = (send) => {
-      // if (send) sendMessage(JSON.stringify({ change: 'list-files' }))
+      if (send) sendMessage(JSON.stringify({ type: 'change', change: 'list-files' }))
       serviceAPI
         .getFilesByVersionId(route.params.versionId)
         .then((res) => {
@@ -372,19 +411,21 @@ export default defineComponent({
     }
 
     const onSaveFile = (event) => {
-      // sendMessage(
-      //   JSON.stringify({
-      //     change: 'file',
-      //     file: [
-      //       {
-      //         id: event.id,
-      //         name: event.name,
-      //         path: event.path,
-      //         content: event.content
-      //       }
-      //     ]
-      //   })
-      // )
+      sendMessage(
+        JSON.stringify({
+          type: 'change',
+          change: 'file',
+          file: [
+            {
+              id: event.id,
+              name: event.name,
+              path: event.path,
+              content: event.content,
+              oldShaCode: event.oldShaCode
+            }
+          ]
+        })
+      )
 
       currentFile.value = event
       const idx = files.value.findIndex((e) => e.id === event.id)
@@ -450,7 +491,8 @@ export default defineComponent({
         const data = JSON.parse(event.data)
         console.log(data)
         if (data.type === 'user') handleUserActive(data)
-        if (data.type === 'userList') handleListUserAcitve(data)
+        else if (data.type === 'userList') handleListUserAcitve(data)
+        else if (data.type === 'change') notiChange(data)
       }
 
       socket.onopen = () => {
@@ -466,7 +508,7 @@ export default defineComponent({
 
     const compileAPI = (compileFileId) =>
       serviceAPI.compile({
-        code: code,
+        code: code.value,
         files: files.value
           .filter((e) => e.isCompile === false)
           .map((e) => ({
@@ -475,7 +517,7 @@ export default defineComponent({
             content: localStorage.getItem(e.id) || e.content,
             type: e.type
           })),
-        compilePath: files.value.find((e) => e.id === compileFileId)
+        compilePath: files.value.find((e) => e.id === compileFileId).path || ''
       })
 
     const notiChange = (event) => {
@@ -502,20 +544,24 @@ export default defineComponent({
               type: 'primary',
               onClick: () => {
                 notification.close('notiChange')
+                onUpdateFiles(false)
+
                 if (event.change === 'file') {
-                  conflictFiles.value = event.file
-                } else {
-                  onUpdateFiles(false)
+                  const tmp = event.file.filter(
+                    (e) => e.oldShaCode !== files.value.find((f) => f.id === e.id).localShaCode
+                  )
+                  if (tmp.length > 0) conflictFiles.value = tmp
                 }
               }
             },
             { default: () => 'Update' }
           )
         ],
-        key: 'notiChange'
-        // onClose: () => {
-        //   console.log('close')
-        // }
+        key: 'notiChange',
+        onClose: () => {
+          console.log('close')
+          showChange = false
+        }
       })
     }
 
@@ -534,7 +580,7 @@ export default defineComponent({
     const onDownloadFolder = (event) => {
       serviceAPI
         .downloadFolder({
-          code: code,
+          code: code.value,
           files: files.value
             .filter((e) => e.isCompile === false)
             .map((e) => ({
@@ -604,8 +650,9 @@ export default defineComponent({
 
     const handleUserActive = (data) => {
       if (data.active) {
-        activeUsers.add(data.userId)
-      } else activeUsers.delete(data.userId)
+        activeUsers.value.add(data.userId)
+      } else activeUsers.value.delete(data.userId)
+      console.log('set')
     }
 
     const handleListUserAcitve = (data) => {
@@ -618,6 +665,23 @@ export default defineComponent({
       console.log('hd', activeUsers)
     }
 
+    const onDownloadPdf = () => {
+      console.log('okk')
+      fetch(`${import.meta.env.VITE_API_URL}/${code.value}/${resCompile.value.pdf}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.style.display = 'none'
+          a.href = url
+          a.download = project.value.name // Tên tệp bạn muốn đặt cho tệp đã tải xuống
+          document.body.appendChild(a)
+          a.click()
+          window.URL.revokeObjectURL(url)
+        })
+        .catch((error) => console.error('Error downloading the PDF:', error))
+    }
+
     return {
       show,
       files,
@@ -626,14 +690,14 @@ export default defineComponent({
       apiUrl: import.meta.env.VITE_API_URL,
       currentFile,
       onCompile,
-      loading,
-      pdf,
+      resCompile,
       onUpdateFiles,
       onSaveFile,
       conflictFiles,
       isConflict,
       onConflict,
       loadingVersion,
+      loadingCompile,
       onSaveVersion,
       sendMessage,
       disableCompile,
@@ -654,7 +718,9 @@ export default defineComponent({
       inputRef,
       addStarred,
       removeStarred,
-      activeUsers
+      activeUsers,
+      code,
+      onDownloadPdf
     }
   }
 })

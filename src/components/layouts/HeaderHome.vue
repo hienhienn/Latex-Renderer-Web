@@ -1,5 +1,5 @@
 <template>
-  <a-layout-header class="home-header">
+  <a-layout-header theme="dark" class="home-header">
     <a-row justify="space-between" align="middle">
       <a-row align="middle">
         <a href="/" style="height: 40px;">

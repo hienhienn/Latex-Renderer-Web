@@ -114,7 +114,8 @@ export default defineComponent({
             content: code.value,
             localShaCode: res.data.shaCode,
             shaCode: res.data.shaCode,
-            type: props.initData.type
+            type: props.initData.type,
+            oldShaCode: shaCode
           })
           shaCode = res.data.shaCode
         })
@@ -206,7 +207,7 @@ export default defineComponent({
           localStorage.removeItem(`sha-${props.initData.id}`)
           shaCode = props.initData.shaCode
         }
-      }, 1000)
+      }, 500)
       return () => clearTimeout(to)
     }
 

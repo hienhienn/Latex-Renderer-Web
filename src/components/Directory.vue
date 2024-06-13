@@ -42,11 +42,7 @@
         </a-row>
         <a-row>
           <a-tooltip title="Delete">
-            <a-button
-              type="text"
-              class="icon-btn"
-              @click="() => onDelete(selectedKeys)"
-            >
+            <a-button type="text" class="icon-btn" @click="() => onDelete(selectedKeys)">
               <img src="/icons/trash.svg" class="icon-select" />
             </a-button>
           </a-tooltip>
@@ -56,7 +52,7 @@
     <div class="tree-container">
       <a-directory-tree
         mode="inline"
-        :style="{ height: '100%', borderRight: 0 }"
+        :style="{ height: '100%', borderRight: 0, overflow: 'hidden' }"
         v-model:selectedKeys="selectedKeys"
         v-model:expandedKeys="expandedKeys"
         :tree-data="files.children"
@@ -65,7 +61,11 @@
       >
         <template #title="{ dataRef }">
           <a-row justify="space-between" class="row-directory" :class="{ save: dataRef.isSave }">
-            <span v-if="dataRef.id !== 'input'">{{ dataRef.title }}</span>
+            <span
+              v-if="dataRef.id !== 'input'"
+              :style="{ overflow: 'hidden', maxWidth: 'calc(100% - 50px)' }"
+              >{{ dataRef.title }}</span
+            >
             <span v-if="dataRef.id === 'input'">
               <a-input
                 size="small"
@@ -118,11 +118,6 @@
     </a-row>
     <div class="tree-container"></div>
   </div>
-  <!-- <a-modal v-model:open="openUpload" title="Upload new image" okText="Save" @ok="saveImage">
-    <input type="file" @change="onFileChanged($event)" accept="image/*" capture />
-    <a-input v-model:value="nameFolder" placeholder="Image name" />
-    <a-typography-text type="danger">{{ errorText }}</a-typography-text>
-  </a-modal> -->
   <AddNewImage
     v-model:open="openImage"
     :selectedKeys="selectedKeys"
@@ -172,6 +167,10 @@ export default defineComponent({
     readonly: {
       type: Boolean,
       default: false
+    },
+    mainFile: {
+      type: Object,
+      default: {}
     }
   },
   emits: ['changeSelected', 'update:files', 'downloadFolder'],
@@ -192,6 +191,8 @@ export default defineComponent({
     const name = ref('')
     const input = ref()
     const openImage = ref(false)
+
+    watchEffect(() => (selectedKeys.value = [props.mainFile.path]))
 
     const compareFile = (a, b) => {
       let aIsLeaf = a.isLeaf ? 1 : 0
