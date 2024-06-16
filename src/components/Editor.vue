@@ -363,16 +363,31 @@ export default defineComponent({
 
 @mixin apply-theme($theme) {
   $color-border: map-get($theme, color-border);
+  $color-background: map-get($theme, color-background);
+  $text-secondary: map-get($theme, text-secondary);
+
+  background: $color-background;
+
+  .editor-control .quick-btn {
+    color: $text-secondary
+  }
 }
 
 .container-editor {
+  &[theme='light'] {
+    @include apply-theme($theme-light)
+  }
+
+  &[theme='dark'] {
+    @include apply-theme($theme-dark)
+  }
+
   width: 100%;
   height: 100%;
-  background: white;
   gap: 16px;
 
   .editor-control {
-    background: #f4f2ff;
+    background: rgba(109, 91, 208, 0.09);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -382,7 +397,6 @@ export default defineComponent({
     padding: 0 8px;
 
     .quick-btn {
-      color: #6e6893;
       padding: 0 4px;
     }
   }

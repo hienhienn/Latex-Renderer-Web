@@ -56,7 +56,7 @@
       </a-space>
     </a-layout-header>
     <splitpanes>
-      <pane min-size="17" max-size="70" size="20">
+      <pane min-size="17" max-size="50" size="20" class="directory">
         <Directory
           :initData="files"
           :mainFile="files?.find((e) => e.id === project.mainFileId)"
@@ -744,6 +744,10 @@ export default defineComponent({
       border: 1px solid $color-border;
       background: $color-background-layout;
     }
+  }
+
+  .directory {
+    background: $color-background;
   }
 
 }

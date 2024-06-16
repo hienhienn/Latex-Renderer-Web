@@ -18,20 +18,26 @@
     >
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'name'">
-          <a-row align="middle">
-            <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">{{
-              text
-            }}</RouterLink>
-            <a-tag class="mode-tag">
-              <template #icon v-if="record.isPublic">
-                <global-outlined />
-              </template>
-              <template #icon v-if="!record.isPublic">
-                <lock-outlined />
-              </template>
-              {{ record.isPublic ? 'Public' : 'Private' }}
+          <div style="display: flex">
+            <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">
+              {{ text }}
+            </RouterLink>
+            <a-tag class="mode-tag" v-if="record.role">
+              {{ record.role }}
             </a-tag>
-          </a-row>
+            <a-tooltip :title="record.isPublic ? 'Public' : 'Private'">
+              <a-button size="small" type="text" shape="circle">
+                <GlobalOutlined v-if="record.isPublic" />
+                <LockOutlined v-if="!record.isPublic" />
+              </a-button>
+            </a-tooltip>
+            <a-tooltip :title="record.starred ? 'Starred' : 'Unstarred'">
+              <a-button size="small" type="text" shape="circle">
+                <StarFilled v-if="record.starred" style="color: #fbc725" />
+                <StarOutlined v-if="!record.starred" />
+              </a-button>
+            </a-tooltip>
+          </div>
         </template>
         <template v-if="column.dataIndex === 'userProjects'">
           <a-avatar-group
@@ -54,11 +60,18 @@
           </a-row>
         </template>
         <template v-if="column.dataIndex === 'actions'">
-          <a-tooltip title="Delete">
-            <a-button style="padding: 0 8px;" @click="() => onDelete(record)" type="text">
-              <delete-outlined />
-            </a-button>
-          </a-tooltip>
+          <div style="display: flex">
+            <a-tooltip title="Copy">
+              <a-button style="padding: 0 8px" @click="() => onCopyProject(record)" type="text">
+                <copy-outlined />
+              </a-button>
+            </a-tooltip>
+            <a-tooltip title="Delete">
+              <a-button style="padding: 0 8px" @click="() => onDelete(record)" type="text">
+                <delete-outlined />
+              </a-button>
+            </a-tooltip>
+          </div>
         </template>
       </template>
     </a-table>
@@ -81,6 +94,12 @@
       <a-typography-text type="danger">{{ errorText }}</a-typography-text>
     </a-modal>
   </div>
+  <CopyProject
+    :initData="{ name: selectedProject?.name, version: selectedProject?.mainVersionId }"
+    v-model:open="openCopy"
+    :versions="selectedProject?.versions"
+    @success="onSuccessCopy"
+  />
 </template>
 
 <script lang="ts">
@@ -88,11 +107,20 @@ import { serviceAPI } from '@/services/API'
 import { NotiError, NotiSuccess } from '@/services/notification'
 import { defineComponent, reactive, readonly, ref, watch } from 'vue'
 import { dateTimeFormat } from '@/services/functions'
-import { DeleteOutlined, GlobalOutlined, LockOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import {
+  CopyOutlined,
+  DeleteOutlined,
+  GlobalOutlined,
+  LockOutlined,
+  SearchOutlined,
+  StarFilled,
+  StarOutlined
+} from '@ant-design/icons-vue'
 import debounce from 'lodash.debounce'
 import { Confirm } from '@/services/confirm'
 import AvatarApp from '@/components/common/AvatarApp.vue'
-import { inject } from 'vue';
+import { inject } from 'vue'
+import CopyProject from './CopyProject.vue'
 
 export default defineComponent({
   props: {
@@ -108,7 +136,11 @@ export default defineComponent({
     SearchOutlined,
     LockOutlined,
     GlobalOutlined,
-    AvatarApp
+    AvatarApp,
+    StarOutlined,
+    StarFilled,
+    CopyOutlined,
+    CopyProject
   },
   name: 'HomeContent',
   setup(props) {
@@ -135,23 +167,21 @@ export default defineComponent({
         sorter: true
       },
       {
-        title: 'Status',
-        dataIndex: 'status'
-      },
-      {
         title: 'Member',
-        dataIndex: 'userProjects'
+        dataIndex: 'userProjects',
+        width: 150
       },
       {
         title: 'Last Modified',
         dataIndex: 'modifiedTime',
-        sorter: true
+        sorter: true,
+        width: 200
       },
       {
         title: 'Actions',
         dataIndex: 'actions',
         align: 'center',
-        width: 100
+        width: 120
       }
     ])
     const dataSource = ref<any[]>([])
@@ -159,6 +189,8 @@ export default defineComponent({
     const openModal = ref(false)
     const namePrj = ref<string>('')
     const to = ref<any>(null)
+    const selectedProject = ref()
+    const openCopy = ref(false)
 
     watch(
       () => [namePrj.value],
@@ -271,6 +303,15 @@ export default defineComponent({
       getData()
     }
 
+    const onCopyProject = (record) => {
+      selectedProject.value = record
+      openCopy.value = true
+    }
+
+    const onSuccessCopy = () => {
+      getData()
+    }
+
     return {
       searchText,
       errorText,
@@ -287,7 +328,11 @@ export default defineComponent({
       debounce,
       onDelete,
       onChangePagination,
-      theme
+      theme,
+      onCopyProject,
+      selectedProject,
+      openCopy,
+      onSuccessCopy,
     }
   }
 })
@@ -347,6 +392,8 @@ export default defineComponent({
 
       .a-title {
         font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       table > thead {
         > tr:first-child > *:first-child {
@@ -356,20 +403,18 @@ export default defineComponent({
         > tr:first-child > *:last-child {
           border-radius: unset;
         }
-
-        > .mode-tag {
-          border-radius: 10px;
-          margin-left: 12px;
-          > .anticon + span {
-            margin-inline-start: 2px;
-          }
-        }
       }
     }
   }
 
   .custom-pagination-row {
     padding: 8px 24px;
+  }
+
+  .mode-tag {
+    border-radius: 10px;
+    margin-left: 12px;
+    text-transform: capitalize;
   }
 }
 </style>

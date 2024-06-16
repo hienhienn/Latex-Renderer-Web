@@ -1,11 +1,10 @@
 <template>
-  <div class="directory-div" :class="{ open: open1 }">
+  <div class="directory-div" :class="{ open: open1 }" :theme="theme">
     <a-row class="header-directory" align="center" justify="space-between">
       <a-space @click="open1 = !open1">
         <caret-right-outlined class="toggle-ic" />
         <a-typography-text class="title-text-directory" strong>FILE EXPLORER</a-typography-text>
       </a-space>
-
       <a-space align="center" class="control-btns">
         <a-row>
           <a-tooltip title="New folder">
@@ -18,7 +17,6 @@
               <img src="/icons/folder-add.svg" class="icon-select" />
             </a-button>
           </a-tooltip>
-
           <a-tooltip title="New file">
             <a-button
               v-if="!isMulti"
@@ -109,7 +107,7 @@
       </a-directory-tree>
     </div>
   </div>
-  <div class="directory-div" :class="{ open: open1 }">
+  <div class="directory-div" :class="{ open: open1 }" :theme="theme">
     <a-row class="header-directory" align="center" justify="space-between" @click="open1 = !open1">
       <a-space>
         <caret-right-outlined class="toggle-ic" />
@@ -127,7 +125,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, ref, watch, watchEffect } from 'vue'
+import { computed, defineComponent, h, inject, ref, watch, watchEffect } from 'vue'
 import {
   UploadOutlined,
   DeleteFilled,
@@ -175,6 +173,7 @@ export default defineComponent({
   },
   emits: ['changeSelected', 'update:files', 'downloadFolder'],
   setup(props, { emit }) {
+    const theme = inject('theme')
     const selectedKeys = ref([])
     const expandedKeys = ref([])
     const files = ref([])
@@ -196,7 +195,7 @@ export default defineComponent({
     watch(
       () => [props.mainFile.path],
       () => {
-        if(!isFirstLoad.value) return
+        if (!isFirstLoad.value) return
         selectedKeys.value = [props.mainFile.path]
         isFirstLoad.value = false
       }
@@ -667,16 +666,48 @@ export default defineComponent({
       input,
       onRename,
       openImage,
-      onUpdateFiles
+      onUpdateFiles,
+      theme
     }
   }
 })
 </script>
 
 <style lang="scss">
-// .ant-modal .ant-input {
-//   margin: 16px 0;
-// }
+@import '@/variable.scss';
+
+@mixin apply-theme($theme) {
+  $color-border: map-get($theme, color-border);
+  $color-background: map-get($theme, color-background);
+  $text-secondary: map-get($theme, text-secondary);
+  $text-primary: map-get($theme, text-primary);
+  $text-modify: map-get($theme, text-modify);
+
+  .toggle-ic,
+  .title-text-directory {
+    color: $text-secondary;
+  }
+
+  .ant-tree-switcher {
+    color: $text-primary !important;
+  }
+
+  .icon-directory {
+    path {
+      stroke: $text-modify;
+    }
+    &.save path {
+      stroke: $text-primary;
+    }
+  }
+
+  .row-directory {
+    color: $text-modify;
+    &.save {
+      color: $text-primary
+    }
+  }
+}
 
 .icon-select {
   width: 20px;
@@ -695,7 +726,6 @@ export default defineComponent({
   display: inline-flex;
   flex-wrap: nowrap;
   width: calc(100% - 30px);
-  color: #965e00;
 
   > span {
     text-overflow: ellipsis;
@@ -712,17 +742,19 @@ export default defineComponent({
   &:hover .anticon {
     opacity: 100;
   }
-
-  &.save {
-    color: #25213b;
-  }
-  // color: #ffeccc;
 }
 
 .directory-div {
+  &[theme='light'] {
+    @include apply-theme($theme-light);
+  }
+  &[theme='dark'] {
+    @include apply-theme($theme-dark);
+  }
+
   .header-directory {
     padding: 4px 8px;
-    background: #f4f2ff;
+    background: rgba(109, 91, 208, 0.09);
     cursor: pointer;
 
     .control-btns {
@@ -733,12 +765,10 @@ export default defineComponent({
 
     .toggle-ic {
       font-size: 10px;
-      color: #6e6893;
       transition: all 0.3s ease-in-out;
     }
 
     .title-text-directory {
-      color: #6e6893;
       font-size: 12px;
       line-height: 30px;
       pointer-events: none;
@@ -749,15 +779,6 @@ export default defineComponent({
     transform: scale(0.8);
     position: relative;
     top: 2px;
-    // height: 21px;
-
-    path {
-      stroke: #965e00;
-    }
-
-    &.save path {
-      stroke: #25213b;
-    }
   }
 
   .ant-tree {
@@ -769,11 +790,7 @@ export default defineComponent({
     }
 
     .ant-tree-treenode:hover {
-      background: #f2f0f9;
-    }
-
-    .ant-tree-switcher {
-      color: #25213b !important;
+      background: rgba(109, 91, 208, 0.05);
     }
   }
 

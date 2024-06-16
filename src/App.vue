@@ -19,6 +19,11 @@ const lightTheme = {
     colorBorder: '#D9D5EC',
     colorBgLayout: '#f2f0f9',
     colorText: '#25213B'
+  },
+  components: {
+    Tree: {
+      colorPrimary: '#f3951b30'
+    }
   }
 }
 
@@ -28,6 +33,11 @@ const darkTheme = {
     colorPrimary: '#6D5BD0',
     borderRadius: 8,
     colorBgLayout: '#1e1e1e'
+  },
+  components: {
+    Tree: {
+      colorPrimary: '#fdd14130'
+    }
   }
 }
 

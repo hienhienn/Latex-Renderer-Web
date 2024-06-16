@@ -51,7 +51,7 @@ export default defineComponent({
       default: []
     }
   },
-  emits: ['update:open'],
+  emits: ['update:open', 'success'],
   setup(props, { emit }) {
     const formState = reactive({
       name: props.initData.name + ' (Copy)',
@@ -80,6 +80,7 @@ export default defineComponent({
         .then(() => {
           NotiSuccess('Success')
           emit('update:open', false)
+          emit('success')
         })
         .catch(() => NotiError('failed'))
     }
