@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import 'splitpanes/dist/splitpanes.css'
+import { provide, watchEffect } from 'vue'
+import { theme } from 'ant-design-vue'
+import { appTheme } from './constant/theme'
 
-const theme = {
+provide('theme', appTheme)
+
+const lightTheme = {
   token: {
     colorPrimary: '#6D5BD0',
     colorInfo: '#4A4AFF',
@@ -13,39 +18,41 @@ const theme = {
     colorTextSecondary: '#6E6893',
     colorBorder: '#D9D5EC',
     colorBgLayout: '#f2f0f9',
-    colorSuccessBg: '#CDFFCD',
     colorText: '#25213B'
-  },
-  components: {
-    Tabs: {
-      colorPrimary: '#25213B'
-    },
-    Tree: {
-      colorPrimary: '#ffeccc'
-    }
   }
 }
+
+const darkTheme = {
+  algorithm: theme.darkAlgorithm,
+  token: {
+    colorPrimary: '#6D5BD0',
+    borderRadius: 8,
+    colorBgLayout: '#1e1e1e'
+  }
+}
+
+watchEffect(() => localStorage.setItem('theme', appTheme.value))
 </script>
 
 <template>
-  <a-config-provider :theme="theme">
+  <a-config-provider :theme="appTheme === 'light' ? lightTheme : darkTheme">
     <RouterView />
   </a-config-provider>
 </template>
 
-<style>
+<style lang="scss">
+@import '@/variable.scss';
+
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color: #f2f0f9;
+  background-color: rgba(109, 91, 208, 0.09);
 }
-
 ::-webkit-scrollbar {
   width: 6px;
-  background-color: #f2f0f9;
+  background-color: rgba(109, 91, 208, 0.09);
 }
-
 ::-webkit-scrollbar-thumb {
-  background-color: #6d5bd080;
+  background-color: $color-scrollbar;
   border-radius: 10px;
 }
 </style>

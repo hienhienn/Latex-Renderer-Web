@@ -1,5 +1,5 @@
 <template>
-  <a-layout class="project-page">
+  <a-layout class="project-page" :theme="theme">
     <a-layout-header class="custom-header">
       <a-space align="center">
         <a href="/" style="display: flex" title="Go to home page">
@@ -52,18 +52,7 @@
             <span style="font-weight: 600">{{ project?.versions?.length }}</span>
           </a-radio-button>
         </a-radio-group>
-        <a-dropdown placement="bottomRight">
-          <a-avatar
-            :size="40"
-            :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname"
-          />
-          <template #overlay>
-            <a-menu>
-              <a-menu-item> {{ user?.fullname }} ({{ user?.username }}) </a-menu-item>
-              <a-menu-item> Logout </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
+        <UserAvatar :user="user"/>
       </a-space>
     </a-layout-header>
     <splitpanes>
@@ -138,7 +127,17 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, onMounted, reactive, ref, watch, watchEffect } from 'vue'
+import {
+  computed,
+  defineComponent,
+  h,
+  inject,
+  onMounted,
+  reactive,
+  ref,
+  watch,
+  watchEffect
+} from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -165,6 +164,7 @@ import VueResizable from 'vue-resizable'
 import { NotiError } from '@/services/notification'
 import { Splitpanes, Pane } from 'splitpanes'
 import { DefaultEditorOptions } from '@/constant'
+import UserAvatar from '@/components/common/UserAvatar.vue';
 
 export default defineComponent({
   components: {
@@ -186,9 +186,11 @@ export default defineComponent({
     SettingBar,
     ShareMode,
     Splitpanes,
-    Pane
+    Pane,
+    UserAvatar
   },
   setup() {
+    const theme = inject('theme')
     const route = useRoute()
     const files = ref([])
     const project = ref({
@@ -710,20 +712,56 @@ export default defineComponent({
       activeUsers,
       code,
       onDownloadPdf,
-      editorOptions
+      editorOptions,
+      theme
     }
   }
 })
 </script>
 
 <style lang="scss">
+@import '@/variable.scss';
+
+@mixin apply-theme($theme) {
+  $text-primary: map-get($theme, text-primary);
+  $text-secondary: map-get($theme, text-secondary);
+  $color-header: map-get($theme, color-header);
+  $color-border: map-get($theme, color-border);
+  $color-shadow: map-get($theme, color-shadow);
+  $color-background-layout: map-get($theme, color-background-layout);
+  $color-background: map-get($theme, color-background);
+
+  .ant-layout-header.custom-header {
+    background-color: $color-background;
+    box-shadow: 0 4px 10px 0 $color-shadow;
+    border-bottom: 1px solid $color-border;
+
+    .ant-input {
+      background: $color-background;
+    }
+
+    .starred-div {
+      border: 1px solid $color-border;
+      background: $color-background-layout;
+    }
+  }
+
+}
+
 .splitpanes > .splitpanes__splitter {
   min-width: 6px;
   background: rgba(109, 91, 208, 0.19);
 }
+
 .project-page {
+  &[theme='light'] {
+    @include apply-theme($theme-light);
+  }
+
+  &[theme='dark'] {
+    @include apply-theme($theme-dark);
+  }
   .logo {
-    background-color: white;
     width: 48px;
     height: 48px;
     margin-top: 8px;
@@ -733,7 +771,6 @@ export default defineComponent({
     width: 100%;
     flex-flow: nowrap;
     gap: 8px;
-    // margin-bottom: 8px;
   }
 
   .header-info {
@@ -744,7 +781,6 @@ export default defineComponent({
   }
 
   .project-content {
-    background: #f5f5f5;
     margin: 0;
     padding: 0;
     min-height: calc(100vh - 64px) !important;
@@ -759,7 +795,6 @@ export default defineComponent({
   .editor-right {
     width: calc(100% - 650px);
     height: 100%;
-    background: white;
     padding: 8px 16px;
   }
 
@@ -776,7 +811,6 @@ export default defineComponent({
 
   .title-path {
     width: 100%;
-    background: white;
     padding: 4px 16px;
   }
 
@@ -791,11 +825,8 @@ export default defineComponent({
   }
 
   .ant-layout-header.custom-header {
-    background: white;
-    border-bottom: 1px solid #d9d5ec;
     justify-content: space-between;
     display: flex;
-    box-shadow: 0 4px 10px 0 #00000010;
     z-index: 10;
     .title-project {
       font-size: 18px;
@@ -854,10 +885,8 @@ export default defineComponent({
   }
 
   .starred-div {
-    background: #f4f2ff;
     padding: 0 8px;
     border-radius: 12px;
-    border: 1px solid #d9d5ec;
 
     .anticon {
       transition: all 150ms ease-in-out;

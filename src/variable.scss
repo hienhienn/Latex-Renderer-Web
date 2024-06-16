@@ -1,0 +1,27 @@
+$color-background-primary: rgba(109, 91, 208, 0.05); //#e..
+$color-scrollbar: rgba(109, 91, 208, 0.6);
+// $text-succes: 
+
+$theme-light: (
+  color-primary: #6d5bd0,
+  color-background: white,
+  color-scrollbar: rgba(109, 91, 208, 0.6),
+  text-primary: #25213b,
+  text-secondary: #6e6893,
+  color-background-layout: #f2f0f9,
+  color-shadow: #00000020,
+  color-border: #ccc8de,
+  color-header: white,
+);
+
+$theme-dark: (
+  color-primary: #6d5bd0,
+  color-background: #1e1e1e,
+  color-scrollbar: rgba(109, 91, 208, 0.6),
+  text-primary: #ffffffd0,
+  text-secondary: #ffffff90,
+  color-background-layout: black,//#f...
+  color-shadow: #ffffff05,
+  color-border: #404040,
+  color-header: black,
+);

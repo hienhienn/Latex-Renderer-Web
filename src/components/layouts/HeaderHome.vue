@@ -2,43 +2,35 @@
   <a-layout-header theme="dark" class="home-header">
     <a-row justify="space-between" align="middle">
       <a-row align="middle">
-        <a href="/" style="height: 40px;">
+        <a href="/" style="height: 40px">
           <img src="/icons/logo-white.svg" width="40" />
         </a>
         <div class="title">Latex Editor Online</div>
       </a-row>
-      <a-dropdown placement="bottomRight">
-        <a-avatar :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname" />
-        <template #overlay>
-          <a-menu>
-            <a-menu-item @click="onLogout">{{ user?.fullname }} ({{ user?.username }})</a-menu-item>
-            <a-menu-item @click="onLogout"> Logout </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
+      <UserAvatar :user="user" :theme="theme" @update:theme="(e) => emit('update:theme', e)" />
     </a-row>
   </a-layout-header>
 </template>
 
 <script lang="ts">
-import router from '@/router'
+import UserAvatar from '@/components/common/UserAvatar.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  components: {
+    UserAvatar
+  },
   props: {
     user: {
       type: Object
+    },
+    theme: {
+      type: String
     }
   },
-  setup() {
-    const onLogout = () => {
-      localStorage.removeItem('token')
-      router.push('/login')
-    }
-
-    return {
-      onLogout
-    }
+  emits: ['update:theme'],
+  setup(props, { emit }) {
+    return { emit }
   }
 })
 </script>
@@ -51,7 +43,7 @@ export default defineComponent({
   left: 0;
   right: 0;
   color: white;
-  background-color: #6D5BD0;
+  background-color: #6d5bd0;
 
   .title {
     font-weight: bold;

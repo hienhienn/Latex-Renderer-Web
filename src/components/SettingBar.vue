@@ -4,7 +4,7 @@
     :initData="{ name: project.name, version: project.mainVersionId }"
     :versions="project.versions"
   />
-  <a-space :size="0" class="space-setting">
+  <a-space :size="0" class="space-setting" :theme="theme">
     <a-dropdown placement="bottomLeft" :trigger="['click']">
       <a-button type="text" size="small">Project</a-button>
       <template #overlay>
@@ -109,7 +109,7 @@
 <script>
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
-import { computed, defineComponent, ref, watchEffect } from 'vue'
+import { computed, defineComponent, inject, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import CopyProject from '@/components/CopyProject.vue'
 import { DefaultEditorOptions } from '@/constant'
@@ -141,6 +141,7 @@ export default defineComponent({
   },
   emits: ['update:mainFileId', 'downloadFolder', 'downloadPdf', 'update:editorOptions'],
   setup(props, { emit }) {
+    const theme = inject('theme')
     const route = useRoute()
     const fontSize = [10, 11, 12, 13, 14, 16, 18, 20, 24]
     const fontSizeOptions = fontSize.map((e) => ({ value: e, label: e + 'px' }))
@@ -176,7 +177,6 @@ export default defineComponent({
         ]
       }
     ])
-    
 
     console.log(props.editorOptions)
     const handleClick = (e) => {
@@ -220,26 +220,38 @@ export default defineComponent({
       fileOptions,
       onChangeMainFile,
       openCopyProject,
-      emit
+      emit,
+      theme
     }
   }
 })
 </script>
 
 <style lang="scss">
+@import '@/variable.scss';
+
+@mixin apply-theme($theme) {
+  $text-secondary: map-get($theme, text-secondary);
+
+  .ant-btn-text.ant-btn-sm {
+    color: $text-secondary;
+  }
+}
+
 .space-setting {
+  &[theme='light'] {
+    @include apply-theme($theme-light);
+  }
+  &[theme='dark'] {
+    @include apply-theme($theme-dark);
+  }
   padding: 0 4px;
 
   .ant-btn-text.ant-btn-sm {
     font-size: 13px;
-    color: #6e6893;
   }
 
   .dropdown-setting {
   }
-
-  // .ant-dropdown-menu {
-  //     width: 200px;
-  //   }
 }
 </style>

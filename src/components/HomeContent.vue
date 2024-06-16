@@ -1,95 +1,98 @@
 <template>
-  <a-row justify="space-between" class="row-search">
-    <a-input v-model:value="searchText" placeholder="Type here to search" allow-clear>
-      <template #prefix>
-        <search-outlined />
+  <div class="home-table-container" :theme="theme">
+    <a-row justify="space-between" class="row-search">
+      <a-input v-model:value="searchText" placeholder="Type here to search" allow-clear>
+        <template #prefix>
+          <search-outlined />
+        </template>
+      </a-input>
+      <a-button type="primary" @click="onClickNew">New Project</a-button>
+    </a-row>
+    <a-table
+      :dataSource="dataSource"
+      :columns="columns"
+      :pagination="false"
+      @change="onChangeTable"
+      :loading="loading"
+      size="middle"
+    >
+      <template #bodyCell="{ column, text, record }">
+        <template v-if="column.dataIndex === 'name'">
+          <a-row align="middle">
+            <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">{{
+              text
+            }}</RouterLink>
+            <a-tag class="mode-tag">
+              <template #icon v-if="record.isPublic">
+                <global-outlined />
+              </template>
+              <template #icon v-if="!record.isPublic">
+                <lock-outlined />
+              </template>
+              {{ record.isPublic ? 'Public' : 'Private' }}
+            </a-tag>
+          </a-row>
+        </template>
+        <template v-if="column.dataIndex === 'userProjects'">
+          <a-avatar-group
+            :size="28"
+            :max-count="3"
+            :max-style="{ color: '#965E00', backgroundColor: '#FFECCC' }"
+            :maxPopoverTrigger="''"
+          >
+            <a-avatar
+              v-for="member in text"
+              :src="'https://ui-avatars.com/api/?background=random&name=' + member?.fullname"
+            ></a-avatar>
+          </a-avatar-group>
+        </template>
+        <template v-if="column.dataIndex === 'modifiedTime'">
+          {{ dateTimeFormat(text) }}
+          <a-row class="modify-editor">
+            by
+            <AvatarApp :hide-avatar="true" :avatar-user="record.editor" :current-user="user" />
+          </a-row>
+        </template>
+        <template v-if="column.dataIndex === 'actions'">
+          <a-tooltip title="Delete">
+            <a-button style="padding: 0 8px;" @click="() => onDelete(record)" type="text">
+              <delete-outlined />
+            </a-button>
+          </a-tooltip>
+        </template>
       </template>
-    </a-input>
-    <a-button type="primary" @click="onClickNew">New Project</a-button>
-  </a-row>
-  <a-table
-    :dataSource="dataSource"
-    :columns="columns"
-    :pagination="false"
-    @change="onChangeTable"
-    :loading="loading"
-    size="middle"
-  >
-    <template #bodyCell="{ column, text, record }">
-      <template v-if="column.dataIndex === 'name'">
-        <a-row align="middle">
-          <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">{{
-            text
-          }}</RouterLink>
-          <a-tag class="mode-tag">
-            <template #icon v-if="record.isPublic">
-              <global-outlined />
-            </template>
-            <template #icon v-if="!record.isPublic">
-              <lock-outlined />
-            </template>
-            {{ record.isPublic ? 'Public' : 'Private' }}
-          </a-tag>
-        </a-row>
-      </template>
-      <template v-if="column.dataIndex === 'userProjects'">
-        <a-avatar-group
-          :size="28"
-          :max-count="3"
-          :max-style="{ color: '#965E00', backgroundColor: '#FFECCC' }"
-          :maxPopoverTrigger="''"
-        >
-          <a-avatar
-            v-for="member in text"
-            :src="'https://ui-avatars.com/api/?background=random&name=' + member?.fullname"
-          ></a-avatar>
-        </a-avatar-group>
-      </template>
-      <template v-if="column.dataIndex === 'modifiedTime'">
-        {{ dateTimeFormat(text) }}
-        <a-row style="gap: 4px; color: #6e6893">
-          by
-          <AvatarApp :hide-avatar="true" :avatar-user="record.editor" :current-user="user" />
-        </a-row>
-      </template>
-      <template v-if="column.dataIndex === 'actions'">
-        <a-tooltip title="Delete">
-          <a-button style="padding: 0 8px" @click="() => onDelete(record)">
-            <delete-outlined />
-          </a-button>
-        </a-tooltip>
-      </template>
-    </template>
-  </a-table>
-  <a-row justify="space-between" align="middle" class="custom-pagination-row">
-    <span>
-      Show {{ pagination.pageSize * (pagination.page - 1) + 1 }} -
-      {{ pagination.pageSize * (pagination.page - 1) + dataSource.length }} of
-      {{ pagination.total }} items
-    </span>
-    <a-pagination
-      :current="pagination.page"
-      :page-size="pagination.pageSize"
-      :total="pagination.total"
-      :showSizeChanger="false"
-      @change="onChangePagination"
-    />
-  </a-row>
-  <a-modal v-model:open="openModal" title="New Project" okText="Save" @ok="saveProject">
-    <a-input v-model:value="namePrj" placeholder="Project Name" />
-    <a-typography-text type="danger">{{ errorText }}</a-typography-text>
-  </a-modal>
+    </a-table>
+    <a-row justify="space-between" align="middle" class="custom-pagination-row">
+      <span>
+        Show {{ pagination.pageSize * (pagination.page - 1) + 1 }} -
+        {{ pagination.pageSize * (pagination.page - 1) + dataSource.length }} of
+        {{ pagination.total }} items
+      </span>
+      <a-pagination
+        :current="pagination.page"
+        :page-size="pagination.pageSize"
+        :total="pagination.total"
+        :showSizeChanger="false"
+        @change="onChangePagination"
+      />
+    </a-row>
+    <a-modal v-model:open="openModal" title="New Project" okText="Save" @ok="saveProject">
+      <a-input v-model:value="namePrj" placeholder="Project Name" />
+      <a-typography-text type="danger">{{ errorText }}</a-typography-text>
+    </a-modal>
+  </div>
 </template>
 
 <script lang="ts">
 import { serviceAPI } from '@/services/API'
 import { NotiError, NotiSuccess } from '@/services/notification'
-import { defineComponent, reactive, readonly, ref, watch, watchEffect } from 'vue'
+import { defineComponent, reactive, readonly, ref, watch } from 'vue'
 import { dateTimeFormat } from '@/services/functions'
 import { DeleteOutlined, GlobalOutlined, LockOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import debounce from 'lodash.debounce'
 import { Confirm } from '@/services/confirm'
 import AvatarApp from '@/components/common/AvatarApp.vue'
+import { inject } from 'vue';
 
 export default defineComponent({
   props: {
@@ -109,6 +112,7 @@ export default defineComponent({
   },
   name: 'HomeContent',
   setup(props) {
+    const theme = inject('theme')
     const searchText = ref<string>('')
     const errorText = ref<string>('')
     const pagination = reactive({
@@ -282,55 +286,90 @@ export default defineComponent({
       onChangeTable,
       debounce,
       onDelete,
-      onChangePagination
+      onChangePagination,
+      theme
     }
   }
 })
 </script>
 
 <style lang="scss">
-.ant-table-container {
-  .ant-table-thead .ant-table-cell,
-  .ant-table-thead .ant-table-column-title {
-    background: #f4f2ff;
-    font-weight: bold;
-    color: #6e6893;
-    line-height: 32px;
-  }
+@import '@/variable.scss';
 
-  .ant-table-cell {
-    padding: 8px 24px !important;
-  }
+@mixin apply-theme($theme) {
+  $text-primary: map-get($theme, text-primary);
+  $text-secondary: map-get($theme, text-secondary);
+  $color-background: map-get($theme, color-background);
+  $color-background-layout: map-get($theme, color-background-layout);
+  $color-shadow: map-get($theme, color-shadow);
+  $color-border: map-get($theme, color-border);
 
-  .ant-table-cell-row-hover {
-    background-color: #f2f0f9 !important;
-  }
-
-  .a-title {
-    font-weight: 600;
+  .ant-table-wrapper {
+    .ant-table-content {
+      .ant-table-thead .ant-table-cell,
+      .ant-table-thead .ant-table-column-title {
+        color: $text-secondary;
+      }
+      .modify-editor {
+        color: $text-secondary;
+        gap: 4px;
+      }
+    }
   }
 }
 
-.ant-table-wrapper .ant-table-container table > thead > tr:first-child > *:first-child {
-  border-radius: unset;
-}
+.home-table-container {
+  &[theme='light'] {
+    @include apply-theme($theme-light);
+  }
 
-.ant-table-wrapper .ant-table-container table > thead > tr:first-child > *:last-child {
-  border-radius: unset;
-}
+  &[theme='dark'] {
+    @include apply-theme($theme-dark);
+  }
+  .ant-table-wrapper {
+    .ant-table-container {
+      .ant-table-thead .ant-table-cell {
+        background: rgba(109, 91, 208, 0.09);
+        font-weight: bold;
+        line-height: 32px;
+      }
+      .ant-table-thead .ant-table-column-title {
+        font-weight: bold;
+      }
 
-.custom-pagination-row {
-  padding: 8px 24px;
-}
+      .ant-table-cell {
+        padding: 8px 24px !important;
+      }
 
-.mode-tag {
-  border-radius: 10px;
-  margin-left: 12px;
-  color: #6e6893;
-  background: #f2f0f9;
+      .ant-table-cell-row-hover {
+        background-color: rgba(109, 91, 208, 0.09) !important;
+      }
 
-  > .anticon + span {
-    margin-inline-start: 2px;
+      .a-title {
+        font-weight: 600;
+      }
+      table > thead {
+        > tr:first-child > *:first-child {
+          border-radius: unset;
+        }
+
+        > tr:first-child > *:last-child {
+          border-radius: unset;
+        }
+
+        > .mode-tag {
+          border-radius: 10px;
+          margin-left: 12px;
+          > .anticon + span {
+            margin-inline-start: 2px;
+          }
+        }
+      }
+    }
+  }
+
+  .custom-pagination-row {
+    padding: 8px 24px;
   }
 }
 </style>

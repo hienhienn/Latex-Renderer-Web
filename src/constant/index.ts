@@ -4,3 +4,5 @@ export const DefaultEditorOptions = {
   wordWrap: 'off',
   fontSize: 14
 }
+
+export const DefaultTheme = 'light'

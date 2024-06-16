@@ -53,5 +53,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SettingBar: typeof import('./src/components/SettingBar.vue')['default']
     ShareMode: typeof import('./src/components/ShareMode.vue')['default']
+    UserAvatar: typeof import('./src/components/common/UserAvatar.vue')['default']
   }
 }

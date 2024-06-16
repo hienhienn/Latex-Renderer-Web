@@ -1,11 +1,11 @@
 <template>
-  <a-layout class="container">
-    <HeaderHome :user="user" />
+  <a-layout class="container" :theme="theme">
+    <HeaderHome :user="user"/>
     <a-layout class="main-content">
       <div class="circle"></div>
       <img class="bg-table" src="/images/bg-table.png" />
       <img class="bg-table bg-table-horizontal" src="/images/bg-table.png" />
-      <a-space direction="vertical">
+      <a-space direction="vertical" :size="0">
         <a-typography-text class="title-text" strong>PROJECTS</a-typography-text>
         <a-tabs v-model:activeKey="selectedKeys1" size="small">
           <a-tab-pane key="personal" tab="Personal"></a-tab-pane>
@@ -17,7 +17,7 @@
           <a-tab-pane key="shared" tab="Shared with you"></a-tab-pane>
         </a-tabs>
         <a-layout-content>
-          <HomeContent :category="category" :user="user" />
+          <HomeContent :category="category" :user="user"/>
         </a-layout-content>
       </a-space>
     </a-layout>
@@ -25,16 +25,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watchEffect } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import HomeContent from '@/components/HomeContent.vue'
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
+import { inject } from 'vue';
 
 export default defineComponent({
   components: {
     HomeContent
   },
   setup() {
+    const theme = inject('theme')
     const user = ref()
     const selectedKeys1 = ref<string>('personal')
     const selectedKeys2 = ref<string>('all')
@@ -43,7 +45,7 @@ export default defineComponent({
       if (selectedKeys1.value === 'personal') return selectedKeys2.value
       else return 'starred'
     })
-    
+
     onMounted(() => {
       serviceAPI
         .getCurrentUser()
@@ -59,44 +61,80 @@ export default defineComponent({
       selectedKeys1,
       selectedKeys2,
       category,
-      user
+      user,
+      theme
     }
   }
 })
 </script>
 
 <style lang="scss">
-// .ant-modal .ant-input {
-//   margin: 16px 0 4px;
-// }
+@import '@/variable.scss';
 
-.title-text {
-  font-size: 18px;
-  color: #6e6893;
+@mixin apply-theme($theme) {
+  $text-primary: map-get($theme, text-primary);
+  $text-secondary: map-get($theme, text-secondary);
+  $color-background: map-get($theme, color-background);
+  $color-background-layout: map-get($theme, color-background-layout);
+  $color-shadow: map-get($theme, color-shadow);
+
+  background-color: $color-background-layout;
+  .main-content {
+    background-color: $color-background-layout;
+  }
+  .ant-space .ant-layout-content {
+    margin-top: 16px;
+    background-color: $color-background;
+    box-shadow: 0 10px 50px $color-shadow;
+  }
+
+  .title-text {
+    color: $text-secondary;
+  }
+
+  .ant-tabs-nav {
+    margin-bottom: 0 !important;
+    .ant-tabs-tab {
+      &.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: $text-primary;
+      }
+      &:not(.ant-tabs-tab-active) {
+        color: $text-secondary;
+      }
+    }
+
+    .ant-tabs-ink-bar {
+      background: $text-primary;
+    }
+  }
 }
 
 .ant-layout.container {
+  &[theme='dark'] {
+    @include apply-theme($theme-dark);
+  }
+  &[theme='light'] {
+    @include apply-theme($theme-light);
+  }
+
   .ant-space {
     padding: 16px 24px;
-
+    .title-text {
+      font-size: 18px;
+    }
     .ant-layout-content {
-      background: #fff;
       margin: 8px 0 0;
       border-radius: 8px;
-      box-shadow: 0 10px 50px #00000020;
     }
-
     .ant-space-item {
       z-index: 2;
       position: relative;
     }
-
     .row-search {
       width: 100%;
       flex-flow: nowrap;
       gap: 8px;
       padding: 16px;
-
       .ant-input-affix-wrapper {
         max-width: 300px;
       }
@@ -117,7 +155,7 @@ export default defineComponent({
       left: -120px;
       width: 428px;
       height: 428px;
-      background: #eae8f4;
+      background: $color-background-primary;
       border-radius: 100%;
     }
 
@@ -127,6 +165,7 @@ export default defineComponent({
       width: 200px;
       bottom: 0;
       transform: translateY(-80%);
+      opacity: 0.05;
       right: -40px;
     }
 
@@ -134,15 +173,6 @@ export default defineComponent({
       transform: rotate(90deg);
       left: 20px;
       bottom: 160px;
-    }
-  }
-}
-
-.ant-tabs-nav {
-  margin-bottom: 0 !important;
-  .ant-tabs-tab {
-    &:not(.ant-tabs-tab-active) {
-      color: #6e6893;
     }
   }
 }

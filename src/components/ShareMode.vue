@@ -1,5 +1,5 @@
 <template>
-  <a-space class="shared-div" align="center">
+  <a-space class="shared-div" align="center" :theme="theme">
     <a-button type="text" shape="circle" size="small">
       <lock-outlined v-if="!isPublic" />
       <global-outlined v-if="isPublic" />
@@ -20,7 +20,7 @@
         <DownOutlined />
       </a-button>
       <template #overlay>
-        <div class="custom-overlay">
+        <div class="custom-overlay" :theme="theme">
           <a-typography-text class="title-text" strong style="font-size: 14px">
             GENERAL ACCESS
           </a-typography-text>
@@ -162,7 +162,7 @@
   </a-space>
 </template>
 <script>
-import { defineComponent, ref, reactive, watchEffect } from 'vue'
+import { defineComponent, ref, reactive, watchEffect, inject } from 'vue'
 import {
   DownOutlined,
   GlobalOutlined,
@@ -213,6 +213,7 @@ export default defineComponent({
   },
   emits: ['update:isPublic', 'update:userProjects'],
   setup(props, { emit }) {
+    const theme = inject('theme')
     const userOptions = ref()
     const stepAdd = ref(1)
     const addMemberState = reactive({
@@ -329,20 +330,57 @@ export default defineComponent({
       addMember,
       removeMember,
       filterOption,
-      nextStep
+      nextStep,
+      theme
     }
   }
 })
 </script>
 <style lang="scss">
+@import '@/variable.scss';
+
+@mixin apply-theme($theme) {
+  $color-border: map-get($theme, color-border);
+  $color-background-layout: map-get($theme, color-background-layout);
+
+  background-color: $color-background-layout;
+  border: 1px solid $color-border;
+}
+
+@mixin apply-theme-ovl($theme) {
+  $text-primary: map-get($theme, text-primary);
+  $text-secondary: map-get($theme, text-secondary);
+  $color-border: map-get($theme, color-border);
+  $color-background: map-get($theme, color-background);
+  $color-background-layout: map-get($theme, color-background-layout);
+
+  background-color: $color-background;
+  border: 1px solid $color-border;
+
+  .active-tag:not(.active) {
+    color: $text-secondary;
+    .circle {
+      background: $text-secondary;
+    }
+  }
+
+  .title-text {
+    color: $text-secondary
+  }
+}
+
 .shared-div {
-  // background-color: #f2f0f9;
+  &[theme='light'] {
+    @include apply-theme($theme-light)
+  }
+
+  &[theme='dark'] {
+    @include apply-theme($theme-dark)
+  }
   border-radius: 20px;
   line-height: 32px;
   padding: 0 8px;
   height: 40px;
-  background-color: #f4f2ff;
-  border: 1px solid #d9d5ec;
 
   .ant-space-item {
     display: flex;
@@ -351,11 +389,17 @@ export default defineComponent({
 }
 
 .custom-overlay {
-  background-color: white;
+  &[theme='light'] {
+    @include apply-theme-ovl($theme-light)
+  }
+
+  &[theme='dark'] {
+    @include apply-theme-ovl($theme-dark)
+  }
+  
   padding: 16px 24px;
   margin-top: 20px;
   border-radius: 8px;
-  box-shadow: 0 8px 10px 0 #00000010;
   display: grid;
   gap: 8px;
   max-height: 500px;
@@ -371,12 +415,12 @@ export default defineComponent({
 
     &.lock {
       color: #d30000;
-      background: #ffe0e0;
+      background: #d3000020;
     }
 
     &.global {
       color: #007f00;
-      background: #cdffcd;
+      background: #007f0020;
     }
   }
 
@@ -387,7 +431,7 @@ export default defineComponent({
       padding: 8px 24px;
 
       &:hover {
-        background: #f2f0f9;
+        background: rgba(109, 91, 208, 0.09);
         cursor: default;
       }
     }
@@ -395,8 +439,8 @@ export default defineComponent({
 }
 
 .active-tag {
-  color: #6e6893;
-  background: #f2f0f9;
+  // color: #6e6893;
+  background: rgba(109, 91, 208, 0.09);
   font-size: 12px;
   height: fit-content;
   padding: 2px 8px;
@@ -407,7 +451,8 @@ export default defineComponent({
   margin: auto 0;
 
   .circle {
-    background-color: #6e6893;
+    // background-color: #6e6893;
+
     border-radius: 100%;
     width: 6px;
     height: 6px;
@@ -417,7 +462,7 @@ export default defineComponent({
 
   &.active {
     color: #007f00;
-    background: #cdffcd;
+    background: #007f0020;
     .circle {
       background-color: #007f00;
     }

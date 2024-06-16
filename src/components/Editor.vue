@@ -1,5 +1,5 @@
 <template>
-  <div class="container-editor">
+  <div class="container-editor" :theme="theme">
     <div class="editor-control">
       <div>
         <a-button size="small" type="text" class="quick-btn" @click="() => onInsertText('textbf')">
@@ -65,7 +65,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, h, ref, shallowRef, watch, computed } from 'vue'
+import { defineComponent, h, ref, shallowRef, watch, computed, inject } from 'vue'
 import { serviceAPI } from '@/services/API'
 import { Button, notification } from 'ant-design-vue'
 import { NotiError } from '@/services/notification'
@@ -116,6 +116,7 @@ export default defineComponent({
   },
   emits: ['update:save', 'conflict', 'update:files', 'update:code'],
   setup(props, { emit }) {
+    const theme = inject('theme')
     const OPTIONS = {
       automaticLayout: true,
       formatOnType: true,
@@ -351,43 +352,49 @@ export default defineComponent({
       onInsertText,
       onInsertList,
       onInsertTable,
-      onInsertFigure
+      onInsertFigure,
+      theme
     }
   }
 })
 </script>
-<style>
+<style lang="scss">
+@import '@/variable.scss';
+
+@mixin apply-theme($theme) {
+  $color-border: map-get($theme, color-border);
+}
+
 .container-editor {
   width: 100%;
   height: 100%;
   background: white;
-  /* display: grid; */
   gap: 16px;
-}
 
-.editor-control {
-  background: #f4f2ff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  top: 0;
-  height: 38px;
-  padding: 0 8px;
+  .editor-control {
+    background: #f4f2ff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    top: 0;
+    height: 38px;
+    padding: 0 8px;
 
-  .quick-btn {
-    color: #6e6893;
-    padding: 0 4px;
+    .quick-btn {
+      color: #6e6893;
+      padding: 0 4px;
+    }
   }
-}
 
-.ant-button {
-  margin-bottom: 16px !important;
-}
+  .ant-button {
+    margin-bottom: 16px !important;
+  }
 
-.editor-input {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  .editor-input {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
 }
 </style>
