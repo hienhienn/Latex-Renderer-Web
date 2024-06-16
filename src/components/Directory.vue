@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, ref, watchEffect } from 'vue'
+import { computed, defineComponent, h, ref, watch, watchEffect } from 'vue'
 import {
   UploadOutlined,
   DeleteFilled,
@@ -191,8 +191,16 @@ export default defineComponent({
     const name = ref('')
     const input = ref()
     const openImage = ref(false)
+    const isFirstLoad = ref(true)
 
-    watchEffect(() => (selectedKeys.value = [props.mainFile.path]))
+    watch(
+      () => [props.mainFile.path],
+      () => {
+        if(!isFirstLoad.value) return
+        selectedKeys.value = [props.mainFile.path]
+        isFirstLoad.value = false
+      }
+    )
 
     const compareFile = (a, b) => {
       let aIsLeaf = a.isLeaf ? 1 : 0

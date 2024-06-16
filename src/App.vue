@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import 'splitpanes/dist/splitpanes.css'
+
 const theme = {
   token: {
     colorPrimary: '#6D5BD0',
@@ -33,9 +35,8 @@ const theme = {
 
 <style>
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: #f2f0f9;
-  
 }
 
 ::-webkit-scrollbar {
@@ -44,7 +45,7 @@ const theme = {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #6D5BD080;
+  background-color: #6d5bd080;
   border-radius: 10px;
 }
 </style>

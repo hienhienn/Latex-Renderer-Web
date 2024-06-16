@@ -18,12 +18,59 @@
         <a-menu>
           <a-space direction="vertical" style="padding: 5px 20px" :size="10">
             <a-space>
-              Auto close bracket
-              <a-switch checked-children="On" un-checked-children="Off" />
+              Auto closing bracket
+              <a-switch
+                :checked="editorOptions.autoClosingBrackets"
+                @change="
+                  (e) => emit('update:editorOptions', { ...editorOptions, autoClosingBrackets: e })
+                "
+                checked-value="always"
+                un-checked-value="never"
+                checked-children="On"
+                un-checked-children="Off"
+              />
+            </a-space>
+            <a-space>
+              Bracket pair colorization
+              <a-switch
+                :checked="editorOptions['bracketPairColorization.enabled']"
+                @change="
+                  (e) =>
+                    emit('update:editorOptions', {
+                      ...editorOptions,
+                      'bracketPairColorization.enabled': e
+                    })
+                "
+                checked-children="On"
+                un-checked-children="Off"
+              />
+            </a-space>
+            <a-space>
+              Word wrap
+              <a-switch
+                :checked="editorOptions.wordWrap"
+                @change="
+                  (e) =>
+                    emit('update:editorOptions', {
+                      ...editorOptions,
+                      wordWrap: e
+                    })
+                "
+                checked-value="on"
+                un-checked-value="off"
+                checked-children="On"
+                un-checked-children="Off"
+              />
             </a-space>
             <a-space>
               Font size
-              <a-select size="small" :options="fontSizeOptions"> </a-select>
+              <a-select
+                :value="editorOptions.fontSize"
+                @select="(e) => emit('update:editorOptions', { ...editorOptions, fontSize: e })"
+                size="small"
+                :options="fontSizeOptions"
+              >
+              </a-select>
             </a-space>
           </a-space>
         </a-menu>
@@ -65,6 +112,7 @@ import { NotiError } from '@/services/notification'
 import { computed, defineComponent, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import CopyProject from '@/components/CopyProject.vue'
+import { DefaultEditorOptions } from '@/constant'
 export default defineComponent({
   components: {
     CopyProject
@@ -81,9 +129,17 @@ export default defineComponent({
     project: {
       type: Object,
       default: {}
+    },
+    resCompile: {
+      type: Object,
+      default: {}
+    },
+    editorOptions: {
+      type: Object,
+      default: DefaultEditorOptions
     }
   },
-  emits: ['update:mainFileId', 'downloadFolder', 'downloadPdf'],
+  emits: ['update:mainFileId', 'downloadFolder', 'downloadPdf', 'update:editorOptions'],
   setup(props, { emit }) {
     const route = useRoute()
     const fontSize = [10, 11, 12, 13, 14, 16, 18, 20, 24]
@@ -102,7 +158,8 @@ export default defineComponent({
           },
           {
             label: 'Download PDF',
-            key: 'download-pdf'
+            key: 'download-pdf',
+            disabled: !props.resCompile.pdf
           }
         ]
       },
@@ -117,25 +174,11 @@ export default defineComponent({
             key: 'copy-project'
           }
         ]
-      },
-      { type: 'divider' },
-      {
-        label: 'Save',
-        key: 'save-gr',
-        type: 'group',
-        children: [
-          {
-            label: 'Save',
-            key: 'save'
-          },
-          {
-            label: 'Save All',
-            key: 'save-all'
-          }
-        ]
       }
     ])
+    
 
+    console.log(props.editorOptions)
     const handleClick = (e) => {
       console.log(e)
       if (e.key === 'download-source') {
@@ -176,7 +219,8 @@ export default defineComponent({
       fontSizeOptions,
       fileOptions,
       onChangeMainFile,
-      openCopyProject
+      openCopyProject,
+      emit
     }
   }
 })

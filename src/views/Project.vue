@@ -26,6 +26,8 @@
           <SettingBar
             :files="files"
             :project="project"
+            :resCompile="resCompile"
+            v-model:editorOptions="editorOptions"
             v-model:mainFileId="project.mainFileId"
             @downloadFolder="onDownloadFolder"
             @downloadPdf="onDownloadPdf"
@@ -64,79 +66,60 @@
         </a-dropdown>
       </a-space>
     </a-layout-header>
-    <div style="display: flex">
-      <vue-resizable :min-width="238" :max-width="500" :active="['r']" :width="258">
-        <div
-          style="
-            background-color: white;
-            min-height: calc(100vh - 64px);
-            border-right: 6px solid #6d5bd030;
-          "
-        >
-          <Directory
-            :initData="files"
-            :mainFile="files?.find((e) => e.id === project.mainFileId)"
-            @changeSelected="onChangeSelected"
-            @update:files="() => onUpdateFiles(true)"
-            @downloadFolder="onDownloadFolder"
-          />
-        </div>
-      </vue-resizable>
-      <a-layout>
-        <a-layout-content class="project-content" v-if="!isConflict">
-          <vue-resizable
-            :min-width="238"
-            :max-width="1000"
-            :width="650"
-            :active="['r']"
-            @resize:move="handleResize"
+    <splitpanes>
+      <pane min-size="17" max-size="70" size="20">
+        <Directory
+          :initData="files"
+          :mainFile="files?.find((e) => e.id === project.mainFileId)"
+          @changeSelected="onChangeSelected"
+          @update:files="() => onUpdateFiles(true)"
+          @downloadFolder="onDownloadFolder"
+        />
+      </pane>
+      <pane class="editor project-content" v-if="!isConflict">
+        <Editor
+          v-if="currentFile?.type === 'tex'"
+          :initData="currentFile"
+          @update:save="onSaveFile"
+          @conflict="onConflict"
+          @update:files="() => onUpdateFiles(true)"
+          @update:code="onUpdateCode"
+          :editorOptions="editorOptions"
+        />
+        <img
+          v-if="currentFile?.type === 'img' && currentFile?.content"
+          :src="`${apiUrl}/${currentFile?.content}`"
+        />
+        <div v-if="currentFile == null">Select 1 file</div>
+      </pane>
+      <pane class="editor-right project-content" id="pdfDiv" v-if="!isConflict">
+        <div class="editor-btns">
+          <a-button
+            type="primary"
+            @click="onCompile"
+            :loading="loadingCompile"
+            :disabled="disableCompile"
           >
-            <div class="editor">
-              <Editor
-                v-if="currentFile?.type === 'tex'"
-                :initData="currentFile"
-                @update:save="onSaveFile"
-                @conflict="onConflict"
-                @update:files="() => onUpdateFiles(true)"
-                @update:code="onUpdateCode"
-              />
-              <img
-                v-if="currentFile?.type === 'img' && currentFile?.content"
-                :src="`${apiUrl}/${currentFile?.content}`"
-              />
-              <div v-if="currentFile == null">Select 1 file</div>
-            </div>
-          </vue-resizable>
-          <div class="editor-right" id="pdfDiv">
-            <div class="editor-btns">
-              <a-button
-                type="primary"
-                @click="onCompile"
-                :loading="loadingCompile"
-                :disabled="disableCompile"
-              >
-                Compile
-              </a-button>
-            </div>
-            <br />
-            <embed
-              v-show="resCompile.pdf"
-              style="width: 100%; height: calc(100% - 64px)"
-              :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&width=700&height=500`"
-              :key="show"
-            />
+            Compile
+          </a-button>
+        </div>
+        <br />
+        <embed
+          v-show="resCompile.pdf"
+          style="width: 100%; height: calc(100% - 64px)"
+          :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&width=700&height=500`"
+          :key="show"
+        />
+      </pane>
+      <pane v-if="isConflict" style="display: grid">
+        <div class="container-conflict" v-for="item in conflictFiles">
+          <div class="title-path">{{ item.path }}</div>
+          <div class="compare-editor">
+            <Compare :oldData="item" @update:save="onSaveFile" />
           </div>
-        </a-layout-content>
-        <a-layout-content v-if="isConflict" style="display: grid">
-          <div class="container-conflict" v-for="item in conflictFiles">
-            <div class="title-path">{{ item.path }}</div>
-            <div class="compare-editor">
-              <Compare :oldData="item" @update:save="onSaveFile" />
-            </div>
-          </div>
-        </a-layout-content>
-      </a-layout>
-    </div>
+        </div>
+      </pane>
+    </splitpanes>
     <a-modal v-model:open="openModal" title="Save version" okText="Save" @ok="onSaveVersion">
       <a-input v-model:value="description" placeholder="Description" />
     </a-modal>
@@ -155,7 +138,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, onMounted, reactive, ref, watchEffect } from 'vue'
+import { computed, defineComponent, h, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -180,6 +163,8 @@ import { Button, notification } from 'ant-design-vue'
 import router from '@/router'
 import VueResizable from 'vue-resizable'
 import { NotiError } from '@/services/notification'
+import { Splitpanes, Pane } from 'splitpanes'
+import { DefaultEditorOptions } from '@/constant'
 
 export default defineComponent({
   components: {
@@ -199,7 +184,9 @@ export default defineComponent({
     StarOutlined,
     StarFilled,
     SettingBar,
-    ShareMode
+    ShareMode,
+    Splitpanes,
+    Pane
   },
   setup() {
     const route = useRoute()
@@ -233,6 +220,10 @@ export default defineComponent({
     const inputWidth = computed(() => 24 + editProjectName.value.length * 9.2)
     const inputRef = ref()
     const activeUsers = ref(new Set())
+    let socket
+    const editorOptions = ref(
+      JSON.parse(localStorage.getItem('editorOptions')) || DefaultEditorOptions
+    )
 
     const showDrawer = () => {
       open.value = true
@@ -247,7 +238,10 @@ export default defineComponent({
       sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
     })
 
-    watchEffect(() => console.log('pdf', resCompile.value))
+    watch(
+      () => [editorOptions.value],
+      () => localStorage.setItem('editorOptions', JSON.stringify(editorOptions.value))
+    )
 
     onMounted(async () => {
       try {
@@ -288,23 +282,24 @@ export default defineComponent({
           })
           const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
           if (main && (main.localContent || main.content)) {
-            loadingCompile.value = true
-            compileAPI(infoRes.data.mainFileId)
-              .then((res) => {
-                const path = res.data.path.split('.')
-                path.pop()
-                if (res.data.compileSuccess) {
-                  resCompile.value.pdf = path.join('.') + '.pdf'
-                }
-                resCompile.value.log = path.join('.') + '.log'
+            currentFile.value = main
+            // loadingCompile.value = true
+            // compileAPI(infoRes.data.mainFileId)
+            //   .then((res) => {
+            //     const path = res.data.path.split('.')
+            //     path.pop()
+            //     if (res.data.compileSuccess) {
+            //       resCompile.value.pdf = path.join('.') + '.pdf'
+            //     }
+            //     resCompile.value.log = path.join('.') + '.log'
 
-                files.value = files.value.map((e) => ({
-                  ...e,
-                  isCompile: true
-                }))
-              })
-              .catch()
-              .finally(() => (loadingCompile.value = false))
+            //     files.value = files.value.map((e) => ({
+            //       ...e,
+            //       isCompile: true
+            //     }))
+            //   })
+            //   .catch()
+            //   .finally(() => (loadingCompile.value = false))
           }
           if (changeList.length > 0) {
             notiChange({
@@ -430,6 +425,7 @@ export default defineComponent({
       currentFile.value = event
       const idx = files.value.findIndex((e) => e.id === event.id)
       files.value[idx] = event
+      files.value = { ...files.value }
       localStorage.removeItem(event.id)
       localStorage.removeItem(`sha-${event.id}`)
 
@@ -480,8 +476,6 @@ export default defineComponent({
         files.value = JSON.parse(JSON.stringify(files.value))
       }
     }
-
-    let socket
 
     function connectWebSocket() {
       socket = new WebSocket(`ws://localhost:5000/ws/${route.params.versionId}/${user.value.id}`)
@@ -652,21 +646,16 @@ export default defineComponent({
       if (data.active) {
         activeUsers.value.add(data.userId)
       } else activeUsers.value.delete(data.userId)
-      console.log('set')
     }
 
     const handleListUserAcitve = (data) => {
-      console.log('hd', activeUsers)
-
       if (user?.value?.id) activeUsers.value.add(user.value.id)
       data.list.forEach((e) => {
         activeUsers.value.add(e)
       })
-      console.log('hd', activeUsers)
     }
 
     const onDownloadPdf = () => {
-      console.log('okk')
       fetch(`${import.meta.env.VITE_API_URL}/${code.value}/${resCompile.value.pdf}`)
         .then((response) => response.blob())
         .then((blob) => {
@@ -720,21 +709,19 @@ export default defineComponent({
       removeStarred,
       activeUsers,
       code,
-      onDownloadPdf
+      onDownloadPdf,
+      editorOptions
     }
   }
 })
 </script>
 
 <style lang="scss">
+.splitpanes > .splitpanes__splitter {
+  min-width: 6px;
+  background: rgba(109, 91, 208, 0.19);
+}
 .project-page {
-  .custom-header {
-    .title-project {
-      font-size: 18px;
-      font-weight: 600;
-    }
-  }
-
   .logo {
     background-color: white;
     width: 48px;
@@ -756,22 +743,20 @@ export default defineComponent({
     }
   }
 
-  .ant-layout-content.project-content {
+  .project-content {
     background: #f5f5f5;
     margin: 0;
     padding: 0;
     min-height: calc(100vh - 64px) !important;
-    display: flex;
   }
 
-  div.editor {
+  .editor {
     width: 100%;
     height: 100%;
-    display: flex;
-    border-right: 6px solid rgba(109, 91, 208, 0.19);
+    position: relative;
   }
 
-  div.editor-right {
+  .editor-right {
     width: calc(100% - 650px);
     height: 100%;
     background: white;
@@ -784,7 +769,7 @@ export default defineComponent({
     gap: 8px;
   }
 
-  div.editor img {
+  .editor img {
     width: 100%;
     margin: auto;
   }
@@ -812,6 +797,10 @@ export default defineComponent({
     display: flex;
     box-shadow: 0 4px 10px 0 #00000010;
     z-index: 10;
+    .title-project {
+      font-size: 18px;
+      font-weight: 600;
+    }
   }
 
   .title-version {
