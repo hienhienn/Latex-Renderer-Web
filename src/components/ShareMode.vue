@@ -439,7 +439,6 @@ export default defineComponent({
 }
 
 .active-tag {
-  // color: #6e6893;
   background: rgba(109, 91, 208, 0.09);
   font-size: 12px;
   height: fit-content;
@@ -451,8 +450,6 @@ export default defineComponent({
   margin: auto 0;
 
   .circle {
-    // background-color: #6e6893;
-
     border-radius: 100%;
     width: 6px;
     height: 6px;

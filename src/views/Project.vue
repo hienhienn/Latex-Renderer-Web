@@ -52,7 +52,7 @@
             <span style="font-weight: 600">{{ project?.versions?.length }}</span>
           </a-radio-button>
         </a-radio-group>
-        <UserAvatar :user="user"/>
+        <UserAvatar :user="user" />
       </a-space>
     </a-layout-header>
     <splitpanes>
@@ -82,7 +82,7 @@
         <div v-if="currentFile == null">Select 1 file</div>
       </pane>
       <pane class="editor-right project-content" id="pdfDiv" v-if="!isConflict">
-        <div class="editor-btns">
+        <!-- <div class="editor-btns">
           <a-button
             type="primary"
             @click="onCompile"
@@ -92,13 +92,19 @@
             Compile
           </a-button>
         </div>
-        <br />
-        <embed
+        <br /> -->
+        <!-- <embed
+          style="width: 100%; height: calc(100vh - 64px)"
           v-show="resCompile.pdf"
-          style="width: 100%; height: calc(100% - 64px)"
-          :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&width=700&height=500`"
+          :src="`${apiUrl}/${code}/${resCompile.pdf}#width=700&height=500`"
           :key="show"
-        />
+        /> -->
+        <PDFViewer
+          :key="show"
+          :source="`${apiUrl}/DoAn.pdf`"
+          style="width: 100%; height: calc(100% - 64px)"
+          :controls="['zoom', 'switchPage']"
+        ></PDFViewer>
       </pane>
       <pane v-if="isConflict" style="display: grid">
         <div class="container-conflict" v-for="item in conflictFiles">
@@ -127,17 +133,7 @@
 </template>
 
 <script>
-import {
-  computed,
-  defineComponent,
-  h,
-  inject,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-  watchEffect
-} from 'vue'
+import { computed, defineComponent, h, inject, onMounted, ref, watch, watchEffect } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -164,7 +160,8 @@ import VueResizable from 'vue-resizable'
 import { NotiError } from '@/services/notification'
 import { Splitpanes, Pane } from 'splitpanes'
 import { DefaultEditorOptions } from '@/constant'
-import UserAvatar from '@/components/common/UserAvatar.vue';
+import UserAvatar from '@/components/common/UserAvatar.vue'
+import PDFViewer from 'pdf-viewer-vue'
 
 export default defineComponent({
   components: {
@@ -187,7 +184,8 @@ export default defineComponent({
     ShareMode,
     Splitpanes,
     Pane,
-    UserAvatar
+    UserAvatar,
+    PDFViewer
   },
   setup() {
     const theme = inject('theme')
@@ -750,11 +748,43 @@ export default defineComponent({
     background: $color-background;
   }
 
+  .pdf-viewer {
+    background: $color-background;
+
+    &__header {
+      box-shadow: none;
+      input {
+        background: transparent !important;
+        color: $text-primary !important;
+      }
+
+      .title,
+      #divider,
+      #pagelength {
+        color: $text-primary;
+      }
+
+      #zoom-controls {
+        margin-left: 16px;
+        .icon-btn {
+          width: 20px;
+          height: 20px;
+          &:hover {
+            background: rgba(109, 91, 208, 0.20);
+          }
+          .iconfont {
+            color: $text-secondary;
+            font-size: 8px;
+          }
+        }
+      }
+    }
+  }
 }
 
 .splitpanes > .splitpanes__splitter {
   min-width: 6px;
-  background: rgba(109, 91, 208, 0.19);
+  background: rgba(109, 91, 208, 0.3);
 }
 
 .project-page {
@@ -799,7 +829,12 @@ export default defineComponent({
   .editor-right {
     width: calc(100% - 650px);
     height: 100%;
-    padding: 8px 16px;
+    .pdf-viewer {
+      &__header {
+        background-color: rgba(109, 91, 208, 0.09);
+        height: 38px;
+      }
+    }
   }
 
   .editor-btns {
