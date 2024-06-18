@@ -11,7 +11,7 @@
             <a-button
               v-if="!isMulti"
               type="text"
-              class="icon-btn"
+              class="icon-btn-dir"
               @click="() => onNewDirectory('folder')"
             >
               <img src="/icons/folder-add.svg" class="icon-select" />
@@ -21,7 +21,7 @@
             <a-button
               v-if="!isMulti"
               type="text"
-              class="icon-btn"
+              class="icon-btn-dir"
               @click="() => onNewDirectory('file')"
             >
               <img src="/icons/file-add.svg" class="icon-select" />
@@ -31,7 +31,7 @@
             <a-button
               v-if="!isMulti"
               type="text"
-              class="icon-btn"
+              class="icon-btn-dir"
               @click="() => (openImage = true)"
             >
               <img src="/icons/file-image.svg" class="icon-select" />
@@ -40,7 +40,7 @@
         </a-row>
         <a-row>
           <a-tooltip title="Delete">
-            <a-button type="text" class="icon-btn" @click="() => onDelete(selectedKeys)">
+            <a-button type="text" class="icon-btn-dir" @click="() => onDelete(selectedKeys)">
               <img src="/icons/trash.svg" class="icon-select" />
             </a-button>
           </a-tooltip>
@@ -286,14 +286,10 @@ export default defineComponent({
         const ext = title.split('.').pop()
         input.value.focus()
         input.value.setSelectionRange(0, title.length - ext.length - 1)
-        console.log(title, ext, title.length - ext.length - 1)
       }, 0)
-
-      console.log(files.value)
     }
 
     const handleBlurName = (dataRef) => {
-      console.log(dataRef.title)
       if (dataRef.title === 'new') {
         let parts = selectedKeys.value[0]?.split('/') || []
         if (parts.length > 0 && parts[parts.length - 1].includes('.')) parts.pop()
@@ -436,7 +432,6 @@ export default defineComponent({
     }
 
     function updateNode(node, parts, newItem) {
-      console.log(parts)
       if (parts.length === 0) return
 
       const part = parts.shift()
@@ -577,7 +572,6 @@ export default defineComponent({
     }
 
     const onChangeSelectedKeys = (event) => {
-      console.log(event)
       // không chọn file nào
       if (event.length === 0 || !event) {
         emit('changeSelected', null)
@@ -597,10 +591,6 @@ export default defineComponent({
 
     watchEffect(() => {
       files.value = buildDirectoryStructure(props.initData)
-    })
-
-    watchEffect(() => {
-      console.log(props.initData)
     })
 
     const onDownload = (dataRef) => {
@@ -713,7 +703,7 @@ export default defineComponent({
   width: 20px;
 }
 
-.icon-btn {
+.icon-btn-dir {
   padding: 2px;
   height: 24px;
 }

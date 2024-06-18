@@ -5,4 +5,9 @@ export const DefaultEditorOptions = {
   fontSize: 14
 }
 
+export const DefaultCompileOptions = {
+  autoCompile: false,
+  autoCompileDelay: 5
+}
+
 export const DefaultTheme = 'light'

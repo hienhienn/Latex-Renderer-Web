@@ -29,6 +29,7 @@
             :resCompile="resCompile"
             v-model:editorOptions="editorOptions"
             v-model:mainFileId="project.mainFileId"
+            v-model:compileOptions="compileOptions"
             @downloadFolder="onDownloadFolder"
             @downloadPdf="onDownloadPdf"
           />
@@ -82,6 +83,20 @@
         <div v-if="currentFile == null">Select 1 file</div>
       </pane>
       <pane class="editor-right project-content" id="pdfDiv" v-if="!isConflict">
+        <div class="editor-btns">
+          <a-button
+            size="small"
+            type="primary"
+            @click="onDownloadPdf"
+            :disabled="!resCompile.pdf"
+            :loading="loadingCompile"
+          >
+            <DownloadOutlined />
+          </a-button>
+          <a-button size="small" type="primary" @click="onCompile" :loading="loadingCompile">
+            <SyncOutlined />
+          </a-button>
+        </div>
         <!-- <div class="editor-btns">
           <a-button
             type="primary"
@@ -93,18 +108,18 @@
           </a-button>
         </div>
         <br /> -->
-        <!-- <embed
-          style="width: 100%; height: calc(100vh - 64px)"
+        <embed
+          style="width: 100%; height: calc(100vh - 102px)"
           v-show="resCompile.pdf"
-          :src="`${apiUrl}/${code}/${resCompile.pdf}#width=700&height=500`"
+          :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&zoom=120`"
           :key="show"
-        /> -->
-        <PDFViewer
+        />
+        <!-- <PDFViewer
           :key="show"
           :source="`${apiUrl}/DoAn.pdf`"
           style="width: 100%; height: calc(100% - 64px)"
           :controls="['zoom', 'switchPage']"
-        ></PDFViewer>
+        ></PDFViewer> -->
       </pane>
       <pane v-if="isConflict" style="display: grid">
         <div class="container-conflict" v-for="item in conflictFiles">
@@ -133,7 +148,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, inject, onMounted, ref, watch, watchEffect } from 'vue'
+import { computed, defineComponent, h, inject, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -145,7 +160,9 @@ import {
   TeamOutlined,
   CloseOutlined,
   StarOutlined,
-  StarFilled
+  StarFilled,
+  SyncOutlined,
+  DownloadOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -159,7 +176,7 @@ import router from '@/router'
 import VueResizable from 'vue-resizable'
 import { NotiError } from '@/services/notification'
 import { Splitpanes, Pane } from 'splitpanes'
-import { DefaultEditorOptions } from '@/constant'
+import { DefaultCompileOptions, DefaultEditorOptions } from '@/constant'
 import UserAvatar from '@/components/common/UserAvatar.vue'
 import PDFViewer from 'pdf-viewer-vue'
 
@@ -185,7 +202,9 @@ export default defineComponent({
     Splitpanes,
     Pane,
     UserAvatar,
-    PDFViewer
+    PDFViewer,
+    SyncOutlined,
+    DownloadOutlined
   },
   setup() {
     const theme = inject('theme')
@@ -208,9 +227,6 @@ export default defineComponent({
     const isConflict = computed(() => conflictFiles.value && conflictFiles.value.length > 0)
     const code = ref('v-code' + Math.random().toString(16).slice(2))
     const show = ref(Math.random() * 1000)
-    const disableCompile = computed(
-      () => files.value.every((e) => e.isCompile == true) && !currentFile
-    )
     let showChange = false
     const open = ref(false)
     const openModal = ref(false)
@@ -221,8 +237,12 @@ export default defineComponent({
     const inputRef = ref()
     const activeUsers = ref(new Set())
     let socket
+    const to = ref(null)
     const editorOptions = ref(
       JSON.parse(localStorage.getItem('editorOptions')) || DefaultEditorOptions
+    )
+    const compileOptions = ref(
+      JSON.parse(localStorage.getItem('compileOptions')) || DefaultCompileOptions
     )
 
     const showDrawer = () => {
@@ -233,14 +253,13 @@ export default defineComponent({
       open.value = false
     }
 
-    window.addEventListener('beforeunload', function (event) {
-      serviceAPI.deleteCompile(code.value)
-      sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
-    })
-
     watch(
       () => [editorOptions.value],
       () => localStorage.setItem('editorOptions', JSON.stringify(editorOptions.value))
+    )
+    watch(
+      () => [compileOptions.value],
+      () => localStorage.setItem('compileOptions', JSON.stringify(compileOptions.value))
     )
 
     onMounted(async () => {
@@ -281,25 +300,24 @@ export default defineComponent({
             return e
           })
           const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
+          if (main) currentFile.value = main
           if (main && (main.localContent || main.content)) {
-            currentFile.value = main
-            // loadingCompile.value = true
-            // compileAPI(infoRes.data.mainFileId)
-            //   .then((res) => {
-            //     const path = res.data.path.split('.')
-            //     path.pop()
-            //     if (res.data.compileSuccess) {
-            //       resCompile.value.pdf = path.join('.') + '.pdf'
-            //     }
-            //     resCompile.value.log = path.join('.') + '.log'
-
-            //     files.value = files.value.map((e) => ({
-            //       ...e,
-            //       isCompile: true
-            //     }))
-            //   })
-            //   .catch()
-            //   .finally(() => (loadingCompile.value = false))
+            loadingCompile.value = true
+            compileAPI(infoRes.data.mainFileId)
+              .then((res) => {
+                const path = res.data.path.split('.')
+                path.pop()
+                if (res.data.compileSuccess) {
+                  resCompile.value.pdf = path.join('.') + '.pdf'
+                }
+                resCompile.value.log = path.join('.') + '.log'
+                files.value = files.value.map((e) => ({
+                  ...e,
+                  isCompile: true
+                }))
+              })
+              .catch()
+              .finally(() => (loadingCompile.value = false))
           }
           if (changeList.length > 0) {
             notiChange({
@@ -317,6 +335,16 @@ export default defineComponent({
       }
     })
 
+    onUnmounted(() => {
+      serviceAPI.deleteCompile(code.value)
+      sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
+    })
+
+    window.addEventListener('beforeunload', function (event) {
+      serviceAPI.deleteCompile(code.value)
+      sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
+    })
+
     watchEffect(() => {
       description.value = 'Version ' + project.value?.versions?.length
     })
@@ -326,7 +354,6 @@ export default defineComponent({
     })
 
     const onChangeSelected = (event) => {
-      console.log(event)
       if (event == null) {
         // currentFile.value = null
         return
@@ -371,7 +398,6 @@ export default defineComponent({
               log: path.join('.') + '.log'
             }
           }
-          console.log('resbtn', resCompile.value)
           files.value = files.value.map((e) => ({
             ...e,
             isCompile: true
@@ -474,6 +500,17 @@ export default defineComponent({
       if (files.value[idx].isSave !== event.isSave) {
         files.value[idx].isSave = event.isSave
         files.value = JSON.parse(JSON.stringify(files.value))
+        console.log('ok')
+      }
+
+      //auto compile
+      if (compileOptions.value.autoCompile) {
+        to.value && clearTimeout(to.value)
+        to.value = setTimeout(() => {
+          onCompile()
+        }, compileOptions.value.autoCompileDelay * 1000)
+
+        return () => clearTimeout(to.value)
       }
     }
 
@@ -481,9 +518,7 @@ export default defineComponent({
       socket = new WebSocket(`ws://localhost:5000/ws/${route.params.versionId}/${user.value.id}`)
 
       socket.onmessage = function (event) {
-        console.log('ms', event)
         const data = JSON.parse(event.data)
-        console.log(data)
         if (data.type === 'user') handleUserActive(data)
         else if (data.type === 'userList') handleListUserAcitve(data)
         else if (data.type === 'change') notiChange(data)
@@ -605,8 +640,6 @@ export default defineComponent({
       if (e.target.value === project.value?.name) {
         return
       }
-      console.log(e)
-
       serviceAPI
         .updateProject(project.value?.id, {
           name: e.target.value
@@ -671,6 +704,13 @@ export default defineComponent({
         .catch((error) => console.error('Error downloading the PDF:', error))
     }
 
+    watch(
+      () => [compileOptions.value, files.value],
+      () => {
+        console.log(files.value)
+      }
+    )
+
     return {
       show,
       files,
@@ -689,7 +729,6 @@ export default defineComponent({
       loadingCompile,
       onSaveVersion,
       sendMessage,
-      disableCompile,
       onUpdateCode,
       project,
       clickVersion,
@@ -711,7 +750,8 @@ export default defineComponent({
       code,
       onDownloadPdf,
       editorOptions,
-      theme
+      theme,
+      compileOptions
     }
   }
 })
@@ -753,9 +793,11 @@ export default defineComponent({
 
     &__header {
       box-shadow: none;
+      z-index: 0;
       input {
-        background: transparent !important;
+        background: $color-background-layout !important;
         color: $text-primary !important;
+        border-radius: 4px;
       }
 
       .title,
@@ -770,7 +812,7 @@ export default defineComponent({
           width: 20px;
           height: 20px;
           &:hover {
-            background: rgba(109, 91, 208, 0.20);
+            background: rgba(109, 91, 208, 0.2);
           }
           .iconfont {
             color: $text-secondary;
@@ -779,7 +821,14 @@ export default defineComponent({
         }
       }
     }
+    &__body {
+      height: calc(100vh - 102px);
+    }
   }
+}
+
+iframe {
+  background-color: orange;
 }
 
 .splitpanes > .splitpanes__splitter {
@@ -827,6 +876,7 @@ export default defineComponent({
   }
 
   .editor-right {
+    position: relative;
     width: calc(100% - 650px);
     height: 100%;
     .pdf-viewer {

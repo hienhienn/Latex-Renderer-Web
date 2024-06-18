@@ -84,11 +84,22 @@
           <a-space direction="vertical" style="padding: 5px 20px" :size="10">
             <a-space>
               Auto compile
-              <a-switch checked-children="On" un-checked-children="Off" />
+              <a-switch
+                :checked="compileOptions.autoCompile"
+                checked-children="On"
+                un-checked-children="Off"
+                @change="(e) => emit('update:compileOptions', { ...compileOptions, autoCompile: e })"
+              />
             </a-space>
             <a-space>
-              Auto compile Delay (ms)
-              <a-input-number v-model:value="value" :min="1000" :max="100000" :step="1000" />
+              Auto compile Delay (s)
+              <a-input-number
+                v-model:value="compileOptions.autoCompileDelay"
+                :min="3"
+                :max="100"
+                :step="1"
+                @change="(e) => emit('update:compileOptions', { ...compileOptions, autoCompileDelay: e })"
+              />
             </a-space>
             <a-space>
               Main file
@@ -112,7 +123,7 @@ import { NotiError } from '@/services/notification'
 import { computed, defineComponent, inject, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import CopyProject from '@/components/CopyProject.vue'
-import { DefaultEditorOptions } from '@/constant'
+import { DefaultCompileOptions, DefaultEditorOptions } from '@/constant'
 export default defineComponent({
   components: {
     CopyProject
@@ -137,9 +148,19 @@ export default defineComponent({
     editorOptions: {
       type: Object,
       default: DefaultEditorOptions
+    },
+    compileOptions: {
+      type: Object,
+      default: DefaultCompileOptions
     }
   },
-  emits: ['update:mainFileId', 'downloadFolder', 'downloadPdf', 'update:editorOptions'],
+  emits: [
+    'update:mainFileId',
+    'downloadFolder',
+    'downloadPdf',
+    'update:editorOptions',
+    'update:compileOptions'
+  ],
   setup(props, { emit }) {
     const theme = inject('theme')
     const route = useRoute()
@@ -178,9 +199,7 @@ export default defineComponent({
       }
     ])
 
-    console.log(props.editorOptions)
     const handleClick = (e) => {
-      console.log(e)
       if (e.key === 'download-source') {
         emit('downloadFolder', {
           title: props.project.name,
@@ -209,9 +228,6 @@ export default defineComponent({
         })
         .catch(() => NotiError('failed'))
     }
-    watchEffect(() => {
-      console.log(fileOptions.value)
-    })
 
     return {
       projectItems,

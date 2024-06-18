@@ -314,10 +314,6 @@ export default defineComponent({
         })
     }
 
-    watchEffect(() => {
-      console.log(props.activeUsers, props.userProjects)
-    })
-
     return {
       userOptions,
       stepAdd,
