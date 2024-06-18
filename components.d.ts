@@ -40,6 +40,7 @@ declare module 'vue' {
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
+    ATree: typeof import('ant-design-vue/es')['Tree']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     AUploadDragger: typeof import('ant-design-vue/es')['UploadDragger']
     AvatarApp: typeof import('./src/components/common/AvatarApp.vue')['default']

@@ -56,48 +56,51 @@
         <UserAvatar :user="user" />
       </a-space>
     </a-layout-header>
-    <splitpanes>
+    <splitpanes style="height: calc(100vh - 64px)">
       <pane min-size="17" max-size="50" size="20" class="directory">
         <Directory
           :initData="files"
           :mainFile="files?.find((e) => e.id === project.mainFileId)"
           @changeSelected="onChangeSelected"
+          @changeSelected2="onChangeSelected2"
           @update:files="() => onUpdateFiles(true)"
           @downloadFolder="onDownloadFolder"
         />
       </pane>
-      <pane class="editor project-content" v-if="!isConflict">
-        <Editor
-          v-if="currentFile?.type === 'tex'"
-          :initData="currentFile"
-          @update:save="onSaveFile"
-          @conflict="onConflict"
-          @update:files="() => onUpdateFiles(true)"
-          @update:code="onUpdateCode"
-          :editorOptions="editorOptions"
-        />
-        <img
-          v-if="currentFile?.type === 'img' && currentFile?.content"
-          :src="`${apiUrl}/${currentFile?.content}`"
-        />
-        <div v-if="currentFile == null">Select 1 file</div>
-      </pane>
-      <pane class="editor-right project-content" id="pdfDiv" v-if="!isConflict">
-        <div class="editor-btns">
-          <a-button
-            size="small"
-            type="primary"
-            @click="onDownloadPdf"
-            :disabled="!resCompile.pdf"
-            :loading="loadingCompile"
-          >
-            <DownloadOutlined />
-          </a-button>
-          <a-button size="small" type="primary" @click="onCompile" :loading="loadingCompile">
-            <SyncOutlined />
-          </a-button>
-        </div>
-        <!-- <div class="editor-btns">
+      <pane>
+        <splitpanes v-if="!isConflict">
+          <pane class="editor project-content">
+            <Editor
+              v-if="currentFile?.type === 'tex'"
+              :initData="currentFile"
+              @update:save="onSaveFile"
+              @conflict="onConflict"
+              @update:files="() => onUpdateFiles(true)"
+              @update:code="onUpdateCode"
+              :editorOptions="editorOptions"
+            />
+            <img
+              v-if="currentFile?.type === 'img' && currentFile?.content"
+              :src="`${apiUrl}/${currentFile?.content}`"
+            />
+            <div v-if="currentFile == null">Select 1 file</div>
+          </pane>
+          <pane class="editor-right project-content" id="pdfDiv">
+            <div class="editor-btns">
+              <a-button
+                size="small"
+                type="primary"
+                @click="onDownloadPdf"
+                :disabled="!resCompile.pdf"
+                :loading="loadingCompile"
+              >
+                <DownloadOutlined />
+              </a-button>
+              <a-button size="small" type="primary" @click="onCompile" :loading="loadingCompile">
+                <SyncOutlined />
+              </a-button>
+            </div>
+            <!-- <div class="editor-btns">
           <a-button
             type="primary"
             @click="onCompile"
@@ -108,24 +111,25 @@
           </a-button>
         </div>
         <br /> -->
-        <embed
-          style="width: 100%; height: calc(100vh - 102px)"
-          v-show="resCompile.pdf"
-          :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&zoom=120`"
-          :key="show"
-        />
-        <!-- <PDFViewer
+            <embed
+              style="width: 100%; height: calc(100vh - 102px)"
+              v-show="resCompile.pdf"
+              :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&zoom=120`"
+              :key="show"
+            />
+            <!-- <PDFViewer
           :key="show"
           :source="`${apiUrl}/DoAn.pdf`"
           style="width: 100%; height: calc(100% - 64px)"
           :controls="['zoom', 'switchPage']"
         ></PDFViewer> -->
-      </pane>
-      <pane v-if="isConflict" style="display: grid">
-        <div class="container-conflict" v-for="item in conflictFiles">
-          <div class="title-path">{{ item.path }}</div>
-          <div class="compare-editor">
-            <Compare :oldData="item" @update:save="onSaveFile" />
+          </pane>
+        </splitpanes>
+        <div v-if="isConflict" style="display: grid">
+          <div class="container-conflict" v-for="item in conflictFiles">
+            <div class="compare-editor">
+              <Compare :oldData="item" :editorOptions="editorOptions" @update:save="onSaveFile" />
+            </div>
           </div>
         </div>
       </pane>
@@ -148,7 +152,17 @@
 </template>
 
 <script>
-import { computed, defineComponent, h, inject, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
+import {
+  computed,
+  defineComponent,
+  h,
+  inject,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+  watchEffect
+} from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -279,7 +293,6 @@ export default defineComponent({
           router.push('/')
         }
         if (infoRes.data.role === 'editor' || infoRes.data.role === 'owner') {
-          const changeList = []
           files.value = filesRes.data.map((e) => {
             if (localStorage.getItem(e.id)) {
               e.localContent = localStorage.getItem(e.id)
@@ -292,7 +305,6 @@ export default defineComponent({
               localStorage.getItem(`sha-${e.id}`) !== 'null'
             ) {
               e.localShaCode = localStorage.getItem(`sha-${e.id}`)
-              if (e.localShaCode !== e.shaCode) changeList.push(e)
             } else {
               e.localShaCode = e.shaCode
             }
@@ -319,12 +331,7 @@ export default defineComponent({
               .catch()
               .finally(() => (loadingCompile.value = false))
           }
-          if (changeList.length > 0) {
-            notiChange({
-              change: 'file',
-              file: changeList
-            })
-          }
+          
         } else {
           files.value = filesRes.data
         }
@@ -354,6 +361,7 @@ export default defineComponent({
     })
 
     const onChangeSelected = (event) => {
+      conflictFiles.value = []
       if (event == null) {
         // currentFile.value = null
         return
@@ -367,6 +375,11 @@ export default defineComponent({
         files.value[idx].localShaCode = files.value[idx].shaCode
       }
       currentFile.value = files.value[idx]
+    }
+
+    const onChangeSelected2 = (event) => {
+      currentFile.value = null
+      conflictFiles.value = [event]
     }
 
     const onCompile = () => {
@@ -715,6 +728,7 @@ export default defineComponent({
       show,
       files,
       onChangeSelected,
+      onChangeSelected2,
       currentFile,
       apiUrl: import.meta.env.VITE_API_URL,
       currentFile,
@@ -833,6 +847,7 @@ iframe {
 
 .splitpanes > .splitpanes__splitter {
   min-width: 6px;
+  min-height: 6px;
   background: rgba(109, 91, 208, 0.3);
 }
 
@@ -898,20 +913,15 @@ iframe {
     margin: auto;
   }
 
-  .title-path {
-    width: 100%;
-    padding: 4px 16px;
-  }
-
   .container-conflict {
     width: 100%;
     position: relative;
   }
 
-  .compare-editor {
-    height: calc(100% - 32px);
-    margin-bottom: 20px;
-  }
+  // .compare-editor {
+  //   height: calc(100% - 32px);
+  //   margin-bottom: 20px;
+  // }
 
   .ant-layout-header.custom-header {
     justify-content: space-between;

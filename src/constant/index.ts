@@ -2,7 +2,8 @@ export const DefaultEditorOptions = {
   autoClosingBrackets: 'always',
   'bracketPairColorization.enabled': true,
   wordWrap: 'off',
-  fontSize: 14
+  fontSize: 14,
+  ignoreTrimWhitespace: false
 }
 
 export const DefaultCompileOptions = {

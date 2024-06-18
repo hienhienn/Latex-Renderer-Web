@@ -63,6 +63,21 @@
               />
             </a-space>
             <a-space>
+              Ignore trim whitespace
+              <a-switch
+                :checked="editorOptions.ignoreTrimWhitespace"
+                @change="
+                  (e) =>
+                    emit('update:editorOptions', {
+                      ...editorOptions,
+                      ignoreTrimWhitespace: e
+                    })
+                "
+                checked-children="On"
+                un-checked-children="Off"
+              />
+            </a-space>
+            <a-space>
               Font size
               <a-select
                 :value="editorOptions.fontSize"

@@ -55,7 +55,7 @@
     <div style="position: absolute; left: 0; right: 0; top: 38px; bottom: 0">
       <vue-monaco-editor
         v-model:value="code"
-        theme="vs-dark"
+        :theme="theme === 'light' ? 'vs' : 'vs-dark'"
         @mount="handleMount"
         language="latex"
         :options="OPTIONS"

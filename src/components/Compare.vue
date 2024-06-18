@@ -1,52 +1,69 @@
 <template>
+  <div class="title-path" :theme="theme">
+    {{ oldData.path }}
+    <a-button type="primary" size="small" @click="onSave">
+      <SaveOutlined />
+    </a-button>
+  </div>
   <vue-monaco-diff-editor
-    theme="vs"
+    :theme="theme === 'light' ? 'vs' : 'vs-dark'"
     :original="oldData.content"
     v-model:modified="code"
     :options="OPTIONS"
     @mount="handleMount"
     language="latex"
+    style="height: calc(100vh - 102px)"
   />
-  <a-button type="primary" class="save-button" @click="onSave">Save</a-button>
 </template>
 
 <script lang="ts">
 import { serviceAPI } from '@/services/API'
 import { NotiError } from '@/services/notification'
 import { Button, notification } from 'ant-design-vue'
-import { defineComponent, h, ref, shallowRef, watch } from 'vue'
-import latexLang from '@/latex/tokens-provider'
+import { defineComponent, h, inject, ref, shallowRef, watch, watchEffect } from 'vue'
+import tokensProvider from '@/latex/tokens-provider'
+import languageConfig from '@/latex/language-config'
+import { getCompletionItemProvider } from '@/latex/completion-item-provider'
+import { DefaultEditorOptions } from '@/constant'
+import { SaveOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
+  components: {
+    SaveOutlined
+  },
   props: {
     oldData: {
       type: Object,
       default: {}
+    },
+    editorOptions: {
+      type: Object,
+      default: DefaultEditorOptions
     }
   },
   emits: ['update:save'],
   setup(props, { emit }) {
+    const theme = inject('theme')
     const OPTIONS = {
       automaticLayout: true,
       formatOnType: true,
       formatOnPaste: true,
-      autoClosingBrackets: 'always',
       scrollBeyondLastLine: false,
-      wordWrap: 'wordWrapColumn',
-      wordWrapColumn: 80
+      quickSuggestions: true,
+      matchBrackets: false,
+      ...props.editorOptions
     }
-
     const code = ref(localStorage.getItem(props.oldData.id))
     const loading = ref(false)
     let to
-
     const diffEditorRef = shallowRef()
     const handleMount = (diffEditor, monaco) => {
       monaco.languages.register({ id: 'latex' })
-      monaco.languages.setMonarchTokensProvider('latex', latexLang as any)
+      monaco.languages.setMonarchTokensProvider('latex', tokensProvider as any)
+      monaco.languages.setLanguageConfiguration('latex', languageConfig as any)
+      monaco.languages.registerCompletionItemProvider('latex', getCompletionItemProvider(monaco))
       diffEditorRef.value = diffEditor
     }
-
     const onSave = () => {
       if (loading.value) return
       loading.value = true
@@ -110,21 +127,58 @@ export default defineComponent({
       }
     )
 
+    watch(
+      () => [props.oldData.id],
+      () => (code.value = localStorage.getItem(props.oldData.id))
+    )
+
+    watch(
+      () => [props.editorOptions],
+      () => {
+        diffEditorRef.value.updateOptions(props.editorOptions)
+      }
+    )
+
     return {
       OPTIONS,
       handleMount,
       code,
-      onSave
+      onSave,
+      theme
     }
   }
 })
 </script>
 
-<style>
+<style lang="scss">
+@import '@/variable.scss';
+
+@mixin apply-theme($theme) {
+  $text-secondary: map-get($theme, text-secondary);
+
+  color: $text-secondary;
+}
+
 .save-button {
   position: absolute;
   z-index: 10;
   bottom: 16px;
   right: 40px;
+}
+
+.title-path {
+  &[theme='light'] {
+    @include apply-theme($theme-light);
+  }
+  &[theme='dark'] {
+    @include apply-theme($theme-dark);
+  }
+  /* color: $text-secondary; */
+  background: rgba(109, 91, 208, 0.09);
+  height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  justify-content: space-between;
 }
 </style>
