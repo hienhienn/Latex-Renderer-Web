@@ -772,7 +772,6 @@ export default defineComponent({
     cursor: pointer;
 
     .control-btns {
-      opacity: 0;
       transition: all 0.1s ease-in-out;
       pointer-events: none;
     }

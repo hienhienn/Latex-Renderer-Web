@@ -6,7 +6,7 @@
           <img src="/icons/logo-primary.svg" width="40" />
         </a>
         <a-space direction="vertical" :size="0" class="header-info">
-          <a-space style="line-height: 24px">
+          <a-space style="line-height: 24px" v-if="project.isMainVersion">
             <a-input
               class="input-project"
               ref="inputRef"
@@ -22,6 +22,9 @@
               </span>
               <span>{{ project?.totalStar }}</span>
             </a-space>
+          </a-space>
+          <a-space style="line-height: 24px" v-if="!project.isMainVersion">
+            <div class="input-project">{{ project.description }} - {{ project.name }}</div>
           </a-space>
           <SettingBar
             :files="files"
@@ -49,7 +52,7 @@
               <span style="font-weight: 600">Save Version</span>
             </a-space>
           </a-radio-button>
-          <a-radio-button @click="showDrawer">
+          <a-radio-button @click="() => (open = true)">
             <span style="font-weight: 600">{{ project?.versions?.length }}</span>
           </a-radio-button>
         </a-radio-group>
@@ -100,29 +103,12 @@
                 <SyncOutlined />
               </a-button>
             </div>
-            <!-- <div class="editor-btns">
-          <a-button
-            type="primary"
-            @click="onCompile"
-            :loading="loadingCompile"
-            :disabled="disableCompile"
-          >
-            Compile
-          </a-button>
-        </div>
-        <br /> -->
             <embed
               style="width: 100%; height: calc(100vh - 102px)"
               v-show="resCompile.pdf"
               :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&zoom=120`"
               :key="show"
             />
-            <!-- <PDFViewer
-          :key="show"
-          :source="`${apiUrl}/DoAn.pdf`"
-          style="width: 100%; height: calc(100% - 64px)"
-          :controls="['zoom', 'switchPage']"
-        ></PDFViewer> -->
           </pane>
         </splitpanes>
         <div v-if="isConflict" style="display: grid">
@@ -142,10 +128,22 @@
       placement="right"
       :closable="false"
       :open="open"
-      @close="onClose"
+      @close="() => (open = false)"
     >
-      <div v-for="item in project?.versions" class="version-div" @click="() => clickVersion(item)">
-        <p class="title-version">{{ item?.isMainVersion ? 'Main version' : item.description }}</p>
+      <div
+        v-for="item in project?.versions"
+        class="version-div"
+        :class="{ selected: item.id === versionId }"
+        :theme="theme"
+        @click="() => onChangeVersion(item.id)"
+      >
+        <div class="title-version">
+          {{ item?.isMainVersion ? 'Main version' : item.description }}
+        </div>
+        <div class="detail">
+          Last modified {{ dateTimeFormat(item.modifiedTime) }} by
+          <AvatarApp :avatarUser="item" :currentUser="user" />
+        </div>
       </div>
     </a-drawer>
   </a-layout>
@@ -193,6 +191,8 @@ import { Splitpanes, Pane } from 'splitpanes'
 import { DefaultCompileOptions, DefaultEditorOptions } from '@/constant'
 import UserAvatar from '@/components/common/UserAvatar.vue'
 import PDFViewer from 'pdf-viewer-vue'
+import { dateTimeFormat } from '@/services/functions'
+import AvatarApp from '@/components/common/AvatarApp.vue'
 
 export default defineComponent({
   components: {
@@ -218,7 +218,8 @@ export default defineComponent({
     UserAvatar,
     PDFViewer,
     SyncOutlined,
-    DownloadOutlined
+    DownloadOutlined,
+    AvatarApp
   },
   setup() {
     const theme = inject('theme')
@@ -258,14 +259,7 @@ export default defineComponent({
     const compileOptions = ref(
       JSON.parse(localStorage.getItem('compileOptions')) || DefaultCompileOptions
     )
-
-    const showDrawer = () => {
-      open.value = true
-    }
-
-    const onClose = () => {
-      open.value = false
-    }
+    const versionId = computed(() => route.params.versionId)
 
     watch(
       () => [editorOptions.value],
@@ -276,71 +270,76 @@ export default defineComponent({
       () => localStorage.setItem('compileOptions', JSON.stringify(compileOptions.value))
     )
 
-    onMounted(async () => {
-      try {
-        const [filesRes, infoRes, userRes] = await Promise.all([
-          serviceAPI.getFilesByVersionId(route.params.versionId),
-          serviceAPI.getVersionById(route.params.versionId),
-          serviceAPI.getCurrentUser()
-        ])
+    watch(
+      () => [versionId.value],
+      async () => {
+        try {
+          const [filesRes, infoRes, userRes] = await Promise.all([
+            serviceAPI.getFilesByVersionId(versionId.value),
+            serviceAPI.getVersionById(versionId.value),
+            serviceAPI.getCurrentUser()
+          ])
 
-        user.value = userRes.data
-        activeUsers.value.add(user.value.id)
-        project.value = infoRes.data
+          user.value = userRes.data
+          activeUsers.value.add(user.value.id)
+          project.value = infoRes.data
 
-        if (!infoRes.data.role) {
-          NotiError('You do not have permission to see this project!')
-          router.push('/')
-        }
-        if (infoRes.data.role === 'editor' || infoRes.data.role === 'owner') {
-          files.value = filesRes.data.map((e) => {
-            if (localStorage.getItem(e.id)) {
-              e.localContent = localStorage.getItem(e.id)
-              e.isSave = false
-            } else {
-              e.isSave = true
-            }
-            if (
-              localStorage.getItem(`sha-${e.id}`) &&
-              localStorage.getItem(`sha-${e.id}`) !== 'null'
-            ) {
-              e.localShaCode = localStorage.getItem(`sha-${e.id}`)
-            } else {
-              e.localShaCode = e.shaCode
-            }
-            e.isCompile = false
-            return e
-          })
-          const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
-          if (main) currentFile.value = main
-          if (main && (main.localContent || main.content)) {
-            loadingCompile.value = true
-            compileAPI(infoRes.data.mainFileId)
-              .then((res) => {
-                const path = res.data.path.split('.')
-                path.pop()
-                if (res.data.compileSuccess) {
-                  resCompile.value.pdf = path.join('.') + '.pdf'
-                }
-                resCompile.value.log = path.join('.') + '.log'
-                files.value = files.value.map((e) => ({
-                  ...e,
-                  isCompile: true
-                }))
-              })
-              .catch()
-              .finally(() => (loadingCompile.value = false))
+          if (!infoRes.data.role) {
+            NotiError('You do not have permission to see this project!')
+            router.push('/')
           }
-          
-        } else {
-          files.value = filesRes.data
-        }
+          if (infoRes.data.role === 'editor' || infoRes.data.role === 'owner') {
+            files.value = filesRes.data.map((e) => {
+              if (localStorage.getItem(e.id)) {
+                e.localContent = localStorage.getItem(e.id)
+                e.isSave = false
+              } else {
+                e.isSave = true
+              }
+              if (
+                localStorage.getItem(`sha-${e.id}`) &&
+                localStorage.getItem(`sha-${e.id}`) !== 'null'
+              ) {
+                e.localShaCode = localStorage.getItem(`sha-${e.id}`)
+              } else {
+                e.localShaCode = e.shaCode
+              }
+              e.isCompile = false
+              return e
+            })
+            const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
+            if (main) currentFile.value = main
+            if (main && (main.localContent || main.content)) {
+              loadingCompile.value = true
+              compileAPI(infoRes.data.mainFileId)
+                .then((res) => {
+                  const path = res.data.path.split('.')
+                  path.pop()
+                  if (res.data.compileSuccess) {
+                    resCompile.value.pdf = path.join('.') + '.pdf'
+                  }
+                  resCompile.value.log = path.join('.') + '.log'
+                  files.value = files.value.map((e) => ({
+                    ...e,
+                    isCompile: true
+                  }))
+                })
+                .catch()
+                .finally(() => (loadingCompile.value = false))
+            }
+          } else {
+            files.value = filesRes.data
+          }
 
-        connectWebSocket()
-      } catch (err) {
-        console.log(err)
+          connectWebSocket()
+        } catch (err) {
+          console.log(err)
+        }
+      },
+      {
+        immediate: true
       }
-    })
+    )
 
     onUnmounted(() => {
       serviceAPI.deleteCompile(code.value)
@@ -425,7 +424,7 @@ export default defineComponent({
     const onUpdateFiles = (send) => {
       if (send) sendMessage(JSON.stringify({ type: 'change', change: 'list-files' }))
       serviceAPI
-        .getFilesByVersionId(route.params.versionId)
+        .getFilesByVersionId(versionId.value)
         .then((res) => {
           const prev = files.value
           files.value = res.data.map((e) => {
@@ -487,11 +486,12 @@ export default defineComponent({
             path: e.path,
             content: localStorage.getItem(e.id) || e.content,
             type: e.type
-          }))
+          })),
+          mainFilePath: files.value.find((e) => e.id === project.value.mainFileId)?.path || ''
         })
         .then(() => {
           serviceAPI
-            .getVersionById(route.params.versionId)
+            .getVersionById(versionId.value)
             .then((res) => {
               project.value = res.data
             })
@@ -528,7 +528,7 @@ export default defineComponent({
     }
 
     function connectWebSocket() {
-      socket = new WebSocket(`ws://localhost:5000/ws/${route.params.versionId}/${user.value.id}`)
+      socket = new WebSocket(`ws://localhost:5000/ws/${versionId.value}/${user.value.id}`)
 
       socket.onmessage = function (event) {
         const data = JSON.parse(event.data)
@@ -605,14 +605,6 @@ export default defineComponent({
           showChange = false
         }
       })
-    }
-
-    const clickVersion = (v) => {
-      if (v.isMainVersion) {
-        router.push(`/project/${v.id}`)
-        return
-      }
-      router.push(`/version/${v.id}`)
     }
 
     const handleResize = (event) => {
@@ -724,6 +716,11 @@ export default defineComponent({
       }
     )
 
+    const onChangeVersion = (id) => {
+      if (id === versionId.value) return
+      router.push(`/project/${id}`)
+    }
+
     return {
       show,
       files,
@@ -731,6 +728,7 @@ export default defineComponent({
       onChangeSelected2,
       currentFile,
       apiUrl: import.meta.env.VITE_API_URL,
+      versionId,
       currentFile,
       onCompile,
       resCompile,
@@ -745,10 +743,7 @@ export default defineComponent({
       sendMessage,
       onUpdateCode,
       project,
-      clickVersion,
       open,
-      showDrawer,
-      onClose,
       openModal,
       description,
       user,
@@ -765,7 +760,9 @@ export default defineComponent({
       onDownloadPdf,
       editorOptions,
       theme,
-      compileOptions
+      compileOptions,
+      dateTimeFormat,
+      onChangeVersion
     }
   }
 })
@@ -838,6 +835,39 @@ export default defineComponent({
     &__body {
       height: calc(100vh - 102px);
     }
+  }
+}
+
+@mixin apply-version($theme) {
+  $text-primary: map-get($theme, text-primary);
+  $text-secondary: map-get($theme, text-secondary);
+
+  padding: 4px 16px 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  &:hover {
+    background-color: rgba(109, 91, 208, 0.05);
+    cursor: pointer;
+  }
+  &.selected {
+    background-color: rgba(109, 91, 208, 0.09);
+  }
+  .title-version {
+    font-size: 16px;
+    font-weight: bold;
+    color: $text-primary;
+  }
+  .detail {
+    color: $text-secondary;
+  }
+}
+
+.version-div {
+  &[theme='light'] {
+    @include apply-version($theme-light);
+  }
+  &[theme='dark'] {
+    @include apply-version($theme-dark);
   }
 }
 
@@ -918,11 +948,6 @@ iframe {
     position: relative;
   }
 
-  // .compare-editor {
-  //   height: calc(100% - 32px);
-  //   margin-bottom: 20px;
-  // }
-
   .ant-layout-header.custom-header {
     justify-content: space-between;
     display: flex;
@@ -938,17 +963,7 @@ iframe {
     font-weight: bold;
   }
 
-  .version-div:hover {
-    background: #eee;
-    cursor: pointer;
-  }
-
-  .version-div {
-    padding: 8px 16px;
-    border-radius: 8px;
-  }
-
-  .ant-input.input-project {
+  .input-project {
     padding: 0 11px;
     line-height: 24px;
     font-size: 18px;
