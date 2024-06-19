@@ -30,6 +30,7 @@
             :files="files"
             :project="project"
             :resCompile="resCompile"
+            :readOnly="readOnlyPrj"
             v-model:editorOptions="editorOptions"
             v-model:mainFileId="project.mainFileId"
             v-model:compileOptions="compileOptions"
@@ -42,14 +43,31 @@
         <ShareMode
           v-model:isPublic="project.isPublic"
           :projectId="project.id"
+          :user="user"
           v-model:userProjects="project.userProjects"
           :activeUsers="activeUsers"
+          :readOnly="project.role !== 'owner'"
         />
         <a-radio-group size="large">
-          <a-radio-button @click="() => (openModal = true)">
+          <a-radio-button
+            @click="
+              () => {
+                if (
+                  project.isMainVersion &&
+                  (project.role === 'editor' || project.role === 'owner')
+                )
+                  openModal = true
+                else open = true
+              }
+            "
+          >
             <a-space align="center">
               <img src="/icons/version.svg" style="width: 16px; position: relative; top: 2px" />
-              <span style="font-weight: 600">Save Version</span>
+              <span style="font-weight: 600">{{
+                project.isMainVersion && (project.role === 'editor' || project.role === 'owner')
+                  ? 'Save version'
+                  : 'Version History'
+              }}</span>
             </a-space>
           </a-radio-button>
           <a-radio-button @click="() => (open = true)">
@@ -64,6 +82,7 @@
         <Directory
           :initData="files"
           :mainFile="files?.find((e) => e.id === project.mainFileId)"
+          :readOnly="readOnlyPrj"
           @changeSelected="onChangeSelected"
           @changeSelected2="onChangeSelected2"
           @update:files="() => onUpdateFiles(true)"
@@ -81,6 +100,7 @@
               @update:files="() => onUpdateFiles(true)"
               @update:code="onUpdateCode"
               :editorOptions="editorOptions"
+              :readOnly="readOnlyPrj"
             />
             <img
               v-if="currentFile?.type === 'img' && currentFile?.content"
@@ -150,17 +170,7 @@
 </template>
 
 <script>
-import {
-  computed,
-  defineComponent,
-  h,
-  inject,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-  watchEffect
-} from 'vue'
+import { computed, defineComponent, h, inject, onUnmounted, ref, watch, watchEffect } from 'vue'
 import {
   FolderOutlined,
   FileOutlined,
@@ -185,12 +195,10 @@ import Compare from '@/components/Compare.vue'
 import SettingBar from '@/components/SettingBar.vue'
 import { Button, notification } from 'ant-design-vue'
 import router from '@/router'
-import VueResizable from 'vue-resizable'
 import { NotiError } from '@/services/notification'
 import { Splitpanes, Pane } from 'splitpanes'
 import { DefaultCompileOptions, DefaultEditorOptions } from '@/constant'
 import UserAvatar from '@/components/common/UserAvatar.vue'
-import PDFViewer from 'pdf-viewer-vue'
 import { dateTimeFormat } from '@/services/functions'
 import AvatarApp from '@/components/common/AvatarApp.vue'
 
@@ -206,7 +214,6 @@ export default defineComponent({
     Directory,
     Editor,
     Compare,
-    VueResizable,
     TeamOutlined,
     CloseOutlined,
     StarOutlined,
@@ -216,7 +223,6 @@ export default defineComponent({
     Splitpanes,
     Pane,
     UserAvatar,
-    PDFViewer,
     SyncOutlined,
     DownloadOutlined,
     AvatarApp
@@ -229,7 +235,8 @@ export default defineComponent({
       mainFileId: '',
       isPublic: false,
       id: '',
-      userProjects: []
+      userProjects: [],
+      versions: []
     })
     const loadingCompile = ref(false)
     const loadingVersion = ref(false)
@@ -246,7 +253,7 @@ export default defineComponent({
     const open = ref(false)
     const openModal = ref(false)
     const description = ref('')
-    const user = ref()
+    const user = ref(null)
     const editProjectName = ref('')
     const inputWidth = computed(() => 24 + editProjectName.value.length * 9.2)
     const inputRef = ref()
@@ -260,6 +267,9 @@ export default defineComponent({
       JSON.parse(localStorage.getItem('compileOptions')) || DefaultCompileOptions
     )
     const versionId = computed(() => route.params.versionId)
+    const readOnlyPrj = computed(
+      () => !project.value.isMainVersion || project.value.role === 'viewer' || !project.value.role
+    )
 
     watch(
       () => [editorOptions.value],
@@ -277,17 +287,19 @@ export default defineComponent({
           const [filesRes, infoRes, userRes] = await Promise.all([
             serviceAPI.getFilesByVersionId(versionId.value),
             serviceAPI.getVersionById(versionId.value),
-            serviceAPI.getCurrentUser()
+            localStorage.getItem('token')
+              ? serviceAPI.getCurrentUser()
+              : Promise.resolve({ data: { id: '', fullname: '', username: '' } })
           ])
+
+          if (!infoRes.data.role && !infoRes.data.isPublic) {
+            NotiError('You do not have permission to see this project!')
+            router.replace('/')
+          }
 
           user.value = userRes.data
           activeUsers.value.add(user.value.id)
           project.value = infoRes.data
-
-          if (!infoRes.data.role) {
-            NotiError('You do not have permission to see this project!')
-            router.push('/')
-          }
           if (infoRes.data.role === 'editor' || infoRes.data.role === 'owner') {
             files.value = filesRes.data.map((e) => {
               if (localStorage.getItem(e.id)) {
@@ -307,30 +319,30 @@ export default defineComponent({
               e.isCompile = false
               return e
             })
-            const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
-            if (main) currentFile.value = main
-            if (main && (main.localContent || main.content)) {
-              loadingCompile.value = true
-              compileAPI(infoRes.data.mainFileId)
-                .then((res) => {
-                  const path = res.data.path.split('.')
-                  path.pop()
-                  if (res.data.compileSuccess) {
-                    resCompile.value.pdf = path.join('.') + '.pdf'
-                  }
-                  resCompile.value.log = path.join('.') + '.log'
-                  files.value = files.value.map((e) => ({
-                    ...e,
-                    isCompile: true
-                  }))
-                })
-                .catch()
-                .finally(() => (loadingCompile.value = false))
-            }
           } else {
-            files.value = filesRes.data
+            files.value = filesRes.data.map((e) => ({ ...e, isCompile: false, isSave: true }))
           }
-
+          const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
+          if (main) currentFile.value = main
+          if (main && (main.localContent || main.content) && main.name.endsWith('.tex')) {
+            loadingCompile.value = true
+            compileAPI(infoRes.data.mainFileId)
+              .then((res) => {
+                const path = res.data.path.split('.')
+                path.pop()
+                if (res.data.compileSuccess) {
+                  resCompile.value.pdf = path.join('.') + '.pdf'
+                }
+                resCompile.value.log = path.join('.') + '.log'
+                files.value = files.value.map((e) => ({
+                  ...e,
+                  isCompile: true
+                }))
+              })
+              .catch()
+              .finally(() => (loadingCompile.value = false))
+          }
+          console.log('prj', project.value)
           connectWebSocket()
         } catch (err) {
           console.log(err)
@@ -343,12 +355,14 @@ export default defineComponent({
 
     onUnmounted(() => {
       serviceAPI.deleteCompile(code.value)
-      sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
+      if (user.value.id)
+        sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
     })
 
     window.addEventListener('beforeunload', function (event) {
       serviceAPI.deleteCompile(code.value)
-      sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
+      if (user.value.id)
+        sendMessage(JSON.stringify({ type: 'user', active: false, userId: user.value.id }))
     })
 
     watchEffect(() => {
@@ -421,7 +435,7 @@ export default defineComponent({
         })
     }
 
-    const onUpdateFiles = (send) => {
+    const onUpdateFiles = (send, updateId = '') => {
       if (send) sendMessage(JSON.stringify({ type: 'change', change: 'list-files' }))
       serviceAPI
         .getFilesByVersionId(versionId.value)
@@ -437,6 +451,9 @@ export default defineComponent({
             e.isSave = prevE ? prevE.isSave : true
             return e
           })
+          if (updateId === currentFile.value.id) {
+            currentFile.value = files.value.find((e) => e.id === updateId)
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -448,22 +465,14 @@ export default defineComponent({
         JSON.stringify({
           type: 'change',
           change: 'file',
-          file: [
-            {
-              id: event.id,
-              name: event.name,
-              path: event.path,
-              content: event.content,
-              oldShaCode: event.oldShaCode
-            }
-          ]
+          file: event
         })
       )
 
       currentFile.value = event
       const idx = files.value.findIndex((e) => e.id === event.id)
-      files.value[idx] = event
-      files.value = { ...files.value }
+      files.value[idx] = { ...event, isSave: true }
+      files.value = JSON.parse(JSON.stringify(files.value))
       localStorage.removeItem(event.id)
       localStorage.removeItem(`sha-${event.id}`)
 
@@ -528,10 +537,11 @@ export default defineComponent({
     }
 
     function connectWebSocket() {
-      socket = new WebSocket(`ws://localhost:5000/ws/${versionId.value}/${user.value.id}`)
+      socket = new WebSocket(`ws://localhost:5000/ws/${versionId.value}/${user.value.id || 'null'}`)
 
       socket.onmessage = function (event) {
         const data = JSON.parse(event.data)
+        console.log(data)
         if (data.type === 'user') handleUserActive(data)
         else if (data.type === 'userList') handleListUserAcitve(data)
         else if (data.type === 'change') notiChange(data)
@@ -552,7 +562,7 @@ export default defineComponent({
       serviceAPI.compile({
         code: code.value,
         files: files.value
-          .filter((e) => e.isCompile === false)
+          .filter((e) => !e.isCompile)
           .map((e) => ({
             name: e.name,
             path: e.path,
@@ -587,12 +597,22 @@ export default defineComponent({
               onClick: () => {
                 notification.close('notiChange')
                 onUpdateFiles(false)
-
-                if (event.change === 'file') {
-                  const tmp = event.file.filter(
-                    (e) => e.oldShaCode !== files.value.find((f) => f.id === e.id).localShaCode
-                  )
-                  if (tmp.length > 0) conflictFiles.value = tmp
+                if (
+                  event.change === 'file' &&
+                  currentFile.value.id === event.file.id &&
+                  !localStorage.getItem(event.file.id)
+                ) {
+                  console.log('xyz', currentFile.value, event.file)
+                  currentFile.value = {
+                    ...currentFile.value,
+                    content: event.file.content,
+                    localContent: event.file.content,
+                    shaCode: event.file.shaCode,
+                    localShaCode: event.file.shaCode
+                  }
+                }
+                if (localStorage.getItem(event.file.id)) {
+                  conflictFiles.value = [event.file]
                 }
               }
             },
@@ -687,7 +707,7 @@ export default defineComponent({
     }
 
     const handleListUserAcitve = (data) => {
-      if (user?.value?.id) activeUsers.value.add(user.value.id)
+      if (user.value?.id) activeUsers.value.add(user.value.id)
       data.list.forEach((e) => {
         activeUsers.value.add(e)
       })
@@ -718,7 +738,7 @@ export default defineComponent({
 
     const onChangeVersion = (id) => {
       if (id === versionId.value) return
-      router.push(`/project/${id}`)
+      router.replace(`/project/${id}`)
     }
 
     return {
@@ -740,7 +760,6 @@ export default defineComponent({
       loadingVersion,
       loadingCompile,
       onSaveVersion,
-      sendMessage,
       onUpdateCode,
       project,
       open,
@@ -762,7 +781,8 @@ export default defineComponent({
       theme,
       compileOptions,
       dateTimeFormat,
-      onChangeVersion
+      onChangeVersion,
+      readOnlyPrj
     }
   }
 })

@@ -5,7 +5,7 @@
         <a-space>
           <a-typography-text class="title-text-directory" strong>FILE EXPLORER</a-typography-text>
         </a-space>
-        <a-space align="center" class="control-btns">
+        <a-space align="center" class="control-btns" v-if="!readOnly">
           <a-row>
             <a-tooltip title="New folder">
               <a-button
@@ -107,7 +107,7 @@
         </a-directory-tree>
       </div>
     </pane>
-    <pane min-size="10" class="directory-div" :theme="theme">
+    <pane min-size="10" class="directory-div" :theme="theme" v-if="!readOnly">
       <a-row class="header-directory" align="center" justify="space-between">
         <a-space>
           <a-typography-text class="title-text-directory" strong>UNSAVED FILES</a-typography-text>
@@ -180,7 +180,7 @@ export default defineComponent({
       type: Array,
       default: []
     },
-    readonly: {
+    readOnly: {
       type: Boolean,
       default: false
     },
@@ -773,14 +773,11 @@ export default defineComponent({
 
     .control-btns {
       transition: all 0.1s ease-in-out;
-      pointer-events: none;
     }
 
     .title-text-directory {
       font-size: 12px;
       line-height: 30px;
-      pointer-events: none;
-      user-select: none;
     }
   }
   .icon-directory {
@@ -835,10 +832,7 @@ export default defineComponent({
   }
   .control-btns {
     opacity: 100;
-    pointer-events: all;
   }
-
-
   .tree-container {
     max-height: 100%;
     overflow: auto;

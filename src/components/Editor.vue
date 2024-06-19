@@ -1,7 +1,7 @@
 <template>
   <div class="container-editor" :theme="theme">
     <div class="editor-control">
-      <div>
+      <div v-if="!readOnly">
         <a-button size="small" type="text" class="quick-btn" @click="() => onInsertText('textbf')">
           <bold-outlined />
         </a-button>
@@ -39,18 +39,18 @@
           <file-image-outlined />
         </a-button>
       </div>
-      <div>
+      <div  v-if="!readOnly">
         <a-button
           type="primary"
           size="small"
           :disabled="isSave"
           @click="onSave"
           :loading="loading"
-          v-if="!readonly"
         >
           <save-outlined />
         </a-button>
       </div>
+      <div v-if=readOnly class="name-file">{{ initData.name }}</div>
     </div>
     <div style="position: absolute; left: 0; right: 0; top: 38px; bottom: 0">
       <vue-monaco-editor
@@ -65,10 +65,10 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, h, ref, shallowRef, watch, computed, inject } from 'vue'
+import { defineComponent, h, ref, shallowRef, watch, computed, inject, watchEffect } from 'vue'
 import { serviceAPI } from '@/services/API'
 import { Button, notification } from 'ant-design-vue'
-import { NotiError } from '@/services/notification'
+import { NotiError, NotiSuccess } from '@/services/notification'
 import tokensProvider from '@/latex/tokens-provider'
 import languageConfig from '@/latex/language-config'
 import { getCompletionItemProvider } from '@/latex/completion-item-provider'
@@ -96,6 +96,10 @@ export default defineComponent({
     SaveOutlined
   },
   props: {
+    readOnly: {
+      type: Boolean,
+      default: false
+    },
     initData: {
       type: Object,
       default: () => {
@@ -104,10 +108,6 @@ export default defineComponent({
           id: ''
         }
       }
-    },
-    readonly: {
-      type: Boolean,
-      default: false
     },
     editorOptions: {
       type: Object,
@@ -123,7 +123,7 @@ export default defineComponent({
       formatOnPaste: true,
       scrollBeyondLastLine: false,
       quickSuggestions: true,
-      readOnly: props.readonly,
+      readOnly: props.readOnly,
       matchBrackets: false,
       ...props.editorOptions
     }
@@ -152,11 +152,15 @@ export default defineComponent({
     )
 
     watch(
-      () => [props.editorOptions],
+      () => [props.editorOptions, props.readOnly],
       () => {
-        editorRef.value.updateOptions(props.editorOptions)
+        editorRef.value.updateOptions({ ...props.editorOptions, readOnly: props.readOnly })
       }
     )
+
+    watchEffect(() => {
+      console.log('int', props.initData)
+    })
 
     const onSave = () => {
       if (loading.value) return
@@ -177,6 +181,7 @@ export default defineComponent({
             type: props.initData.type,
             oldShaCode: shaCode
           })
+          NotiSuccess("Save file successfully")
           shaCode = res.data.shaCode
         })
         .catch((err) => {
@@ -369,6 +374,10 @@ export default defineComponent({
   background: $color-background;
 
   .editor-control .quick-btn {
+    color: $text-secondary
+  }
+
+  .name-file {
     color: $text-secondary
   }
 }

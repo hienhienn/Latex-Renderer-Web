@@ -17,7 +17,7 @@
       <template #overlay>
         <a-menu>
           <a-space direction="vertical" style="padding: 5px 20px" :size="10">
-            <a-space>
+            <a-row justify="space-between">
               Auto closing bracket
               <a-switch
                 :checked="editorOptions.autoClosingBrackets"
@@ -29,10 +29,11 @@
                 checked-children="On"
                 un-checked-children="Off"
               />
-            </a-space>
-            <a-space>
+            </a-row>
+            <a-row justify="space-between">
               Bracket pair colorization
               <a-switch
+                style="margin-left: 16px;"
                 :checked="editorOptions['bracketPairColorization.enabled']"
                 @change="
                   (e) =>
@@ -44,8 +45,8 @@
                 checked-children="On"
                 un-checked-children="Off"
               />
-            </a-space>
-            <a-space>
+            </a-row>
+            <a-row justify="space-between">
               Word wrap
               <a-switch
                 :checked="editorOptions.wordWrap"
@@ -61,8 +62,8 @@
                 checked-children="On"
                 un-checked-children="Off"
               />
-            </a-space>
-            <a-space>
+            </a-row>
+            <a-row justify="space-between" v-if="!readOnly">
               Ignore trim whitespace
               <a-switch
                 :checked="editorOptions.ignoreTrimWhitespace"
@@ -76,8 +77,8 @@
                 checked-children="On"
                 un-checked-children="Off"
               />
-            </a-space>
-            <a-space>
+            </a-row>
+            <a-row justify="space-between">
               Font size
               <a-select
                 :value="editorOptions.fontSize"
@@ -86,7 +87,7 @@
                 :options="fontSizeOptions"
               >
               </a-select>
-            </a-space>
+            </a-row>
           </a-space>
         </a-menu>
       </template>
@@ -97,7 +98,7 @@
       <template #overlay>
         <a-menu>
           <a-space direction="vertical" style="padding: 5px 20px" :size="10">
-            <a-space>
+            <a-row justify="space-between" v-if="!readOnly">
               Auto compile
               <a-switch
                 :checked="compileOptions.autoCompile"
@@ -105,26 +106,30 @@
                 un-checked-children="Off"
                 @change="(e) => emit('update:compileOptions', { ...compileOptions, autoCompile: e })"
               />
-            </a-space>
-            <a-space>
+            </a-row>
+            <a-row justify="space-between" align="middle" v-if="!readOnly">
               Auto compile Delay (s)
               <a-input-number
+                style="margin-left: 32px;"
                 v-model:value="compileOptions.autoCompileDelay"
                 :min="3"
                 :max="100"
                 :step="1"
                 @change="(e) => emit('update:compileOptions', { ...compileOptions, autoCompileDelay: e })"
+                size="small"
               />
-            </a-space>
-            <a-space>
+            </a-row>
+            <a-row justify="space-between">
               Main file
               <a-select
                 size="small"
+                style="margin-left: 16px;"
                 :options="fileOptions"
                 :value="mainFileId"
                 @select="onChangeMainFile"
+                :disabled="readOnly"
               ></a-select>
-            </a-space>
+            </a-row>
           </a-space>
         </a-menu>
       </template>
@@ -167,6 +172,10 @@ export default defineComponent({
     compileOptions: {
       type: Object,
       default: DefaultCompileOptions
+    },
+    readOnly: {
+      type: Boolean,
+      default: false,
     }
   },
   emits: [

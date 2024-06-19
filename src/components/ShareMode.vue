@@ -1,9 +1,11 @@
 <template>
   <a-space class="shared-div" align="center" :theme="theme">
-    <a-button type="text" shape="circle" size="small">
-      <lock-outlined v-if="!isPublic" />
-      <global-outlined v-if="isPublic" />
-    </a-button>
+    <a-tooltip :title="isPublic ? 'Public' : 'Private'">
+      <a-button type="text" shape="circle" size="small">
+        <lock-outlined v-if="!isPublic" />
+        <global-outlined v-if="isPublic" />
+      </a-button>
+    </a-tooltip>
     <a-avatar-group
       :size="28"
       :max-count="3"
@@ -36,6 +38,8 @@
                 @click="(e) => e.stopPropagation()"
                 @select="onSelectAccess"
                 :bordered="false"
+                :disabled="readOnly"
+                :showArrow="!readOnly"
               >
                 <a-select-option :value="true">Public</a-select-option>
                 <a-select-option :value="false">Private</a-select-option>
@@ -54,7 +58,7 @@
           <a-typography-text class="title-text" strong style="font-size: 14px; margin-top: 8px">
             MEMBERS
           </a-typography-text>
-          <a-row align="center" v-if="stepAdd === 1">
+          <a-row align="center" v-if="!readOnly && stepAdd === 1">
             <a-select
               v-model:value="addMemberState.members"
               style="width: calc(100% - 45px); margin-right: 8px"
@@ -79,7 +83,7 @@
               <ArrowRightOutlined />
             </a-button>
           </a-row>
-          <a-row align="center" v-if="stepAdd === 2">
+          <a-row align="center" v-if="!readOnly && stepAdd === 2">
             <a-select
               v-model:value="addMemberState.role"
               style="width: calc(100% - 100px); margin-right: 8px"
@@ -122,8 +126,8 @@
                     :value="member?.role"
                     @click="(e) => e.stopPropagation()"
                     :bordered="false"
-                    :disabled="member?.role === 'owner'"
-                    :showArrow="member?.role !== 'owner'"
+                    :disabled="readOnly || member?.role === 'owner'"
+                    :showArrow="!readOnly && member?.role !== 'owner'"
                     @select="(e) => onChangeRole(e, member.id)"
                     style="width: 120px"
                   >
@@ -162,7 +166,7 @@
   </a-space>
 </template>
 <script>
-import { defineComponent, ref, reactive, watchEffect, inject } from 'vue'
+import { defineComponent, ref, reactive, inject } from 'vue'
 import {
   DownOutlined,
   GlobalOutlined,
@@ -209,6 +213,10 @@ export default defineComponent({
     activeUsers: {
       type: Set,
       default: new Set()
+    },
+    readOnly: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:isPublic', 'update:userProjects'],
@@ -361,17 +369,17 @@ export default defineComponent({
   }
 
   .title-text {
-    color: $text-secondary
+    color: $text-secondary;
   }
 }
 
 .shared-div {
   &[theme='light'] {
-    @include apply-theme($theme-light)
+    @include apply-theme($theme-light);
   }
 
   &[theme='dark'] {
-    @include apply-theme($theme-dark)
+    @include apply-theme($theme-dark);
   }
   border-radius: 20px;
   line-height: 32px;
@@ -386,13 +394,13 @@ export default defineComponent({
 
 .custom-overlay {
   &[theme='light'] {
-    @include apply-theme-ovl($theme-light)
+    @include apply-theme-ovl($theme-light);
   }
 
   &[theme='dark'] {
-    @include apply-theme-ovl($theme-dark)
+    @include apply-theme-ovl($theme-dark);
   }
-  
+
   padding: 16px 24px;
   margin-top: 20px;
   border-radius: 8px;

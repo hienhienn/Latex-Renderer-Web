@@ -23,17 +23,12 @@ const router = createRouter({
       path: '/project/:versionId',
       name: 'project',
       component: () => import('../views/Project.vue')
-    },
-    {
-      path: '/version/:versionId',
-      name: 'version',
-      component: () => import('../views/Version.vue')
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && to.name !== 'signup' && !localStorage.getItem('token')) {
+  if (to.name == 'home' && !localStorage.getItem('token')) {
     next({ name: 'login' })
   } else if (to.name === 'login' && localStorage.getItem('token')) {
     next({ name: '' })
