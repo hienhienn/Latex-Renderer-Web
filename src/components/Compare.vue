@@ -51,6 +51,7 @@ export default defineComponent({
       scrollBeyondLastLine: false,
       quickSuggestions: true,
       matchBrackets: false,
+      glyphMargin: true,
       ...props.editorOptions
     }
     const code = ref(localStorage.getItem(props.oldData.id))

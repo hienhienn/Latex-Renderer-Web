@@ -116,12 +116,24 @@
           </pane>
           <pane class="editor-right project-content" id="pdfDiv">
             <div class="editor-btns">
+              <a-input-number
+                v-model:value="zoom"
+                :min="30"
+                :max="300"
+                :step="10"
+                style="width: 75px"
+                :formatter="(value) => `${value}%`"
+                :parser="(value) => value.replace('%', '')"
+                @change="() => (show = Math.random() * 1000)"
+              />
+              <a-button type="text" size="small" @click="onDownloadLog">
+                <ExceptionOutlined />
+              </a-button>
               <a-button
                 size="small"
                 type="primary"
                 @click="onDownloadPdf"
                 :disabled="!resCompile.pdf"
-                :loading="loadingCompile"
               >
                 <DownloadOutlined />
               </a-button>
@@ -129,11 +141,16 @@
                 <SyncOutlined />
               </a-button>
             </div>
-            <embed
+            <iframe
               style="width: 100%; height: calc(100vh - 102px)"
               v-show="resCompile.pdf"
-              :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&zoom=120`"
+              :src="`${apiUrl}/${code}/${resCompile.pdf}#toolbar=0&zoom=${zoom}`"
               :key="show"
+            />
+            <a-spin
+              tip="Compiling..."
+              v-if="loadingCompile"
+              style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
             />
           </pane>
         </splitpanes>
@@ -193,7 +210,8 @@ import {
   StarOutlined,
   StarFilled,
   SyncOutlined,
-  DownloadOutlined
+  DownloadOutlined,
+  ExceptionOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -234,7 +252,8 @@ export default defineComponent({
     UserAvatar,
     SyncOutlined,
     DownloadOutlined,
-    AvatarApp
+    AvatarApp,
+    ExceptionOutlined
   },
   setup() {
     const theme = inject('theme')
@@ -280,6 +299,7 @@ export default defineComponent({
       () => !project.value.isMainVersion || project.value.role === 'viewer' || !project.value.role
     )
     const firstLoad = ref(true)
+    const zoom = ref(50)
 
     watch(
       () => [editorOptions.value],
@@ -333,7 +353,7 @@ export default defineComponent({
             files.value = filesRes.data.map((e) => ({ ...e, isCompile: false, isSave: true }))
           }
           const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
-          if (main) currentFile.value = main
+          // if (main) currentFile.value = main
           // if (main && (main.localContent || main.content) && main.name.endsWith('.tex')) {
           //   loadingCompile.value = true
           //   compileAPI(infoRes.data.mainFileId)
@@ -408,17 +428,24 @@ export default defineComponent({
 
     const onCompile = () => {
       if (loadingCompile.value) return
-      loadingCompile.value = true
-
       let mainId = project.value.mainFileId
       if (
         currentFile.value &&
         currentFile.value.type === 'tex' &&
-        currentFile.value.name.split('.').pop() === 'tex'
+        currentFile.value.path.endsWith('.tex')
       ) {
         mainId = currentFile.value.id
       }
-
+      const compileFile = files.value.find((e) => e.id === mainId)
+      if (!compileFile) {
+        NotiError('Compile file not exists')
+        return
+      }
+      if (!compileFile.content && !localStorage.getItem(mainId)) {
+        NotiError('Content of compile file can not be empty')
+        return
+      }
+      loadingCompile.value = true
       compileAPI(mainId)
         .then((res) => {
           show.value = Math.random() * 1000
@@ -740,6 +767,23 @@ export default defineComponent({
         .catch((error) => console.error('Error downloading the PDF:', error))
     }
 
+    const onDownloadLog = () => {
+      serviceAPI
+        .downloadLog(code.value, resCompile.value.log)
+        .then((res) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]))
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', resCompile.value.log.split('/').pop())
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        })
+        .catch((err) => {
+          NotiError('Faile to download .log file')
+        })
+    }
+
     watch(
       () => [compileOptions.value, files.value],
       () => {
@@ -788,13 +832,15 @@ export default defineComponent({
       activeUsers,
       code,
       onDownloadPdf,
+      onDownloadLog,
       editorOptions,
       theme,
       compileOptions,
       dateTimeFormat,
       onChangeVersion,
       readOnlyPrj,
-      firstLoad
+      firstLoad,
+      zoom
     }
   }
 })
@@ -830,48 +876,11 @@ export default defineComponent({
   .directory {
     background: $color-background;
   }
-
-  .pdf-viewer {
-    background: $color-background;
-
-    &__header {
-      box-shadow: none;
-      z-index: 0;
-      input {
-        background: $color-background-layout !important;
-        color: $text-primary !important;
-        border-radius: 4px;
-      }
-
-      .title,
-      #divider,
-      #pagelength {
-        color: $text-primary;
-      }
-
-      #zoom-controls {
-        margin-left: 16px;
-        .icon-btn {
-          width: 20px;
-          height: 20px;
-          &:hover {
-            background: rgba(109, 91, 208, 0.2);
-          }
-          .iconfont {
-            color: $text-secondary;
-            font-size: 8px;
-          }
-        }
-      }
-    }
-    &__body {
-      height: calc(100vh - 102px);
-    }
-  }
 }
 
 @mixin apply-version($theme) {
   $text-primary: map-get($theme, text-primary);
+  $color-background: map-get($theme, color-background);
   $text-secondary: map-get($theme, text-secondary);
 
   padding: 4px 16px 8px;
@@ -892,6 +901,10 @@ export default defineComponent({
   .detail {
     color: $text-secondary;
   }
+
+  .editor-right {
+    background: $color-background;
+  }
 }
 
 .version-div {
@@ -901,10 +914,6 @@ export default defineComponent({
   &[theme='dark'] {
     @include apply-version($theme-dark);
   }
-}
-
-iframe {
-  background-color: orange;
 }
 
 .splitpanes > .splitpanes__splitter {
@@ -971,6 +980,10 @@ iframe {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+    height: 38px;
+    background-color: rgba(109, 91, 208, 0.09);
+    align-items: center;
+    padding: 0 8px;
   }
 
   .editor img {

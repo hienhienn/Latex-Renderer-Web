@@ -38,6 +38,10 @@ const downloadFile: (id) => Promise<any> = (id) =>
   API.get(`file/download/${id}`, {
     responseType: 'blob'
   })
+const downloadLog: (code, filePath) => Promise<any> = (code, filePath) =>
+  API.get(`file/downloadLog/compile?code=${code}&path=${filePath}`, {
+    responseType: 'blob'
+  })
 const updateFile: (id, data) => Promise<any> = (id, data) => API.put(`file/updateFile/${id}`, data)
 const renameFile: (id, data) => Promise<any> = (id, data) => API.put(`file/renameFile/${id}`, data)
 const deleteFile: (id, shaCode) => Promise<any> = (id, shaCode) =>
@@ -77,6 +81,7 @@ export const serviceAPI = {
   uploadFile,
   getFile,
   downloadFile,
+  downloadLog,
   updateFile,
   renameFile,
   deleteFile,

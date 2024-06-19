@@ -124,7 +124,7 @@
               Main file
               <a-select
                 size="small"
-                style="margin-left: 16px;"
+                style="margin-left: 16px; flex: 1"
                 :options="fileOptions"
                 :value="mainFileId"
                 @select="onChangeMainFile"
@@ -191,7 +191,7 @@ export default defineComponent({
     const route = useRoute()
     const fontSize = [10, 11, 12, 13, 14, 16, 18, 20, 24]
     const fontSizeOptions = fontSize.map((e) => ({ value: e, label: e + 'px' }))
-    const fileOptions = computed(() => props.files.map((e) => ({ value: e.id, label: e.path })))
+    const fileOptions = computed(() => props.files.filter(e => e.path.endsWith('.tex')).map((e) => ({ value: e.id, label: e.path })))
     const openCopyProject = ref(false)
     const projectItems = computed(() => [
       {

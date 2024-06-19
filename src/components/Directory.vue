@@ -62,6 +62,7 @@
               <span
                 v-if="dataRef.id !== 'input'"
                 :style="{ overflow: 'hidden', maxWidth: 'calc(100% - 50px)' }"
+                :title="dataRef.title"
                 >{{ dataRef.title }}</span
               >
               <span v-if="dataRef.id === 'input'">
@@ -123,8 +124,9 @@
           v-model:selectedKeys="selectedKeys2"
         >
           <template #title="{ dataRef }">
-            <a-row justify="space-between" class="row-directory save">
-              <span>{{ dataRef.title }}</span>
+            <a-row class="row-directory save" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" :title="dataRef.key">
+              <div style="font-weight: 600; margin-right: 8px;">{{ dataRef.title }}</div> 
+              <div style="font-style: italic;">{{ dataRef.key }}</div>
             </a-row>
           </template>
         </a-directory-tree>
@@ -834,7 +836,7 @@ export default defineComponent({
     opacity: 100;
   }
   .tree-container {
-    max-height: 100%;
+    max-height: calc(100% - 38px);
     overflow: auto;
   }
 }
