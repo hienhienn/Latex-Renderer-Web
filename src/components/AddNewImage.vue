@@ -1,8 +1,8 @@
 <template>
-  <a-modal v-model:open="openRef" title="Upload new Image" okText="Save" :footer="null">
+  <a-modal v-model:open="openRef" title="Upload new file" okText="Save" :footer="null">
     <a-tabs v-model:activeKey="activeKey" size="small">
       <a-tab-pane key="img" tab="Image"></a-tab-pane>
-      <a-tab-pane key="tex" tab=".tex file"></a-tab-pane>
+      <a-tab-pane key="tex" tab="Text file"></a-tab-pane>
     </a-tabs>
     <br />
     <a-upload-dragger
@@ -21,15 +21,14 @@
       </p>
       <p class="ant-upload-text">Click or drag file to this area to upload</p>
       <p class="ant-upload-hint">
-        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-        band files
+        Support for a single or bulk upload.This area only accept image files.
       </p>
     </a-upload-dragger>
 
     <a-upload-dragger
       v-model:fileList="formStateTex.file"
       name="file"
-      accept=".tex"
+      accept=".tex,.txt,.bib"
       :maxCount="5"
       :multiple="true"
       :customRequest="createFile"
@@ -41,8 +40,7 @@
       </p>
       <p class="ant-upload-text">Click or drag file to this area to upload</p>
       <p class="ant-upload-hint">
-        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-        band files
+        Support for a single or bulk upload.This area only accept .tex, .txt, .bib file.
       </p>
     </a-upload-dragger>
   </a-modal>

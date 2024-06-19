@@ -1,6 +1,6 @@
 <template>
-  <a-dropdown placement="bottomRight">
-    <a-avatar :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname" />
+  <a-dropdown placement="bottomRight" v-if="user?.fullname && user?.username">
+    <a-avatar :size="38" :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname" />
     <template #overlay>
       <a-menu>
         <a-menu-item>{{ user?.fullname }} ({{ user?.username }})</a-menu-item>
@@ -16,6 +16,9 @@
       </a-menu>
     </template>
   </a-dropdown>
+  <a v-if="!user?.fullname || !user?.username" href="/login">
+    <a-button> Log in </a-button>
+  </a>
 </template>
 
 <script lang="ts">

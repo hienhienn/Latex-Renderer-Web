@@ -1,5 +1,11 @@
 <template>
-  <a-layout class="project-page" :theme="theme">
+  <a-spin
+    size="large"
+    tip="Loading..."
+    v-if="firstLoad"
+    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+  />
+  <a-layout class="project-page" :class="{ hidden: firstLoad }" :theme="theme">
     <a-layout-header class="custom-header">
       <a-space align="center">
         <a href="/" style="display: flex" title="Go to home page">
@@ -161,8 +167,11 @@
           {{ item?.isMainVersion ? 'Main version' : item.description }}
         </div>
         <div class="detail">
-          Last modified {{ dateTimeFormat(item.modifiedTime) }} by
-          <AvatarApp :avatarUser="item" :currentUser="user" />
+          Last modified {{ dateTimeFormat(item.modifiedTime) }} <br />
+          <a-space>
+            by
+            <AvatarApp :avatarUser="item" :currentUser="user" />
+          </a-space>
         </div>
       </div>
     </a-drawer>
@@ -270,6 +279,7 @@ export default defineComponent({
     const readOnlyPrj = computed(
       () => !project.value.isMainVersion || project.value.role === 'viewer' || !project.value.role
     )
+    const firstLoad = ref(true)
 
     watch(
       () => [editorOptions.value],
@@ -324,28 +334,29 @@ export default defineComponent({
           }
           const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
           if (main) currentFile.value = main
-          if (main && (main.localContent || main.content) && main.name.endsWith('.tex')) {
-            loadingCompile.value = true
-            compileAPI(infoRes.data.mainFileId)
-              .then((res) => {
-                const path = res.data.path.split('.')
-                path.pop()
-                if (res.data.compileSuccess) {
-                  resCompile.value.pdf = path.join('.') + '.pdf'
-                }
-                resCompile.value.log = path.join('.') + '.log'
-                files.value = files.value.map((e) => ({
-                  ...e,
-                  isCompile: true
-                }))
-              })
-              .catch()
-              .finally(() => (loadingCompile.value = false))
-          }
-          console.log('prj', project.value)
+          // if (main && (main.localContent || main.content) && main.name.endsWith('.tex')) {
+          //   loadingCompile.value = true
+          //   compileAPI(infoRes.data.mainFileId)
+          //     .then((res) => {
+          //       const path = res.data.path.split('.')
+          //       path.pop()
+          //       if (res.data.compileSuccess) {
+          //         resCompile.value.pdf = path.join('.') + '.pdf'
+          //       }
+          //       resCompile.value.log = path.join('.') + '.log'
+          //       files.value = files.value.map((e) => ({
+          //         ...e,
+          //         isCompile: true
+          //       }))
+          //     })
+          //     .catch()
+          //     .finally(() => (loadingCompile.value = false))
+          // }
+          firstLoad.value = false
           connectWebSocket()
         } catch (err) {
           console.log(err)
+          firstLoad.value = false
         }
       },
       {
@@ -782,7 +793,8 @@ export default defineComponent({
       compileOptions,
       dateTimeFormat,
       onChangeVersion,
-      readOnlyPrj
+      readOnlyPrj,
+      firstLoad
     }
   }
 })
@@ -902,6 +914,9 @@ iframe {
 }
 
 .project-page {
+  &.hidden {
+    opacity: 0;
+  }
   &[theme='light'] {
     @include apply-theme($theme-light);
   }

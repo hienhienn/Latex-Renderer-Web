@@ -112,6 +112,7 @@
               <a-input-number
                 style="margin-left: 32px;"
                 v-model:value="compileOptions.autoCompileDelay"
+                :disabled="!compileOptions.autoCompile"
                 :min="3"
                 :max="100"
                 :step="1"
