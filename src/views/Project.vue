@@ -183,13 +183,18 @@
         <div class="title-version">
           {{ item?.isMainVersion ? 'Main version' : item.description }}
         </div>
-        <div class="detail">
-          Last modified {{ dateTimeFormat(item.modifiedTime) }} <br />
-          <a-space>
-            by
-            <AvatarApp :avatarUser="item" :currentUser="user" />
-          </a-space>
-        </div>
+        <a-row justify="space-between">
+          <div class="detail">
+            Last modified {{ dateTimeFormat(item.modifiedTime) }} <br />
+            <a-space>
+              by
+              <AvatarApp :avatarUser="item" :currentUser="user" />
+            </a-space>
+          </div>
+          <a-button v-if=" item.id !== project.mainVersionId" type="text" size="small"  @click="(e) => onDeleteVersion(e, item)">
+            <DeleteOutlined />
+          </a-button>
+        </a-row>
       </div>
     </a-drawer>
   </a-layout>
@@ -211,7 +216,8 @@ import {
   StarFilled,
   SyncOutlined,
   DownloadOutlined,
-  ExceptionOutlined
+  ExceptionOutlined,
+  DeleteOutlined
 } from '@ant-design/icons-vue'
 import { useRoute } from 'vue-router'
 import { serviceAPI } from '@/services/API'
@@ -222,12 +228,13 @@ import Compare from '@/components/Compare.vue'
 import SettingBar from '@/components/SettingBar.vue'
 import { Button, notification } from 'ant-design-vue'
 import router from '@/router'
-import { NotiError } from '@/services/notification'
+import { NotiError, NotiSuccess } from '@/services/notification'
 import { Splitpanes, Pane } from 'splitpanes'
 import { DefaultCompileOptions, DefaultEditorOptions } from '@/constant'
 import UserAvatar from '@/components/common/UserAvatar.vue'
 import { dateTimeFormat } from '@/services/functions'
 import AvatarApp from '@/components/common/AvatarApp.vue'
+import { Confirm } from '@/services/confirm';
 
 export default defineComponent({
   components: {
@@ -253,7 +260,8 @@ export default defineComponent({
     SyncOutlined,
     DownloadOutlined,
     AvatarApp,
-    ExceptionOutlined
+    ExceptionOutlined,
+    DeleteOutlined
   },
   setup() {
     const theme = inject('theme')
@@ -353,25 +361,27 @@ export default defineComponent({
             files.value = filesRes.data.map((e) => ({ ...e, isCompile: false, isSave: true }))
           }
           const main = files.value.find((e) => e.id === infoRes.data.mainFileId)
-          // if (main) currentFile.value = main
-          // if (main && (main.localContent || main.content) && main.name.endsWith('.tex')) {
-          //   loadingCompile.value = true
-          //   compileAPI(infoRes.data.mainFileId)
-          //     .then((res) => {
-          //       const path = res.data.path.split('.')
-          //       path.pop()
-          //       if (res.data.compileSuccess) {
-          //         resCompile.value.pdf = path.join('.') + '.pdf'
-          //       }
-          //       resCompile.value.log = path.join('.') + '.log'
-          //       files.value = files.value.map((e) => ({
-          //         ...e,
-          //         isCompile: true
-          //       }))
-          //     })
-          //     .catch()
-          //     .finally(() => (loadingCompile.value = false))
-          // }
+          if (main) currentFile.value = main
+          if (main && (main.localContent || main.content) && main.name.endsWith('.tex')) {
+            loadingCompile.value = true
+            compileAPI(infoRes.data.mainFileId)
+              .then((res) => {
+                const path = res.data.path.split('.')
+                path.pop()
+                if (res.data.compileSuccess) {
+                  resCompile.value.pdf = path.join('.') + '.pdf'
+                } else {
+                  NotiError('Failed to compile this file')
+                }
+                resCompile.value.log = path.join('.') + '.log'
+                files.value = files.value.map((e) => ({
+                  ...e,
+                  isCompile: true
+                }))
+              })
+              .catch()
+              .finally(() => (loadingCompile.value = false))
+          }
           firstLoad.value = false
           connectWebSocket()
         } catch (err) {
@@ -457,6 +467,7 @@ export default defineComponent({
               log: path.join('.') + '.log'
             }
           } else {
+            NotiError('Failed to compile this file')
             resCompile.value = {
               pdf: '',
               log: path.join('.') + '.log'
@@ -796,6 +807,38 @@ export default defineComponent({
       router.replace(`/project/${id}`)
     }
 
+    const onDeleteVersion = (e, item) => {
+      e.stopPropagation()
+      Confirm({
+        content: 'Are you sure to delete this version?',
+        okText: 'Delete',
+        onOk() {
+          serviceAPI
+            .deleteVersion(item.id)
+            .then(() => {
+              serviceAPI
+                .getVersionById(versionId.value)
+                .then((res) => {
+                  project.value = res.data
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+              if(item.id === versionId.value) router.push(`/project/${project.value.mainVersionId}`)
+              NotiSuccess('Delete version successfully')
+            })
+            .catch((err) => {
+              console.log(err)
+              if (err.status == 404) {
+                NotiError('Not found version')
+              } else {
+                NotiError('Try again!')
+              }
+            })
+        }
+      })
+    }
+
     return {
       show,
       files,
@@ -840,7 +883,8 @@ export default defineComponent({
       onChangeVersion,
       readOnlyPrj,
       firstLoad,
-      zoom
+      zoom,
+      onDeleteVersion
     }
   }
 })

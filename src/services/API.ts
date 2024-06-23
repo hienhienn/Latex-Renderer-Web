@@ -57,6 +57,7 @@ const getVersionById: (id) => Promise<any> = (id) => API.get(`version/${id}`)
 const updateVersion: (id, data) => Promise<any> = (id, data) => API.put(`version/${id}`, data)
 const saveVersion: (id, data) => Promise<any> = (id, data) =>
   API.post(`version/saveVersion/${id}`, data)
+const deleteVersion: (id) => Promise<any> = (id) => API.delete(`version/${id}`)
 
 const getUserToProject: (projectId, name) => Promise<any> = (projectId, name) =>
   API.get(`userProject/userAdd/${projectId}?name=${name}`)
@@ -90,6 +91,7 @@ export const serviceAPI = {
   getVersionById,
   updateVersion,
   saveVersion,
+  deleteVersion,
   deleteCompile,
   getUserToProject,
   addMember,

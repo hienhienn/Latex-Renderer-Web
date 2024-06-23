@@ -158,10 +158,6 @@ export default defineComponent({
       }
     )
 
-    watchEffect(() => {
-      console.log('int', props.initData)
-    })
-
     const onSave = () => {
       if (loading.value) return
       loading.value = true

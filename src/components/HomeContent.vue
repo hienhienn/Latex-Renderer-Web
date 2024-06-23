@@ -19,7 +19,7 @@
       <template #bodyCell="{ column, text, record }">
         <template v-if="column.dataIndex === 'name'">
           <div style="display: flex">
-            <RouterLink :to="`/project/${record.mainVersionId}`" class="a-title">
+            <RouterLink :to="`/project/${record.mainVersion?.id}`" class="a-title">
               {{ text }}
             </RouterLink>
             <a-tag class="mode-tag" v-if="record.role">
@@ -53,10 +53,10 @@
           </a-avatar-group>
         </template>
         <template v-if="column.dataIndex === 'modifiedTime'">
-          {{ dateTimeFormat(text) }}
+          {{ dateTimeFormat(record.mainVersion?.modifiedTime) }}
           <a-row class="modify-editor">
             by
-            <AvatarApp :hide-avatar="true" :avatar-user="record.editor" :current-user="user" />
+            <AvatarApp :hide-avatar="true" :avatar-user="record.mainVersion?.editor" :current-user="user" />
           </a-row>
         </template>
         <template v-if="column.dataIndex === 'actions'">
