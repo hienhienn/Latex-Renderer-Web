@@ -1,0 +1,6848 @@
+[
+  {
+    "caption": "\\footref{}",
+    "snippet": "\\footref{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.0003680857021151614
+  },
+  {
+    "caption": "\\footref",
+    "snippet": "\\footref",
+    "meta": "scrextend-cmd",
+    "score": 0.0003680857021151614
+  },
+  {
+    "caption": "\\scriptsize",
+    "snippet": "\\scriptsize",
+    "meta": "scrextend-cmd",
+    "score": 0.05550618634921613
+  },
+  {
+    "caption": "\\scriptsize{}",
+    "snippet": "\\scriptsize{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.05550618634921613
+  },
+  {
+    "caption": "\\maketitle",
+    "snippet": "\\maketitle",
+    "meta": "scrextend-cmd",
+    "score": 0.7504160124360846
+  },
+  {
+    "caption": "\\Large",
+    "snippet": "\\Large",
+    "meta": "scrextend-cmd",
+    "score": 0.1987771081149759
+  },
+  {
+    "caption": "\\Large{}",
+    "snippet": "\\Large{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.1987771081149759
+  },
+  {
+    "caption": "\\and",
+    "snippet": "\\and",
+    "meta": "scrextend-cmd",
+    "score": 0.09847866956528724
+  },
+  {
+    "caption": "\\LARGE",
+    "snippet": "\\LARGE",
+    "meta": "scrextend-cmd",
+    "score": 0.05947642043953873
+  },
+  {
+    "caption": "\\LARGE{}",
+    "snippet": "\\LARGE{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.05947642043953873
+  },
+  {
+    "caption": "\\subtitle{}",
+    "snippet": "\\subtitle{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.01803265454797817
+  },
+  {
+    "caption": "\\large",
+    "snippet": "\\large",
+    "meta": "scrextend-cmd",
+    "score": 0.20377416734108866
+  },
+  {
+    "caption": "\\large{}",
+    "snippet": "\\large{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.20377416734108866
+  },
+  {
+    "caption": "\\Huge",
+    "snippet": "\\Huge",
+    "meta": "scrextend-cmd",
+    "score": 0.04725806985998919
+  },
+  {
+    "caption": "\\footnotesize",
+    "snippet": "\\footnotesize",
+    "meta": "scrextend-cmd",
+    "score": 0.2038592081252624
+  },
+  {
+    "caption": "\\footnotesize{}",
+    "snippet": "\\footnotesize{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.2038592081252624
+  },
+  {
+    "caption": "\\small",
+    "snippet": "\\small",
+    "meta": "scrextend-cmd",
+    "score": 0.2447632045426295
+  },
+  {
+    "caption": "\\small{}",
+    "snippet": "\\small{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.2447632045426295
+  },
+  {
+    "caption": "\\huge",
+    "snippet": "\\huge",
+    "meta": "scrextend-cmd",
+    "score": 0.04229832859754922
+  },
+  {
+    "caption": "\\huge{}",
+    "snippet": "\\huge{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.04229832859754922
+  },
+  {
+    "caption": "\\cleardoublepage",
+    "snippet": "\\cleardoublepage",
+    "meta": "scrextend-cmd",
+    "score": 0.044016804142963585
+  },
+  {
+    "caption": "\\tiny{}",
+    "snippet": "\\tiny{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.047727606910742924
+  },
+  {
+    "caption": "\\tiny",
+    "snippet": "\\tiny",
+    "meta": "scrextend-cmd",
+    "score": 0.047727606910742924
+  },
+  {
+    "caption": "\\deffootnote[]{}{}{}",
+    "snippet": "\\deffootnote[$1]{$2}{$3}{$4}",
+    "meta": "scrextend-cmd",
+    "score": 0.00002545393270896533
+  },
+  {
+    "caption": "\\thefootnote",
+    "snippet": "\\thefootnote",
+    "meta": "scrextend-cmd",
+    "score": 0.007676927812687567
+  },
+  {
+    "caption": "\\thefootnote{}",
+    "snippet": "\\thefootnote{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.007676927812687567
+  },
+  {
+    "caption": "\\normalsize",
+    "snippet": "\\normalsize",
+    "meta": "scrextend-cmd",
+    "score": 0.14261697855738878
+  },
+  {
+    "caption": "\\normalsize{}",
+    "snippet": "\\normalsize{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.14261697855738878
+  },
+  {
+    "caption": "\\titlefont",
+    "snippet": "\\titlefont",
+    "meta": "scrextend-cmd",
+    "score": 0.0005278519180709353
+  },
+  {
+    "caption": "\\thefootnotemark",
+    "snippet": "\\thefootnotemark",
+    "meta": "scrextend-cmd",
+    "score": 0.00002545393270896533
+  },
+  {
+    "caption": "\\newpage",
+    "snippet": "\\newpage",
+    "meta": "scrextend-cmd",
+    "score": 0.3277033727934986
+  },
+  {
+    "caption": "\\clearpage",
+    "snippet": "\\clearpage",
+    "meta": "scrextend-cmd",
+    "score": 0.1789117552185788
+  },
+  {
+    "caption": "\\addtokomafont{}{}",
+    "snippet": "\\addtokomafont{$1}{$2}",
+    "meta": "scrextend-cmd",
+    "score": 0.0008555564394100388
+  },
+  {
+    "caption": "\\setkomafont{}{}",
+    "snippet": "\\setkomafont{$1}{$2}",
+    "meta": "scrextend-cmd",
+    "score": 0.012985816912639263
+  },
+  {
+    "caption": "\\KOMAoptions{}",
+    "snippet": "\\KOMAoptions{$1}",
+    "meta": "scrextend-cmd",
+    "score": 0.000396664302361659
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "scrextend-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\ifthenelse{}{}{}",
+    "snippet": "\\ifthenelse{$1}{$2}{$3}",
+    "meta": "vietnam-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\ifthenelse{}",
+    "snippet": "\\ifthenelse{$1}",
+    "meta": "vietnam-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\setboolean{}{}",
+    "snippet": "\\setboolean{$1}{$2}",
+    "meta": "vietnam-cmd",
+    "score": 0.0012203054938872515
+  },
+  {
+    "caption": "\\newboolean{}",
+    "snippet": "\\newboolean{$1}",
+    "meta": "vietnam-cmd",
+    "score": 0.0009170966832172938
+  },
+  {
+    "caption": "\\value{}",
+    "snippet": "\\value{$1}",
+    "meta": "vietnam-cmd",
+    "score": 0.01590723355124104
+  },
+  {
+    "caption": "\\boolean{}",
+    "snippet": "\\boolean{$1}",
+    "meta": "vietnam-cmd",
+    "score": 0.0018957469739775527
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "vietnam-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "vietnam-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "vietnam-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\savegeometry{}",
+    "snippet": "\\savegeometry{$1}",
+    "meta": "geometry-cmd",
+    "score": 0.00006461638865465447
+  },
+  {
+    "caption": "\\loadgeometry{}",
+    "snippet": "\\loadgeometry{$1}",
+    "meta": "geometry-cmd",
+    "score": 0.00006461638865465447
+  },
+  {
+    "caption": "\\newgeometry{}",
+    "snippet": "\\newgeometry{$1}",
+    "meta": "geometry-cmd",
+    "score": 0.0025977479207639352
+  },
+  {
+    "caption": "\\geometry{}",
+    "snippet": "\\geometry{$1}",
+    "meta": "geometry-cmd",
+    "score": 0.046218420429973615
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "geometry-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\restoregeometry",
+    "snippet": "\\restoregeometry",
+    "meta": "geometry-cmd",
+    "score": 0.0007546303842143648
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "geometry-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "geometry-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "geometry-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\RequireXeTeX",
+    "snippet": "\\RequireXeTeX",
+    "meta": "geometry-cmd",
+    "score": 0.00021116765384691477
+  },
+  {
+    "caption": "\\diaghead{}{}{}",
+    "snippet": "\\diaghead{$1}{$2}{$3}",
+    "meta": "makecell-cmd",
+    "score": 0.000020417817976377812
+  },
+  {
+    "caption": "\\makecell{}",
+    "snippet": "\\makecell{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.005023670619810683
+  },
+  {
+    "caption": "\\makecell[]{}",
+    "snippet": "\\makecell[$1]{$2}",
+    "meta": "makecell-cmd",
+    "score": 0.005023670619810683
+  },
+  {
+    "caption": "\\height",
+    "snippet": "\\height",
+    "meta": "makecell-cmd",
+    "score": 0.0045883162478394055
+  },
+  {
+    "caption": "\\height{}",
+    "snippet": "\\height{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0045883162478394055
+  },
+  {
+    "caption": "\\setcellgapes{}",
+    "snippet": "\\setcellgapes{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0004960838428758984
+  },
+  {
+    "caption": "\\thead{}",
+    "snippet": "\\thead{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0023087638254186797
+  },
+  {
+    "caption": "\\Gape[]",
+    "snippet": "\\Gape[$1]",
+    "meta": "makecell-cmd",
+    "score": 0.000469300371741866
+  },
+  {
+    "caption": "\\theadgape{}",
+    "snippet": "\\theadgape{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.000234650185870933
+  },
+  {
+    "caption": "\\theadalign",
+    "snippet": "\\theadalign",
+    "meta": "makecell-cmd",
+    "score": 0.0006746935448099005
+  },
+  {
+    "caption": "\\theadalign{}",
+    "snippet": "\\theadalign{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0006746935448099005
+  },
+  {
+    "caption": "\\theadset{}",
+    "snippet": "\\theadset{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0004400433589389675
+  },
+  {
+    "caption": "\\Xhline{}",
+    "snippet": "\\Xhline{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0024175651338281096
+  },
+  {
+    "caption": "\\theadfont{}",
+    "snippet": "\\theadfont{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0007935193556772338
+  },
+  {
+    "caption": "\\theadfont",
+    "snippet": "\\theadfont",
+    "meta": "makecell-cmd",
+    "score": 0.0007935193556772338
+  },
+  {
+    "caption": "\\cellgape{}",
+    "snippet": "\\cellgape{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.000234650185870933
+  },
+  {
+    "caption": "\\arraystretch",
+    "snippet": "\\arraystretch",
+    "meta": "makecell-cmd",
+    "score": 0.022224283488673075
+  },
+  {
+    "caption": "\\arraystretch{}",
+    "snippet": "\\arraystretch{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.022224283488673075
+  },
+  {
+    "caption": "\\makegapedcells",
+    "snippet": "\\makegapedcells",
+    "meta": "makecell-cmd",
+    "score": 0.000431467454221244
+  },
+  {
+    "caption": "\\endtabular",
+    "snippet": "\\endtabular",
+    "meta": "makecell-cmd",
+    "score": 0.0005078239917067089
+  },
+  {
+    "caption": "\\multicolumn{}{}{}",
+    "snippet": "\\multicolumn{$1}{$2}{$3}",
+    "meta": "makecell-cmd",
+    "score": 0.5473606021405326
+  },
+  {
+    "caption": "\\array{}",
+    "snippet": "\\array{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.00002650484574842396
+  },
+  {
+    "caption": "\\arraybackslash",
+    "snippet": "\\arraybackslash",
+    "meta": "makecell-cmd",
+    "score": 0.014532521139459619
+  },
+  {
+    "caption": "\\tabular{}",
+    "snippet": "\\tabular{$1}",
+    "meta": "makecell-cmd",
+    "score": 0.0005078239917067089
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "makecell-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\newcolumntype{}[]{}",
+    "snippet": "\\newcolumntype{$1}[$2]{$3}",
+    "meta": "makecell-cmd",
+    "score": 0.018615449342361392
+  },
+  {
+    "caption": "\\newcolumntype{}{}",
+    "snippet": "\\newcolumntype{$1}{$2}",
+    "meta": "makecell-cmd",
+    "score": 0.018615449342361392
+  },
+  {
+    "caption": "\\rotatebox{}{}",
+    "snippet": "\\rotatebox{$1}{$2}",
+    "meta": "graphicx-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox[]{}{}",
+    "snippet": "\\rotatebox[$1]{$2}{$3}",
+    "meta": "graphicx-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox{}",
+    "snippet": "\\rotatebox{$1}",
+    "meta": "graphicx-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "graphicx-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "graphicx-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\scalebox{}{}",
+    "snippet": "\\scalebox{$1}{$2}",
+    "meta": "graphicx-cmd",
+    "score": 0.015973401906548487
+  },
+  {
+    "caption": "\\reflectbox{}",
+    "snippet": "\\reflectbox{$1}",
+    "meta": "graphicx-cmd",
+    "score": 0.0005981923692899367
+  },
+  {
+    "caption": "\\reflectbox",
+    "snippet": "\\reflectbox",
+    "meta": "graphicx-cmd",
+    "score": 0.0005981923692899367
+  },
+  {
+    "caption": "\\resizebox{}{}{}",
+    "snippet": "\\resizebox{$1}{$2}{$3}",
+    "meta": "graphicx-cmd",
+    "score": 0.017834153815870245
+  },
+  {
+    "caption": "\\includegraphics[]{}",
+    "snippet": "\\includegraphics[$1]{$2}",
+    "meta": "graphicx-cmd",
+    "score": 1.4595731795525781
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "graphicx-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\DeclareGraphicsExtensions{}",
+    "snippet": "\\DeclareGraphicsExtensions{$1}",
+    "meta": "graphicx-cmd",
+    "score": 0.0055519509468004175
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "graphicx-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\graphicspath{}",
+    "snippet": "\\graphicspath{$1}",
+    "meta": "graphicx-cmd",
+    "score": 0.09973951908678011
+  },
+  {
+    "caption": "\\rotatebox{}{}",
+    "snippet": "\\rotatebox{$1}{$2}",
+    "meta": "graphicx-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox[]{}{}",
+    "snippet": "\\rotatebox[$1]{$2}{$3}",
+    "meta": "graphicx-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox{}",
+    "snippet": "\\rotatebox{$1}",
+    "meta": "graphicx-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\DeclareGraphicsRule{}{}{}{}",
+    "snippet": "\\DeclareGraphicsRule{$1}{$2}{$3}{$4}",
+    "meta": "graphicx-cmd",
+    "score": 0.004649150613625593
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "graphicx-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "graphicx-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\shadowbox{}",
+    "snippet": "\\shadowbox{$1}",
+    "meta": "fancybox-cmd",
+    "score": 0.00107667147399019
+  },
+  {
+    "caption": "\\doublebox",
+    "snippet": "\\doublebox",
+    "meta": "fancybox-cmd",
+    "score": 0.00015142240898356106
+  },
+  {
+    "caption": "\\VerbatimEnvironment",
+    "snippet": "\\VerbatimEnvironment",
+    "meta": "fancybox-cmd",
+    "score": 0.000045350034239275855
+  },
+  {
+    "caption": "\\thisfancypage{}{}",
+    "snippet": "\\thisfancypage{$1}{$2}",
+    "meta": "fancybox-cmd",
+    "score": 0.00015142240898356106
+  },
+  {
+    "caption": "\\TheSbox",
+    "snippet": "\\TheSbox",
+    "meta": "fancybox-cmd",
+    "score": 0.000045350034239275855
+  },
+  {
+    "caption": "\\swapnumbers",
+    "snippet": "\\swapnumbers",
+    "meta": "amsthm-cmd",
+    "score": 0.0002908376412221364
+  },
+  {
+    "caption": "\\qedhere",
+    "snippet": "\\qedhere",
+    "meta": "amsthm-cmd",
+    "score": 0.0001608548097938035
+  },
+  {
+    "caption": "\\qed",
+    "snippet": "\\qed",
+    "meta": "amsthm-cmd",
+    "score": 0.0014240748825867814
+  },
+  {
+    "caption": "\\qed{}",
+    "snippet": "\\qed{$1}",
+    "meta": "amsthm-cmd",
+    "score": 0.0014240748825867814
+  },
+  {
+    "caption": "\\newtheoremstyle{}",
+    "snippet": "\\newtheoremstyle{$1}",
+    "meta": "amsthm-cmd",
+    "score": 0.004259886909451789
+  },
+  {
+    "caption": "\\newtheoremstyle{}{}{}",
+    "snippet": "\\newtheoremstyle{$1}{$2}{$3}",
+    "meta": "amsthm-cmd",
+    "score": 0.004259886909451789
+  },
+  {
+    "caption": "\\newtheoremstyle{}{}{}{}",
+    "snippet": "\\newtheoremstyle{$1}{$2}{$3}{$4}",
+    "meta": "amsthm-cmd",
+    "score": 0.004259886909451789
+  },
+  {
+    "caption": "\\theoremstyle{}",
+    "snippet": "\\theoremstyle{$1}",
+    "meta": "amsthm-cmd",
+    "score": 0.02533412165007986
+  },
+  {
+    "caption": "\\proofname",
+    "snippet": "\\proofname",
+    "meta": "amsthm-cmd",
+    "score": 0.00021208362094925234
+  },
+  {
+    "caption": "\\pushQED{}",
+    "snippet": "\\pushQED{$1}",
+    "meta": "amsthm-cmd",
+    "score": 0.00019346981338869148
+  },
+  {
+    "caption": "\\qedsymbol",
+    "snippet": "\\qedsymbol",
+    "meta": "amsthm-cmd",
+    "score": 0.0022671784428571723
+  },
+  {
+    "caption": "\\qedsymbol{}",
+    "snippet": "\\qedsymbol{$1}",
+    "meta": "amsthm-cmd",
+    "score": 0.0022671784428571723
+  },
+  {
+    "caption": "\\popQED",
+    "snippet": "\\popQED",
+    "meta": "amsthm-cmd",
+    "score": 0.00009673490669434574
+  },
+  {
+    "caption": "\\newtheorem{}[]{}",
+    "snippet": "\\newtheorem{$1}[$2]{$3}",
+    "meta": "amsthm-cmd",
+    "score": 0.215689795055434
+  },
+  {
+    "caption": "\\newtheorem{}{}",
+    "snippet": "\\newtheorem{$1}{$2}",
+    "meta": "amsthm-cmd",
+    "score": 0.215689795055434
+  },
+  {
+    "caption": "\\newtheorem{}{}[]",
+    "snippet": "\\newtheorem{$1}{$2}[$3]",
+    "meta": "amsthm-cmd",
+    "score": 0.215689795055434
+  },
+  {
+    "caption": "\\frenchspacing",
+    "snippet": "\\frenchspacing",
+    "meta": "amsthm-cmd",
+    "score": 0.0063276692758974925
+  },
+  {
+    "caption": "\\longmapsto",
+    "snippet": "\\longmapsto",
+    "meta": "amsmath-cmd",
+    "score": 0.0017755897148012264
+  },
+  {
+    "caption": "\\Check{}",
+    "snippet": "\\Check{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\numberwithin{}{}",
+    "snippet": "\\numberwithin{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.006963729684667191
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "amsmath-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\iff",
+    "snippet": "\\iff",
+    "meta": "amsmath-cmd",
+    "score": 0.004209937150980285
+  },
+  {
+    "caption": "\\And",
+    "snippet": "\\And",
+    "meta": "amsmath-cmd",
+    "score": 0.0011582952152188854
+  },
+  {
+    "caption": "\\And{}",
+    "snippet": "\\And{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0011582952152188854
+  },
+  {
+    "caption": "\\oint",
+    "snippet": "\\oint",
+    "meta": "amsmath-cmd",
+    "score": 0.0028650540724050534
+  },
+  {
+    "caption": "\\boxed{}",
+    "snippet": "\\boxed{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0035536135737312827
+  },
+  {
+    "caption": "\\Ddot{}",
+    "snippet": "\\Ddot{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\ignorespacesafterend",
+    "snippet": "\\ignorespacesafterend",
+    "meta": "amsmath-cmd",
+    "score": 0.0010893680553454854
+  },
+  {
+    "caption": "\\nonumber",
+    "snippet": "\\nonumber",
+    "meta": "amsmath-cmd",
+    "score": 0.051980653969641216
+  },
+  {
+    "caption": "\\Breve{}",
+    "snippet": "\\Breve{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\mapsto",
+    "snippet": "\\mapsto",
+    "meta": "amsmath-cmd",
+    "score": 0.006473769486518971
+  },
+  {
+    "caption": "\\over{}",
+    "snippet": "\\over{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0054372322008878786
+  },
+  {
+    "caption": "\\over",
+    "snippet": "\\over",
+    "meta": "amsmath-cmd",
+    "score": 0.0054372322008878786
+  },
+  {
+    "caption": "\\bigotimes",
+    "snippet": "\\bigotimes",
+    "meta": "amsmath-cmd",
+    "score": 0.000984722260624791
+  },
+  {
+    "caption": "\\bigoplus",
+    "snippet": "\\bigoplus",
+    "meta": "amsmath-cmd",
+    "score": 0.0011508785476242003
+  },
+  {
+    "caption": "\\theequation",
+    "snippet": "\\theequation",
+    "meta": "amsmath-cmd",
+    "score": 0.002995924112493351
+  },
+  {
+    "caption": "\\bigcap",
+    "snippet": "\\bigcap",
+    "meta": "amsmath-cmd",
+    "score": 0.005709261168797874
+  },
+  {
+    "caption": "\\xrightarrow{}",
+    "snippet": "\\xrightarrow{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.004163642482777231
+  },
+  {
+    "caption": "\\xrightarrow[]{}",
+    "snippet": "\\xrightarrow[$1]{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.004163642482777231
+  },
+  {
+    "caption": "\\atop",
+    "snippet": "\\atop",
+    "meta": "amsmath-cmd",
+    "score": 0.0006518541515279979
+  },
+  {
+    "caption": "\\dfrac{}{}",
+    "snippet": "\\dfrac{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.05397545277891961
+  },
+  {
+    "caption": "\\pmod",
+    "snippet": "\\pmod",
+    "meta": "amsmath-cmd",
+    "score": 0.0011773327219377148
+  },
+  {
+    "caption": "\\pmod{}",
+    "snippet": "\\pmod{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0011773327219377148
+  },
+  {
+    "caption": "\\notag",
+    "snippet": "\\notag",
+    "meta": "amsmath-cmd",
+    "score": 0.00322520920930312
+  },
+  {
+    "caption": "\\int",
+    "snippet": "\\int",
+    "meta": "amsmath-cmd",
+    "score": 0.11946660537765894
+  },
+  {
+    "caption": "\\Vec{}",
+    "snippet": "\\Vec{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\bigvee",
+    "snippet": "\\bigvee",
+    "meta": "amsmath-cmd",
+    "score": 0.0011677288242806726
+  },
+  {
+    "caption": "\\sum",
+    "snippet": "\\sum",
+    "meta": "amsmath-cmd",
+    "score": 0.42607994509619934
+  },
+  {
+    "caption": "\\hookrightarrow",
+    "snippet": "\\hookrightarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.0015607282046545064
+  },
+  {
+    "caption": "\\bigsqcup",
+    "snippet": "\\bigsqcup",
+    "meta": "amsmath-cmd",
+    "score": 0.0003468284144579442
+  },
+  {
+    "caption": "\\hookleftarrow",
+    "snippet": "\\hookleftarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.0016498799924012809
+  },
+  {
+    "caption": "\\Dot{}",
+    "snippet": "\\Dot{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\dots",
+    "snippet": "\\dots",
+    "meta": "amsmath-cmd",
+    "score": 0.0847414497955395
+  },
+  {
+    "caption": "\\genfrac{}{}{}{}{}{}",
+    "snippet": "\\genfrac{$1}{$2}{$3}{$4}{$5}{$6}",
+    "meta": "amsmath-cmd",
+    "score": 0.004820143328295316
+  },
+  {
+    "caption": "\\genfrac",
+    "snippet": "\\genfrac",
+    "meta": "amsmath-cmd",
+    "score": 0.004820143328295316
+  },
+  {
+    "caption": "\\cfrac{}{}",
+    "snippet": "\\cfrac{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.006765684097139381
+  },
+  {
+    "caption": "\\Acute{}",
+    "snippet": "\\Acute{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\ldots",
+    "snippet": "\\ldots",
+    "meta": "amsmath-cmd",
+    "score": 0.11585556755884258
+  },
+  {
+    "caption": "\\coprod",
+    "snippet": "\\coprod",
+    "meta": "amsmath-cmd",
+    "score": 0.00011383372700282614
+  },
+  {
+    "caption": "\\impliedby",
+    "snippet": "\\impliedby",
+    "meta": "amsmath-cmd",
+    "score": 0.000023482915591834053
+  },
+  {
+    "caption": "\\big",
+    "snippet": "\\big",
+    "meta": "amsmath-cmd",
+    "score": 0.05613164277964739
+  },
+  {
+    "caption": "\\idotsint",
+    "snippet": "\\idotsint",
+    "meta": "amsmath-cmd",
+    "score": 0.000013908704929884828
+  },
+  {
+    "caption": "\\Longrightarrow",
+    "snippet": "\\Longrightarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.002459139437356601
+  },
+  {
+    "caption": "\\allowdisplaybreaks",
+    "snippet": "\\allowdisplaybreaks",
+    "meta": "amsmath-cmd",
+    "score": 0.005931777024772073
+  },
+  {
+    "caption": "\\eqref{}",
+    "snippet": "\\eqref{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.06345266254167037
+  },
+  {
+    "caption": "\\mod",
+    "snippet": "\\mod",
+    "meta": "amsmath-cmd",
+    "score": 0.0015181439193121889
+  },
+  {
+    "caption": "\\mod{}",
+    "snippet": "\\mod{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0015181439193121889
+  },
+  {
+    "caption": "\\arraystretch",
+    "snippet": "\\arraystretch",
+    "meta": "amsmath-cmd",
+    "score": 0.022224283488673075
+  },
+  {
+    "caption": "\\arraystretch{}",
+    "snippet": "\\arraystretch{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.022224283488673075
+  },
+  {
+    "caption": "\\bigg",
+    "snippet": "\\bigg",
+    "meta": "amsmath-cmd",
+    "score": 0.04318078602869565
+  },
+  {
+    "caption": "\\underset{}{}",
+    "snippet": "\\underset{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.012799893214578391
+  },
+  {
+    "caption": "\\dotsc",
+    "snippet": "\\dotsc",
+    "meta": "amsmath-cmd",
+    "score": 0.0008555101484119994
+  },
+  {
+    "caption": "\\doteq",
+    "snippet": "\\doteq",
+    "meta": "amsmath-cmd",
+    "score": 0.00003164631070474435
+  },
+  {
+    "caption": "\\leftroot{}",
+    "snippet": "\\leftroot{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00006625561928497235
+  },
+  {
+    "caption": "\\substack{}",
+    "snippet": "\\substack{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0037482529712850755
+  },
+  {
+    "caption": "\\Hat{}",
+    "snippet": "\\Hat{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\frac{}{}",
+    "snippet": "\\frac{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 1.4341091141105058
+  },
+  {
+    "caption": "\\mspace{}",
+    "snippet": "\\mspace{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00003423236656565836
+  },
+  {
+    "caption": "\\Bar{}",
+    "snippet": "\\Bar{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\Grave{}",
+    "snippet": "\\Grave{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\implies",
+    "snippet": "\\implies",
+    "meta": "amsmath-cmd",
+    "score": 0.021828316911576096
+  },
+  {
+    "caption": "\\tbinom",
+    "snippet": "\\tbinom",
+    "meta": "amsmath-cmd",
+    "score": 0.000013908704929884828
+  },
+  {
+    "caption": "\\dotsi",
+    "snippet": "\\dotsi",
+    "meta": "amsmath-cmd",
+    "score": 0.000027817409859769657
+  },
+  {
+    "caption": "\\bigwedge",
+    "snippet": "\\bigwedge",
+    "meta": "amsmath-cmd",
+    "score": 0.000347742918592393
+  },
+  {
+    "caption": "\\sideset{}{}",
+    "snippet": "\\sideset{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\smash{}",
+    "snippet": "\\smash{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.008197171096663127
+  },
+  {
+    "caption": "\\smash[]{}",
+    "snippet": "\\smash[$1]{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.008197171096663127
+  },
+  {
+    "caption": "\\colon",
+    "snippet": "\\colon",
+    "meta": "amsmath-cmd",
+    "score": 0.005300291684408929
+  },
+  {
+    "caption": "\\intertext{}",
+    "snippet": "\\intertext{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0016148076375871775
+  },
+  {
+    "caption": "\\Longleftarrow",
+    "snippet": "\\Longleftarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.00008477207854183949
+  },
+  {
+    "caption": "\\prod",
+    "snippet": "\\prod",
+    "meta": "amsmath-cmd",
+    "score": 0.02549889375975901
+  },
+  {
+    "caption": "\\AmS",
+    "snippet": "\\AmS",
+    "meta": "amsmath-cmd",
+    "score": 0.00047859486202980376
+  },
+  {
+    "caption": "\\overline{}",
+    "snippet": "\\overline{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.11280487530505384
+  },
+  {
+    "caption": "\\tfrac{}{}",
+    "snippet": "\\tfrac{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.0005923542426657187
+  },
+  {
+    "caption": "\\uproot{}",
+    "snippet": "\\uproot{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00006625561928497235
+  },
+  {
+    "caption": "\\bmod",
+    "snippet": "\\bmod",
+    "meta": "amsmath-cmd",
+    "score": 0.002022594681005002
+  },
+  {
+    "caption": "\\bmod{}",
+    "snippet": "\\bmod{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.002022594681005002
+  },
+  {
+    "caption": "\\pod{}",
+    "snippet": "\\pod{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.000027817409859769657
+  },
+  {
+    "caption": "\\label{}",
+    "snippet": "\\label{$1}",
+    "meta": "amsmath-cmd",
+    "score": 1.897791904799601
+  },
+  {
+    "caption": "\\longrightarrow",
+    "snippet": "\\longrightarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.013399422292458848
+  },
+  {
+    "caption": "\\xleftarrow[]{}",
+    "snippet": "\\xleftarrow[$1]{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.000035779964196240445
+  },
+  {
+    "caption": "\\xleftarrow{}",
+    "snippet": "\\xleftarrow{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.000035779964196240445
+  },
+  {
+    "caption": "\\mathaccentV",
+    "snippet": "\\mathaccentV",
+    "meta": "amsmath-cmd",
+    "score": 0.00006216218551413489
+  },
+  {
+    "caption": "\\hdotsfor{}",
+    "snippet": "\\hdotsfor{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00024247684499275043
+  },
+  {
+    "caption": "\\hdotsfor[]{}",
+    "snippet": "\\hdotsfor[$1]{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.00024247684499275043
+  },
+  {
+    "caption": "\\Bigg",
+    "snippet": "\\Bigg",
+    "meta": "amsmath-cmd",
+    "score": 0.015507614799858266
+  },
+  {
+    "caption": "\\Bigg[]",
+    "snippet": "\\Bigg[$1]",
+    "meta": "amsmath-cmd",
+    "score": 0.015507614799858266
+  },
+  {
+    "caption": "\\overset{}{}",
+    "snippet": "\\overset{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.007611544955294224
+  },
+  {
+    "caption": "\\Big",
+    "snippet": "\\Big",
+    "meta": "amsmath-cmd",
+    "score": 0.050370758781422345
+  },
+  {
+    "caption": "\\longleftrightarrow",
+    "snippet": "\\longleftrightarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.0002851769278703356
+  },
+  {
+    "caption": "\\Longleftrightarrow",
+    "snippet": "\\Longleftrightarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.0004896780659212191
+  },
+  {
+    "caption": "\\Longleftrightarrow{}",
+    "snippet": "\\Longleftrightarrow{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0004896780659212191
+  },
+  {
+    "caption": "\\binom{}{}",
+    "snippet": "\\binom{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.013010882180364367
+  },
+  {
+    "caption": "\\longleftarrow",
+    "snippet": "\\longleftarrow",
+    "meta": "amsmath-cmd",
+    "score": 0.0011096532692473691
+  },
+  {
+    "caption": "\\dbinom{}{}",
+    "snippet": "\\dbinom{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.006800272303210672
+  },
+  {
+    "caption": "\\Tilde{}",
+    "snippet": "\\Tilde{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00007874446783586035
+  },
+  {
+    "caption": "\\bigcup",
+    "snippet": "\\bigcup",
+    "meta": "amsmath-cmd",
+    "score": 0.0058847868741168765
+  },
+  {
+    "caption": "\\pmb{}",
+    "snippet": "\\pmb{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.019171182556792562
+  },
+  {
+    "caption": "\\boldsymbol{}",
+    "snippet": "\\boldsymbol{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.18137737738638837
+  },
+  {
+    "caption": "\\boldsymbol",
+    "snippet": "\\boldsymbol",
+    "meta": "amsmath-cmd",
+    "score": 0.18137737738638837
+  },
+  {
+    "caption": "\\sinh",
+    "snippet": "\\sinh",
+    "meta": "amsmath-cmd",
+    "score": 0.0006435164702005918
+  },
+  {
+    "caption": "\\sinh{}",
+    "snippet": "\\sinh{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0006435164702005918
+  },
+  {
+    "caption": "\\operatorname{}",
+    "snippet": "\\operatorname{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.02181954887028883
+  },
+  {
+    "caption": "\\max",
+    "snippet": "\\max",
+    "meta": "amsmath-cmd",
+    "score": 0.04116833357968482
+  },
+  {
+    "caption": "\\liminf",
+    "snippet": "\\liminf",
+    "meta": "amsmath-cmd",
+    "score": 0.0015513861600956144
+  },
+  {
+    "caption": "\\liminf{}",
+    "snippet": "\\liminf{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0015513861600956144
+  },
+  {
+    "caption": "\\operatornamewithlimits{}",
+    "snippet": "\\operatornamewithlimits{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0022415507993352067
+  },
+  {
+    "caption": "\\exp",
+    "snippet": "\\exp",
+    "meta": "amsmath-cmd",
+    "score": 0.02404262443651467
+  },
+  {
+    "caption": "\\exp{}",
+    "snippet": "\\exp{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.02404262443651467
+  },
+  {
+    "caption": "\\lim",
+    "snippet": "\\lim",
+    "meta": "amsmath-cmd",
+    "score": 0.05285123457928509
+  },
+  {
+    "caption": "\\sin",
+    "snippet": "\\sin",
+    "meta": "amsmath-cmd",
+    "score": 0.040463088537699636
+  },
+  {
+    "caption": "\\sin{}",
+    "snippet": "\\sin{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.040463088537699636
+  },
+  {
+    "caption": "\\arg",
+    "snippet": "\\arg",
+    "meta": "amsmath-cmd",
+    "score": 0.007190995792600074
+  },
+  {
+    "caption": "\\cos",
+    "snippet": "\\cos",
+    "meta": "amsmath-cmd",
+    "score": 0.050370402546134785
+  },
+  {
+    "caption": "\\cos{}",
+    "snippet": "\\cos{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.050370402546134785
+  },
+  {
+    "caption": "\\varliminf",
+    "snippet": "\\varliminf",
+    "meta": "amsmath-cmd",
+    "score": 0.00006204977642542802
+  },
+  {
+    "caption": "\\hom",
+    "snippet": "\\hom",
+    "meta": "amsmath-cmd",
+    "score": 0.00008180643329881783
+  },
+  {
+    "caption": "\\tan",
+    "snippet": "\\tan",
+    "meta": "amsmath-cmd",
+    "score": 0.006176447465423192
+  },
+  {
+    "caption": "\\det",
+    "snippet": "\\det",
+    "meta": "amsmath-cmd",
+    "score": 0.005640718203101287
+  },
+  {
+    "caption": "\\ln",
+    "snippet": "\\ln",
+    "meta": "amsmath-cmd",
+    "score": 0.025366949660913504
+  },
+  {
+    "caption": "\\ln{}",
+    "snippet": "\\ln{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.025366949660913504
+  },
+  {
+    "caption": "\\cosh",
+    "snippet": "\\cosh",
+    "meta": "amsmath-cmd",
+    "score": 0.0008896391580266903
+  },
+  {
+    "caption": "\\cosh{}",
+    "snippet": "\\cosh{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0008896391580266903
+  },
+  {
+    "caption": "\\gcd",
+    "snippet": "\\gcd",
+    "meta": "amsmath-cmd",
+    "score": 0.002254008371792865
+  },
+  {
+    "caption": "\\limsup",
+    "snippet": "\\limsup",
+    "meta": "amsmath-cmd",
+    "score": 0.002354950225950599
+  },
+  {
+    "caption": "\\limsup{}",
+    "snippet": "\\limsup{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.002354950225950599
+  },
+  {
+    "caption": "\\inf",
+    "snippet": "\\inf",
+    "meta": "amsmath-cmd",
+    "score": 0.00340470256994063
+  },
+  {
+    "caption": "\\arccos",
+    "snippet": "\\arccos",
+    "meta": "amsmath-cmd",
+    "score": 0.001781687642431819
+  },
+  {
+    "caption": "\\arccos{}",
+    "snippet": "\\arccos{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.001781687642431819
+  },
+  {
+    "caption": "\\ker",
+    "snippet": "\\ker",
+    "meta": "amsmath-cmd",
+    "score": 0.002475379242338094
+  },
+  {
+    "caption": "\\cot",
+    "snippet": "\\cot",
+    "meta": "amsmath-cmd",
+    "score": 0.0003640644365701238
+  },
+  {
+    "caption": "\\cot{}",
+    "snippet": "\\cot{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0003640644365701238
+  },
+  {
+    "caption": "\\coth{}",
+    "snippet": "\\coth{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.00025939638266884963
+  },
+  {
+    "caption": "\\coth",
+    "snippet": "\\coth",
+    "meta": "amsmath-cmd",
+    "score": 0.00025939638266884963
+  },
+  {
+    "caption": "\\varlimsup",
+    "snippet": "\\varlimsup",
+    "meta": "amsmath-cmd",
+    "score": 0.00006204977642542802
+  },
+  {
+    "caption": "\\log",
+    "snippet": "\\log",
+    "meta": "amsmath-cmd",
+    "score": 0.048131780413380156
+  },
+  {
+    "caption": "\\varinjlim",
+    "snippet": "\\varinjlim",
+    "meta": "amsmath-cmd",
+    "score": 0.000361814283649031
+  },
+  {
+    "caption": "\\deg",
+    "snippet": "\\deg",
+    "meta": "amsmath-cmd",
+    "score": 0.005542465148816408
+  },
+  {
+    "caption": "\\arctan",
+    "snippet": "\\arctan",
+    "meta": "amsmath-cmd",
+    "score": 0.0011971697553682045
+  },
+  {
+    "caption": "\\dim",
+    "snippet": "\\dim",
+    "meta": "amsmath-cmd",
+    "score": 0.0038210003967178293
+  },
+  {
+    "caption": "\\min",
+    "snippet": "\\min",
+    "meta": "amsmath-cmd",
+    "score": 0.03051120054363316
+  },
+  {
+    "caption": "\\Pr",
+    "snippet": "\\Pr",
+    "meta": "amsmath-cmd",
+    "score": 0.010227440663206161
+  },
+  {
+    "caption": "\\Pr[]",
+    "snippet": "\\Pr[$1]",
+    "meta": "amsmath-cmd",
+    "score": 0.010227440663206161
+  },
+  {
+    "caption": "\\tanh",
+    "snippet": "\\tanh",
+    "meta": "amsmath-cmd",
+    "score": 0.0021229156376192525
+  },
+  {
+    "caption": "\\tanh{}",
+    "snippet": "\\tanh{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0021229156376192525
+  },
+  {
+    "caption": "\\arcsin",
+    "snippet": "\\arcsin",
+    "meta": "amsmath-cmd",
+    "score": 0.0007754886988089101
+  },
+  {
+    "caption": "\\arcsin{}",
+    "snippet": "\\arcsin{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0007754886988089101
+  },
+  {
+    "caption": "\\DeclareMathOperator{}{}",
+    "snippet": "\\DeclareMathOperator{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.029440493885398676
+  },
+  {
+    "caption": "\\csc",
+    "snippet": "\\csc",
+    "meta": "amsmath-cmd",
+    "score": 0.00013963711107573638
+  },
+  {
+    "caption": "\\sup",
+    "snippet": "\\sup",
+    "meta": "amsmath-cmd",
+    "score": 0.009355514755312534
+  },
+  {
+    "caption": "\\sec",
+    "snippet": "\\sec",
+    "meta": "amsmath-cmd",
+    "score": 0.0005912636157903734
+  },
+  {
+    "caption": "\\varprojlim",
+    "snippet": "\\varprojlim",
+    "meta": "amsmath-cmd",
+    "score": 0.0004286136584068833
+  },
+  {
+    "caption": "\\stepcounter{}",
+    "snippet": "\\stepcounter{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.0030745841706804776
+  },
+  {
+    "caption": "\\addtocounter{}{}",
+    "snippet": "\\addtocounter{$1}{$2}",
+    "meta": "amsmath-cmd",
+    "score": 0.010241823778997489
+  },
+  {
+    "caption": "\\text{}",
+    "snippet": "\\text{$1}",
+    "meta": "amsmath-cmd",
+    "score": 0.3608680734736821
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "amsmath-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "amsmath-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\frenchspacing",
+    "snippet": "\\frenchspacing",
+    "meta": "amsmath-cmd",
+    "score": 0.0063276692758974925
+  },
+  {
+    "caption": "\\frak{}",
+    "snippet": "\\frak{$1}",
+    "meta": "amssymb-cmd",
+    "score": 0.0017966000518546787
+  },
+  {
+    "caption": "\\checkmark",
+    "snippet": "\\checkmark",
+    "meta": "amssymb-cmd",
+    "score": 0.025060530944368123
+  },
+  {
+    "caption": "\\bold",
+    "snippet": "\\bold",
+    "meta": "amssymb-cmd",
+    "score": 0.0014358547624941567
+  },
+  {
+    "caption": "\\bold{}",
+    "snippet": "\\bold{$1}",
+    "meta": "amssymb-cmd",
+    "score": 0.0014358547624941567
+  },
+  {
+    "caption": "\\Bbb{}",
+    "snippet": "\\Bbb{$1}",
+    "meta": "amssymb-cmd",
+    "score": 0.0006671850995492977
+  },
+  {
+    "caption": "\\Bbb",
+    "snippet": "\\Bbb",
+    "meta": "amssymb-cmd",
+    "score": 0.0006671850995492977
+  },
+  {
+    "caption": "\\pmb{}",
+    "snippet": "\\pmb{$1}",
+    "meta": "amsbsy-cmd",
+    "score": 0.019171182556792562
+  },
+  {
+    "caption": "\\boldsymbol{}",
+    "snippet": "\\boldsymbol{$1}",
+    "meta": "amsbsy-cmd",
+    "score": 0.18137737738638837
+  },
+  {
+    "caption": "\\boldsymbol",
+    "snippet": "\\boldsymbol",
+    "meta": "amsbsy-cmd",
+    "score": 0.18137737738638837
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "amsbsy-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\frenchspacing",
+    "snippet": "\\frenchspacing",
+    "meta": "amsbsy-cmd",
+    "score": 0.0063276692758974925
+  },
+  {
+    "caption": "\\rmdefault",
+    "snippet": "\\rmdefault",
+    "meta": "times-cmd",
+    "score": 0.0012870877747432935
+  },
+  {
+    "caption": "\\sfdefault",
+    "snippet": "\\sfdefault",
+    "meta": "times-cmd",
+    "score": 0.008427383388519996
+  },
+  {
+    "caption": "\\sfdefault{}",
+    "snippet": "\\sfdefault{$1}",
+    "meta": "times-cmd",
+    "score": 0.008427383388519996
+  },
+  {
+    "caption": "\\ttdefault",
+    "snippet": "\\ttdefault",
+    "meta": "times-cmd",
+    "score": 0.0011733254149332488
+  },
+  {
+    "caption": "\\ttdefault{}",
+    "snippet": "\\ttdefault{$1}",
+    "meta": "times-cmd",
+    "score": 0.0011733254149332488
+  },
+  {
+    "caption": "\\endtabular",
+    "snippet": "\\endtabular",
+    "meta": "array-cmd",
+    "score": 0.0005078239917067089
+  },
+  {
+    "caption": "\\multicolumn{}{}{}",
+    "snippet": "\\multicolumn{$1}{$2}{$3}",
+    "meta": "array-cmd",
+    "score": 0.5473606021405326
+  },
+  {
+    "caption": "\\array{}",
+    "snippet": "\\array{$1}",
+    "meta": "array-cmd",
+    "score": 0.00002650484574842396
+  },
+  {
+    "caption": "\\arraybackslash",
+    "snippet": "\\arraybackslash",
+    "meta": "array-cmd",
+    "score": 0.014532521139459619
+  },
+  {
+    "caption": "\\tabular{}",
+    "snippet": "\\tabular{$1}",
+    "meta": "array-cmd",
+    "score": 0.0005078239917067089
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "array-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\newcolumntype{}[]{}",
+    "snippet": "\\newcolumntype{$1}[$2]{$3}",
+    "meta": "array-cmd",
+    "score": 0.018615449342361392
+  },
+  {
+    "caption": "\\newcolumntype{}{}",
+    "snippet": "\\newcolumntype{$1}{$2}",
+    "meta": "array-cmd",
+    "score": 0.018615449342361392
+  },
+  {
+    "caption": "\\newlist{}{}{}",
+    "snippet": "\\newlist{$1}{$2}{$3}",
+    "meta": "enumitem-cmd",
+    "score": 0.0007266225924074459
+  },
+  {
+    "caption": "\\setlist[]{}",
+    "snippet": "\\setlist[$1]{$2}",
+    "meta": "enumitem-cmd",
+    "score": 0.010895384475728338
+  },
+  {
+    "caption": "\\setlist{}",
+    "snippet": "\\setlist{$1}",
+    "meta": "enumitem-cmd",
+    "score": 0.010895384475728338
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "enumitem-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "enumitem-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\setlistdepth{}",
+    "snippet": "\\setlistdepth{$1}",
+    "meta": "enumitem-cmd",
+    "score": 0.0001113322912630871
+  },
+  {
+    "caption": "\\setenumerate[]{}",
+    "snippet": "\\setenumerate[$1]{$2}",
+    "meta": "enumitem-cmd",
+    "score": 0.00007437178301071255
+  },
+  {
+    "caption": "\\setenumerate{}",
+    "snippet": "\\setenumerate{$1}",
+    "meta": "enumitem-cmd",
+    "score": 0.00007437178301071255
+  },
+  {
+    "caption": "\\renewlist{}{}{}",
+    "snippet": "\\renewlist{$1}{$2}{$3}",
+    "meta": "enumitem-cmd",
+    "score": 0.0001113322912630871
+  },
+  {
+    "caption": "\\descriptionlabel{}",
+    "snippet": "\\descriptionlabel{$1}",
+    "meta": "enumitem-cmd",
+    "score": 0.000007678089052626698
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "enumitem-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\setitemize[]{}",
+    "snippet": "\\setitemize[$1]{$2}",
+    "meta": "enumitem-cmd",
+    "score": 0.0019580640711971786
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "enumitem-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\value{}",
+    "snippet": "\\value{$1}",
+    "meta": "enumitem-cmd",
+    "score": 0.01590723355124104
+  },
+  {
+    "caption": "\\makelabel",
+    "snippet": "\\makelabel",
+    "meta": "enumitem-cmd",
+    "score": 0.00005739925426740175
+  },
+  {
+    "caption": "\\makelabel{}",
+    "snippet": "\\makelabel{$1}",
+    "meta": "enumitem-cmd",
+    "score": 0.00005739925426740175
+  },
+  {
+    "caption": "\\makelabel[]{}",
+    "snippet": "\\makelabel[$1]{$2}",
+    "meta": "enumitem-cmd",
+    "score": 0.00005739925426740175
+  },
+  {
+    "caption": "\\documentclass[]{}",
+    "snippet": "\\documentclass[$1]{$2}",
+    "meta": "subfiles-cmd",
+    "score": 1.4425339817971206
+  },
+  {
+    "caption": "\\documentclass{}",
+    "snippet": "\\documentclass{$1}",
+    "meta": "subfiles-cmd",
+    "score": 1.4425339817971206
+  },
+  {
+    "caption": "\\subfile{}",
+    "snippet": "\\subfile{$1}",
+    "meta": "subfiles-cmd",
+    "score": 0.03337062633525651
+  },
+  {
+    "caption": "\\endverbatim",
+    "snippet": "\\endverbatim",
+    "meta": "subfiles-cmd",
+    "score": 0.0022216421267780076
+  },
+  {
+    "caption": "\\verbatim",
+    "snippet": "\\verbatim",
+    "meta": "subfiles-cmd",
+    "score": 0.0072203369120285256
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "subfiles-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "subfiles-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\par",
+    "snippet": "\\par",
+    "meta": "subfiles-cmd",
+    "score": 0.413853376001159
+  },
+  {
+    "caption": "\\verbatiminput{}",
+    "snippet": "\\verbatiminput{$1}",
+    "meta": "subfiles-cmd",
+    "score": 0.0024547099784948665
+  },
+  {
+    "caption": "\\verbatiminput",
+    "snippet": "\\verbatiminput",
+    "meta": "subfiles-cmd",
+    "score": 0.0024547099784948665
+  },
+  {
+    "caption": "\\titleclass{}{}[]",
+    "snippet": "\\titleclass{$1}{$2}[$3]",
+    "meta": "titlesec-cmd",
+    "score": 0.00028979763314974667
+  },
+  {
+    "caption": "\\titlelabel{}",
+    "snippet": "\\titlelabel{$1}",
+    "meta": "titlesec-cmd",
+    "score": 0.00000640387839367932
+  },
+  {
+    "caption": "\\thetitle",
+    "snippet": "\\thetitle",
+    "meta": "titlesec-cmd",
+    "score": 0.0015531478302713473
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "titlesec-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "titlesec-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\titleformat{}{}{}{}{}[]",
+    "snippet": "\\titleformat{$1}{$2}{$3}{$4}{$5}[$6]",
+    "meta": "titlesec-cmd",
+    "score": 0.03475519439740096
+  },
+  {
+    "caption": "\\titleformat{}[]{}{}{}{}",
+    "snippet": "\\titleformat{$1}[$2]{$3}{$4}{$5}{$6}",
+    "meta": "titlesec-cmd",
+    "score": 0.03475519439740096
+  },
+  {
+    "caption": "\\titleformat{}{}",
+    "snippet": "\\titleformat{$1}{$2}",
+    "meta": "titlesec-cmd",
+    "score": 0.03475519439740096
+  },
+  {
+    "caption": "\\titleformat{}{}{}{}{}",
+    "snippet": "\\titleformat{$1}{$2}{$3}{$4}{$5}",
+    "meta": "titlesec-cmd",
+    "score": 0.03475519439740096
+  },
+  {
+    "caption": "\\titlespacing{}{}{}{}",
+    "snippet": "\\titlespacing{$1}{$2}{$3}{$4}",
+    "meta": "titlesec-cmd",
+    "score": 0.023062744385192156
+  },
+  {
+    "caption": "\\markboth{}{}",
+    "snippet": "\\markboth{$1}{$2}",
+    "meta": "titlesec-cmd",
+    "score": 0.038323601301945065
+  },
+  {
+    "caption": "\\markboth{}",
+    "snippet": "\\markboth{$1}",
+    "meta": "titlesec-cmd",
+    "score": 0.038323601301945065
+  },
+  {
+    "caption": "\\markright{}",
+    "snippet": "\\markright{$1}",
+    "meta": "titlesec-cmd",
+    "score": 0.007138622674767024
+  },
+  {
+    "caption": "\\markright{}{}",
+    "snippet": "\\markright{$1}{$2}",
+    "meta": "titlesec-cmd",
+    "score": 0.007138622674767024
+  },
+  {
+    "caption": "\\filleft",
+    "snippet": "\\filleft",
+    "meta": "titlesec-cmd",
+    "score": 0.00007959989906732799
+  },
+  {
+    "caption": "\\filcenter",
+    "snippet": "\\filcenter",
+    "meta": "titlesec-cmd",
+    "score": 0.0004835660211260246
+  },
+  {
+    "caption": "\\footnote{}",
+    "snippet": "\\footnote{$1}",
+    "meta": "titlesec-cmd",
+    "score": 0.2253056071787701
+  },
+  {
+    "caption": "\\cleardoublepage",
+    "snippet": "\\cleardoublepage",
+    "meta": "titlesec-cmd",
+    "score": 0.044016804142963585
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "titlesec-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\chaptertitlename",
+    "snippet": "\\chaptertitlename",
+    "meta": "titlesec-cmd",
+    "score": 0.0016985007766926272
+  },
+  {
+    "caption": "\\newpage",
+    "snippet": "\\newpage",
+    "meta": "titlesec-cmd",
+    "score": 0.3277033727934986
+  },
+  {
+    "caption": "\\filright",
+    "snippet": "\\filright",
+    "meta": "titlesec-cmd",
+    "score": 0.00007959989906732799
+  },
+  {
+    "caption": "\\titlerule",
+    "snippet": "\\titlerule",
+    "meta": "titlesec-cmd",
+    "score": 0.019273712561461216
+  },
+  {
+    "caption": "\\titlerule[]{}",
+    "snippet": "\\titlerule[$1]{$2}",
+    "meta": "titlesec-cmd",
+    "score": 0.019273712561461216
+  },
+  {
+    "caption": "\\thecontentspage",
+    "snippet": "\\thecontentspage",
+    "meta": "titletoc-cmd",
+    "score": 0.0008054115902675176
+  },
+  {
+    "caption": "\\startcontents",
+    "snippet": "\\startcontents",
+    "meta": "titletoc-cmd",
+    "score": 0.00026847053008917257
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "titletoc-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "titletoc-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\printcontents{}{}{}",
+    "snippet": "\\printcontents{$1}{$2}{$3}",
+    "meta": "titletoc-cmd",
+    "score": 0.00013423526504458629
+  },
+  {
+    "caption": "\\titlecontents{}[]",
+    "snippet": "\\titlecontents{$1}[$2]",
+    "meta": "titletoc-cmd",
+    "score": 0.0017036290423289926
+  },
+  {
+    "caption": "\\titlecontents{}[]{}{}{}{}[]",
+    "snippet": "\\titlecontents{$1}[$2]{$3}{$4}{$5}{$6}[$7]",
+    "meta": "titletoc-cmd",
+    "score": 0.0017036290423289926
+  },
+  {
+    "caption": "\\titlecontents{}[]{}{}{}{}",
+    "snippet": "\\titlecontents{$1}[$2]{$3}{$4}{$5}{$6}",
+    "meta": "titletoc-cmd",
+    "score": 0.0017036290423289926
+  },
+  {
+    "caption": "\\numberline{}",
+    "snippet": "\\numberline{$1}",
+    "meta": "titletoc-cmd",
+    "score": 0.007461440567272885
+  },
+  {
+    "caption": "\\dottedcontents{}[]{}{}{}",
+    "snippet": "\\dottedcontents{$1}[$2]{$3}{$4}{$5}",
+    "meta": "titletoc-cmd",
+    "score": 0.00004743909531747666
+  },
+  {
+    "caption": "\\filcenter",
+    "snippet": "\\filcenter",
+    "meta": "titletoc-cmd",
+    "score": 0.0004835660211260246
+  },
+  {
+    "caption": "\\thecontentslabel",
+    "snippet": "\\thecontentslabel",
+    "meta": "titletoc-cmd",
+    "score": 0.0010521864830662522
+  },
+  {
+    "caption": "\\contentsuse{}{}",
+    "snippet": "\\contentsuse{$1}{$2}",
+    "meta": "titletoc-cmd",
+    "score": 0.00006110202388233705
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "titletoc-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\contentspage",
+    "snippet": "\\contentspage",
+    "meta": "titletoc-cmd",
+    "score": 0.0004955116569277163
+  },
+  {
+    "caption": "\\contentslabel[]{}",
+    "snippet": "\\contentslabel[$1]{$2}",
+    "meta": "titletoc-cmd",
+    "score": 0.0011055859582683105
+  },
+  {
+    "caption": "\\contentslabel{}",
+    "snippet": "\\contentslabel{$1}",
+    "meta": "titletoc-cmd",
+    "score": 0.0011055859582683105
+  },
+  {
+    "caption": "\\contentsmargin{}",
+    "snippet": "\\contentsmargin{$1}",
+    "meta": "titletoc-cmd",
+    "score": 0.00013423526504458629
+  },
+  {
+    "caption": "\\newpage",
+    "snippet": "\\newpage",
+    "meta": "titletoc-cmd",
+    "score": 0.3277033727934986
+  },
+  {
+    "caption": "\\titlerule",
+    "snippet": "\\titlerule",
+    "meta": "titletoc-cmd",
+    "score": 0.019273712561461216
+  },
+  {
+    "caption": "\\titlerule[]{}",
+    "snippet": "\\titlerule[$1]{$2}",
+    "meta": "titletoc-cmd",
+    "score": 0.019273712561461216
+  },
+  {
+    "caption": "\\counterwithin{}{}",
+    "snippet": "\\counterwithin{$1}{$2}",
+    "meta": "chngcntr-cmd",
+    "score": 0.001287401394784382
+  },
+  {
+    "caption": "\\counterwithout{}{}",
+    "snippet": "\\counterwithout{$1}{$2}",
+    "meta": "chngcntr-cmd",
+    "score": 0.0026127666246546326
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "pdflscape-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\RequireXeTeX",
+    "snippet": "\\RequireXeTeX",
+    "meta": "pdflscape-cmd",
+    "score": 0.00021116765384691477
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "pdflscape-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "pdflscape-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\scalebox{}{}",
+    "snippet": "\\scalebox{$1}{$2}",
+    "meta": "pdflscape-cmd",
+    "score": 0.015973401906548487
+  },
+  {
+    "caption": "\\reflectbox{}",
+    "snippet": "\\reflectbox{$1}",
+    "meta": "pdflscape-cmd",
+    "score": 0.0005981923692899367
+  },
+  {
+    "caption": "\\reflectbox",
+    "snippet": "\\reflectbox",
+    "meta": "pdflscape-cmd",
+    "score": 0.0005981923692899367
+  },
+  {
+    "caption": "\\resizebox{}{}{}",
+    "snippet": "\\resizebox{$1}{$2}{$3}",
+    "meta": "pdflscape-cmd",
+    "score": 0.017834153815870245
+  },
+  {
+    "caption": "\\includegraphics[]{}",
+    "snippet": "\\includegraphics[$1]{$2}",
+    "meta": "pdflscape-cmd",
+    "score": 1.4595731795525781
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "pdflscape-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\DeclareGraphicsExtensions{}",
+    "snippet": "\\DeclareGraphicsExtensions{$1}",
+    "meta": "pdflscape-cmd",
+    "score": 0.0055519509468004175
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "pdflscape-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\graphicspath{}",
+    "snippet": "\\graphicspath{$1}",
+    "meta": "pdflscape-cmd",
+    "score": 0.09973951908678011
+  },
+  {
+    "caption": "\\rotatebox{}{}",
+    "snippet": "\\rotatebox{$1}{$2}",
+    "meta": "pdflscape-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox[]{}{}",
+    "snippet": "\\rotatebox[$1]{$2}{$3}",
+    "meta": "pdflscape-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox{}",
+    "snippet": "\\rotatebox{$1}",
+    "meta": "pdflscape-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\DeclareGraphicsRule{}{}{}{}",
+    "snippet": "\\DeclareGraphicsRule{$1}{$2}{$3}{$4}",
+    "meta": "pdflscape-cmd",
+    "score": 0.004649150613625593
+  },
+  {
+    "caption": "\\afterpage{}",
+    "snippet": "\\afterpage{$1}",
+    "meta": "afterpage-cmd",
+    "score": 0.0018578070791608345
+  },
+  {
+    "caption": "\\clearpage",
+    "snippet": "\\clearpage",
+    "meta": "afterpage-cmd",
+    "score": 0.1789117552185788
+  },
+  {
+    "caption": "\\FuncSty{}",
+    "snippet": "\\FuncSty{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00007576875738934807
+  },
+  {
+    "caption": "\\algorithmautorefname",
+    "snippet": "\\algorithmautorefname",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000020085955839419213
+  },
+  {
+    "caption": "\\SetAlgoNoLine",
+    "snippet": "\\SetAlgoNoLine",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00015722499147840545
+  },
+  {
+    "caption": "\\Indp",
+    "snippet": "\\Indp",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00006068942580823901
+  },
+  {
+    "caption": "\\AlCapFnt",
+    "snippet": "\\AlCapFnt",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000030307502955739227
+  },
+  {
+    "caption": "\\LinesNumbered",
+    "snippet": "\\LinesNumbered",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000162125616653719
+  },
+  {
+    "caption": "\\SetAlFnt{}",
+    "snippet": "\\SetAlFnt{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0024446198714390757
+  },
+  {
+    "caption": "\\SetKw{}{}",
+    "snippet": "\\SetKw{$1}{$2}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00009292434841280213
+  },
+  {
+    "caption": "\\RestyleAlgo{}",
+    "snippet": "\\RestyleAlgo{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00019243311960945823
+  },
+  {
+    "caption": "\\listofalgorithms",
+    "snippet": "\\listofalgorithms",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0012576983422794912
+  },
+  {
+    "caption": "\\IncMargin{}",
+    "snippet": "\\IncMargin{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0024294661199612063
+  },
+  {
+    "caption": "\\BlankLine",
+    "snippet": "\\BlankLine",
+    "meta": "algorithm2e-cmd",
+    "score": 0.005049617303688214
+  },
+  {
+    "caption": "\\SetCommentSty{}",
+    "snippet": "\\SetCommentSty{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0001778112853266571
+  },
+  {
+    "caption": "\\SetAlgoNoEnd",
+    "snippet": "\\SetAlgoNoEnd",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00015722499147840545
+  },
+  {
+    "caption": "\\theAlgoLine{}",
+    "snippet": "\\theAlgoLine{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000015153751477869614
+  },
+  {
+    "caption": "\\SetKwBlock{}{}{}",
+    "snippet": "\\SetKwBlock{$1}{$2}{$3}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000981463850523159
+  },
+  {
+    "caption": "\\SetKwBlock{}{}",
+    "snippet": "\\SetKwBlock{$1}{$2}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000981463850523159
+  },
+  {
+    "caption": "\\AlCapNameFnt",
+    "snippet": "\\AlCapNameFnt",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000030307502955739227
+  },
+  {
+    "caption": "\\SetAlgoSkip{}",
+    "snippet": "\\SetAlgoSkip{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00017454032258926576
+  },
+  {
+    "caption": "\\SetKwFunction{}{}",
+    "snippet": "\\SetKwFunction{$1}{$2}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0015332307832994817
+  },
+  {
+    "caption": "\\nllabel{}",
+    "snippet": "\\nllabel{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0001844460347791443
+  },
+  {
+    "caption": "\\SetAlgoInsideSkip{}",
+    "snippet": "\\SetAlgoInsideSkip{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000045812360816321294
+  },
+  {
+    "caption": "\\DataSty{}",
+    "snippet": "\\DataSty{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000015153751477869614
+  },
+  {
+    "caption": "\\SetKwInOut{}{}",
+    "snippet": "\\SetKwInOut{$1}{$2}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0017021978326807814
+  },
+  {
+    "caption": "\\SetAlCapFnt{}",
+    "snippet": "\\SetAlCapFnt{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0024294661199612063
+  },
+  {
+    "caption": "\\CommentSty{}",
+    "snippet": "\\CommentSty{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0001111448631633176
+  },
+  {
+    "caption": "\\SetAlCapHSkip{}",
+    "snippet": "\\SetAlCapHSkip{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0024294661199612063
+  },
+  {
+    "caption": "\\renewcommand{}{}",
+    "snippet": "\\renewcommand{$1}{$2}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.3267437011085663
+  },
+  {
+    "caption": "\\renewcommand",
+    "snippet": "\\renewcommand",
+    "meta": "algorithm2e-cmd",
+    "score": 0.3267437011085663
+  },
+  {
+    "caption": "\\algorithmcfname",
+    "snippet": "\\algorithmcfname",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0024445413067013134
+  },
+  {
+    "caption": "\\SetKwIF{}{}{}{}{}{}{}{}",
+    "snippet": "\\SetKwIF{$1}{$2}{$3}{$4}{$5}{$6}{$7}{$8}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000015153751477869614
+  },
+  {
+    "caption": "\\SetAlgoCaptionSeparator{}",
+    "snippet": "\\SetAlgoCaptionSeparator{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000015153751477869614
+  },
+  {
+    "caption": "\\AlCapSty{}",
+    "snippet": "\\AlCapSty{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000030307502955739227
+  },
+  {
+    "caption": "\\ArgSty{}",
+    "snippet": "\\ArgSty{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000030307502955739227
+  },
+  {
+    "caption": "\\AlCapNameSty{}",
+    "snippet": "\\AlCapNameSty{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000030307502955739227
+  },
+  {
+    "caption": "\\SetKwData{}{}",
+    "snippet": "\\SetKwData{$1}{$2}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00235652682860263
+  },
+  {
+    "caption": "\\listalgorithmcfname",
+    "snippet": "\\listalgorithmcfname",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000015075186740106946
+  },
+  {
+    "caption": "\\Indm",
+    "snippet": "\\Indm",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00006068942580823901
+  },
+  {
+    "caption": "\\SetAlCapNameFnt{}",
+    "snippet": "\\SetAlCapNameFnt{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0024294661199612063
+  },
+  {
+    "caption": "\\DontPrintSemicolon",
+    "snippet": "\\DontPrintSemicolon",
+    "meta": "algorithm2e-cmd",
+    "score": 0.001062087490197768
+  },
+  {
+    "caption": "\\SetAlgoLined",
+    "snippet": "\\SetAlgoLined",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0017151361342403852
+  },
+  {
+    "caption": "\\SetAlCapSkip{}",
+    "snippet": "\\SetAlCapSkip{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0006213942502400296
+  },
+  {
+    "caption": "\\LinesNotNumbered",
+    "snippet": "\\LinesNotNumbered",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000015153751477869614
+  },
+  {
+    "caption": "\\SetKwProg{}{}{}{}",
+    "snippet": "\\SetKwProg{$1}{$2}{$3}{$4}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0008518783278391971
+  },
+  {
+    "caption": "\\SetAlgoVlined",
+    "snippet": "\\SetAlgoVlined",
+    "meta": "algorithm2e-cmd",
+    "score": 0.000015153751477869614
+  },
+  {
+    "caption": "\\SetKwRepeat{}{}{}",
+    "snippet": "\\SetKwRepeat{$1}{$2}{$3}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00006110202388233705
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "algorithm2e-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\chapter{}",
+    "snippet": "\\chapter{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.422097569591803
+  },
+  {
+    "caption": "\\SetKwFor{}{}{}{}",
+    "snippet": "\\SetKwFor{$1}{$2}{$3}{$4}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.00010699539949594301
+  },
+  {
+    "caption": "\\ifthenelse{}{}{}",
+    "snippet": "\\ifthenelse{$1}{$2}{$3}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\ifthenelse{}",
+    "snippet": "\\ifthenelse{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\setboolean{}{}",
+    "snippet": "\\setboolean{$1}{$2}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0012203054938872515
+  },
+  {
+    "caption": "\\newboolean{}",
+    "snippet": "\\newboolean{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0009170966832172938
+  },
+  {
+    "caption": "\\value{}",
+    "snippet": "\\value{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.01590723355124104
+  },
+  {
+    "caption": "\\boolean{}",
+    "snippet": "\\boolean{$1}",
+    "meta": "algorithm2e-cmd",
+    "score": 0.0018957469739775527
+  },
+  {
+    "caption": "\\xspace",
+    "snippet": "\\xspace",
+    "meta": "algorithm2e-cmd",
+    "score": 0.07560370351316588
+  },
+  {
+    "caption": "\\multirow{}{}{}",
+    "snippet": "\\multirow{$1}{$2}{$3}",
+    "meta": "multirow-cmd",
+    "score": 0.07525389638751734
+  },
+  {
+    "caption": "\\multirow{}[]{}{}",
+    "snippet": "\\multirow{$1}[$2]{$3}{$4}",
+    "meta": "multirow-cmd",
+    "score": 0.07525389638751734
+  },
+  {
+    "caption": "\\lhead{}",
+    "snippet": "\\lhead{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.05268978171228714
+  },
+  {
+    "caption": "\\chaptermark",
+    "snippet": "\\chaptermark",
+    "meta": "fancyhdr-cmd",
+    "score": 0.005924520024686584
+  },
+  {
+    "caption": "\\chaptermark{}",
+    "snippet": "\\chaptermark{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.005924520024686584
+  },
+  {
+    "caption": "\\fancypagestyle{}{}",
+    "snippet": "\\fancypagestyle{$1}{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.009430919590937878
+  },
+  {
+    "caption": "\\footrule",
+    "snippet": "\\footrule",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0010032754348913366
+  },
+  {
+    "caption": "\\footrule{}",
+    "snippet": "\\footrule{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0010032754348913366
+  },
+  {
+    "caption": "\\fancyfoot[]{}",
+    "snippet": "\\fancyfoot[$1]{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.024973618823189894
+  },
+  {
+    "caption": "\\fancyfoot{}",
+    "snippet": "\\fancyfoot{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.024973618823189894
+  },
+  {
+    "caption": "\\fancyfootoffset[]{}",
+    "snippet": "\\fancyfootoffset[$1]{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0015373246231684555
+  },
+  {
+    "caption": "\\fancyfootoffset{}",
+    "snippet": "\\fancyfootoffset{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0015373246231684555
+  },
+  {
+    "caption": "\\footruleskip",
+    "snippet": "\\footruleskip",
+    "meta": "fancyhdr-cmd",
+    "score": 0.000830117957327721
+  },
+  {
+    "caption": "\\fancyheadoffset[]{}",
+    "snippet": "\\fancyheadoffset[$1]{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0016786568695309166
+  },
+  {
+    "caption": "\\fancyheadoffset{}",
+    "snippet": "\\fancyheadoffset{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0016786568695309166
+  },
+  {
+    "caption": "\\iffloatpage{}{}",
+    "snippet": "\\iffloatpage{$1}{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.00006606286310833368
+  },
+  {
+    "caption": "\\cfoot{}",
+    "snippet": "\\cfoot{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.013411641301057813
+  },
+  {
+    "caption": "\\subsectionmark",
+    "snippet": "\\subsectionmark",
+    "meta": "fancyhdr-cmd",
+    "score": 0.000031153423008593836
+  },
+  {
+    "caption": "\\footrulewidth",
+    "snippet": "\\footrulewidth",
+    "meta": "fancyhdr-cmd",
+    "score": 0.011424740897486949
+  },
+  {
+    "caption": "\\fancyhfoffset[]{}",
+    "snippet": "\\fancyhfoffset[$1]{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.00003741978601121172
+  },
+  {
+    "caption": "\\rhead{}",
+    "snippet": "\\rhead{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.022782817416731292
+  },
+  {
+    "caption": "\\fancyplain{}{}",
+    "snippet": "\\fancyplain{$1}{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.007402339896386138
+  },
+  {
+    "caption": "\\rfoot{}",
+    "snippet": "\\rfoot{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.013393817825547868
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "fancyhdr-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\plainheadrulewidth",
+    "snippet": "\\plainheadrulewidth",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0000062350576842596716
+  },
+  {
+    "caption": "\\baselinestretch",
+    "snippet": "\\baselinestretch",
+    "meta": "fancyhdr-cmd",
+    "score": 0.03225350148161425
+  },
+  {
+    "caption": "\\lfoot{}",
+    "snippet": "\\lfoot{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.00789399846642229
+  },
+  {
+    "caption": "\\MakeUppercase{}",
+    "snippet": "\\MakeUppercase{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.006776001543888959
+  },
+  {
+    "caption": "\\MakeUppercase",
+    "snippet": "\\MakeUppercase",
+    "meta": "fancyhdr-cmd",
+    "score": 0.006776001543888959
+  },
+  {
+    "caption": "\\fancyhf{}",
+    "snippet": "\\fancyhf{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.02314618933449356
+  },
+  {
+    "caption": "\\sectionmark",
+    "snippet": "\\sectionmark",
+    "meta": "fancyhdr-cmd",
+    "score": 0.005008938879210868
+  },
+  {
+    "caption": "\\fancyhead[]{}",
+    "snippet": "\\fancyhead[$1]{$2}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.039101068064744296
+  },
+  {
+    "caption": "\\fancyhead{}",
+    "snippet": "\\fancyhead{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.039101068064744296
+  },
+  {
+    "caption": "\\nouppercase{}",
+    "snippet": "\\nouppercase{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.006416387071584083
+  },
+  {
+    "caption": "\\nouppercase",
+    "snippet": "\\nouppercase",
+    "meta": "fancyhdr-cmd",
+    "score": 0.006416387071584083
+  },
+  {
+    "caption": "\\headrule",
+    "snippet": "\\headrule",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0008327432627715623
+  },
+  {
+    "caption": "\\headrule{}",
+    "snippet": "\\headrule{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.0008327432627715623
+  },
+  {
+    "caption": "\\chead{}",
+    "snippet": "\\chead{$1}",
+    "meta": "fancyhdr-cmd",
+    "score": 0.00755042164734884
+  },
+  {
+    "caption": "\\headrulewidth",
+    "snippet": "\\headrulewidth",
+    "meta": "fancyhdr-cmd",
+    "score": 0.02268137935335823
+  },
+  {
+    "caption": "\\appendixpagename",
+    "snippet": "\\appendixpagename",
+    "meta": "appendix-cmd",
+    "score": 0.0005082989114039268
+  },
+  {
+    "caption": "\\appendixpagename{}",
+    "snippet": "\\appendixpagename{$1}",
+    "meta": "appendix-cmd",
+    "score": 0.0005082989114039268
+  },
+  {
+    "caption": "\\thechapter",
+    "snippet": "\\thechapter",
+    "meta": "appendix-cmd",
+    "score": 0.011821300392639589
+  },
+  {
+    "caption": "\\sectionmark",
+    "snippet": "\\sectionmark",
+    "meta": "appendix-cmd",
+    "score": 0.005008938879210868
+  },
+  {
+    "caption": "\\thesubsection",
+    "snippet": "\\thesubsection",
+    "meta": "appendix-cmd",
+    "score": 0.004364729212023423
+  },
+  {
+    "caption": "\\appendixname",
+    "snippet": "\\appendixname",
+    "meta": "appendix-cmd",
+    "score": 0.006491295958752496
+  },
+  {
+    "caption": "\\appendixname{}",
+    "snippet": "\\appendixname{$1}",
+    "meta": "appendix-cmd",
+    "score": 0.006491295958752496
+  },
+  {
+    "caption": "\\addcontentsline{}{}{}",
+    "snippet": "\\addcontentsline{$1}{$2}{$3}",
+    "meta": "appendix-cmd",
+    "score": 0.07503475348393239
+  },
+  {
+    "caption": "\\thesection",
+    "snippet": "\\thesection",
+    "meta": "appendix-cmd",
+    "score": 0.011068945893347528
+  },
+  {
+    "caption": "\\thesection{}",
+    "snippet": "\\thesection{$1}",
+    "meta": "appendix-cmd",
+    "score": 0.011068945893347528
+  },
+  {
+    "caption": "\\appendixpage",
+    "snippet": "\\appendixpage",
+    "meta": "appendix-cmd",
+    "score": 0.0003193786370376004
+  },
+  {
+    "caption": "\\appendixpage{}",
+    "snippet": "\\appendixpage{$1}",
+    "meta": "appendix-cmd",
+    "score": 0.0003193786370376004
+  },
+  {
+    "caption": "\\appendixtocname",
+    "snippet": "\\appendixtocname",
+    "meta": "appendix-cmd",
+    "score": 0.0005082989114039268
+  },
+  {
+    "caption": "\\appendixtocname{}",
+    "snippet": "\\appendixtocname{$1}",
+    "meta": "appendix-cmd",
+    "score": 0.0005082989114039268
+  },
+  {
+    "caption": "\\phantomsection",
+    "snippet": "\\phantomsection",
+    "meta": "appendix-cmd",
+    "score": 0.0174633138331273
+  },
+  {
+    "caption": "\\captionsetup{}",
+    "snippet": "\\captionsetup{$1}",
+    "meta": "caption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\captionsetup[]{}",
+    "snippet": "\\captionsetup[$1]{$2}",
+    "meta": "caption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\captionof{}{}",
+    "snippet": "\\captionof{$1}{$2}",
+    "meta": "caption-cmd",
+    "score": 0.018348594199161503
+  },
+  {
+    "caption": "\\string",
+    "snippet": "\\string",
+    "meta": "caption-cmd",
+    "score": 0.001042697111754002
+  },
+  {
+    "caption": "\\appendix",
+    "snippet": "\\appendix",
+    "meta": "caption-cmd",
+    "score": 0.047007158741781095
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "caption-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\stepcounter{}",
+    "snippet": "\\stepcounter{$1}",
+    "meta": "caption-cmd",
+    "score": 0.0030745841706804776
+  },
+  {
+    "caption": "\\chapter{}",
+    "snippet": "\\chapter{$1}",
+    "meta": "caption-cmd",
+    "score": 0.422097569591803
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "caption-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\hspace{}",
+    "snippet": "\\hspace{$1}",
+    "meta": "caption-cmd",
+    "score": 0.3147206476372336
+  },
+  {
+    "caption": "\\caption{}",
+    "snippet": "\\caption{$1}",
+    "meta": "caption-cmd",
+    "score": 1.2569477427490174
+  },
+  {
+    "caption": "\\label{}",
+    "snippet": "\\label{$1}",
+    "meta": "caption-cmd",
+    "score": 1.897791904799601
+  },
+  {
+    "caption": "\\ContinuedFloat",
+    "snippet": "\\ContinuedFloat",
+    "meta": "caption-cmd",
+    "score": 0.00005806935368083486
+  },
+  {
+    "caption": "\\noindent",
+    "snippet": "\\noindent",
+    "meta": "caption-cmd",
+    "score": 0.42355747798114207
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "caption-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\DeclareCaptionJustification{}{}",
+    "snippet": "\\DeclareCaptionJustification{$1}{$2}",
+    "meta": "caption-cmd",
+    "score": 0.0001872850414971473
+  },
+  {
+    "caption": "\\DeclareCaptionLabelSeparator{}{}",
+    "snippet": "\\DeclareCaptionLabelSeparator{$1}{$2}",
+    "meta": "caption-cmd",
+    "score": 0.0003890810058478364
+  },
+  {
+    "caption": "\\DeclareCaptionFormat{}{}",
+    "snippet": "\\DeclareCaptionFormat{$1}{$2}",
+    "meta": "caption-cmd",
+    "score": 0.0004717618449370015
+  },
+  {
+    "caption": "\\DeclareCaptionFont{}{}",
+    "snippet": "\\DeclareCaptionFont{$1}{$2}",
+    "meta": "caption-cmd",
+    "score": 0.000050133404990680195
+  },
+  {
+    "caption": "\\DeclareCaptionSubType[]{}",
+    "snippet": "\\DeclareCaptionSubType[$1]{$2}",
+    "meta": "caption-cmd",
+    "score": 0.0001872850414971473
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "caption-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "caption-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\captionsetup{}",
+    "snippet": "\\captionsetup{$1}",
+    "meta": "caption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\captionsetup[]{}",
+    "snippet": "\\captionsetup[$1]{$2}",
+    "meta": "caption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\string",
+    "snippet": "\\string",
+    "meta": "caption-cmd",
+    "score": 0.001042697111754002
+  },
+  {
+    "caption": "\\DeclareCaptionType{}[][]",
+    "snippet": "\\DeclareCaptionType{$1}[$2][$3]",
+    "meta": "caption-cmd",
+    "score": 0.00015256647321237863
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "caption-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\footnote{}",
+    "snippet": "\\footnote{$1}",
+    "meta": "caption-cmd",
+    "score": 0.2253056071787701
+  },
+  {
+    "caption": "\\footnotemark[]",
+    "snippet": "\\footnotemark[$1]",
+    "meta": "caption-cmd",
+    "score": 0.021473212893597875
+  },
+  {
+    "caption": "\\footnotemark",
+    "snippet": "\\footnotemark",
+    "meta": "caption-cmd",
+    "score": 0.021473212893597875
+  },
+  {
+    "caption": "\\vskip",
+    "snippet": "\\vskip",
+    "meta": "listings-cmd",
+    "score": 0.05143052892347224
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "listings-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "listings-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "listings-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\thelstlisting",
+    "snippet": "\\thelstlisting",
+    "meta": "listings-cmd",
+    "score": 0.00012774128088872144
+  },
+  {
+    "caption": "\\lstinputlisting[]{}",
+    "snippet": "\\lstinputlisting[$1]{$2}",
+    "meta": "listings-cmd",
+    "score": 0.011660477607086044
+  },
+  {
+    "caption": "\\lstinputlisting{}",
+    "snippet": "\\lstinputlisting{$1}",
+    "meta": "listings-cmd",
+    "score": 0.011660477607086044
+  },
+  {
+    "caption": "\\space",
+    "snippet": "\\space",
+    "meta": "listings-cmd",
+    "score": 0.023010789853665694
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "listings-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\lstinline",
+    "snippet": "\\lstinline",
+    "meta": "listings-cmd",
+    "score": 0.005972262850694285
+  },
+  {
+    "caption": "\\lstinline{}",
+    "snippet": "\\lstinline{$1}",
+    "meta": "listings-cmd",
+    "score": 0.005972262850694285
+  },
+  {
+    "caption": "\\lstlistoflistings",
+    "snippet": "\\lstlistoflistings",
+    "meta": "listings-cmd",
+    "score": 0.005279080363360602
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "listings-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\listof{}{}",
+    "snippet": "\\listof{$1}{$2}",
+    "meta": "float-cmd",
+    "score": 0.0009837365348002915
+  },
+  {
+    "caption": "\\floatplacement{}{}",
+    "snippet": "\\floatplacement{$1}{$2}",
+    "meta": "float-cmd",
+    "score": 0.0005815474978918903
+  },
+  {
+    "caption": "\\restylefloat{}",
+    "snippet": "\\restylefloat{$1}",
+    "meta": "float-cmd",
+    "score": 0.0008866338267686714
+  },
+  {
+    "caption": "\\floatstyle{}",
+    "snippet": "\\floatstyle{$1}",
+    "meta": "float-cmd",
+    "score": 0.0015470917047414941
+  },
+  {
+    "caption": "\\floatname{}{}",
+    "snippet": "\\floatname{$1}{$2}",
+    "meta": "float-cmd",
+    "score": 0.0011934321931750752
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "float-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\caption{}",
+    "snippet": "\\caption{$1}",
+    "meta": "float-cmd",
+    "score": 1.2569477427490174
+  },
+  {
+    "caption": "\\newfloat{}{}{}",
+    "snippet": "\\newfloat{$1}{$2}{$3}",
+    "meta": "float-cmd",
+    "score": 0.0012745874472536625
+  },
+  {
+    "caption": "\\newfloat",
+    "snippet": "\\newfloat",
+    "meta": "float-cmd",
+    "score": 0.0012745874472536625
+  },
+  {
+    "caption": "\\newfloat{}",
+    "snippet": "\\newfloat{$1}",
+    "meta": "float-cmd",
+    "score": 0.0012745874472536625
+  },
+  {
+    "caption": "\\subref{}",
+    "snippet": "\\subref{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.007192033516871399
+  },
+  {
+    "caption": "\\subcaptionbox{}{}",
+    "snippet": "\\subcaptionbox{$1}{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.0008634329663023698
+  },
+  {
+    "caption": "\\newsubfloat{}",
+    "snippet": "\\newsubfloat{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.000615805121082521
+  },
+  {
+    "caption": "\\subcaption{}",
+    "snippet": "\\subcaption{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.006820005741581297
+  },
+  {
+    "caption": "\\subcaption[]{}",
+    "snippet": "\\subcaption[$1]{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.006820005741581297
+  },
+  {
+    "caption": "\\captionsetup{}",
+    "snippet": "\\captionsetup{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\captionsetup[]{}",
+    "snippet": "\\captionsetup[$1]{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\captionof{}{}",
+    "snippet": "\\captionof{$1}{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.018348594199161503
+  },
+  {
+    "caption": "\\string",
+    "snippet": "\\string",
+    "meta": "subcaption-cmd",
+    "score": 0.001042697111754002
+  },
+  {
+    "caption": "\\appendix",
+    "snippet": "\\appendix",
+    "meta": "subcaption-cmd",
+    "score": 0.047007158741781095
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "subcaption-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\stepcounter{}",
+    "snippet": "\\stepcounter{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.0030745841706804776
+  },
+  {
+    "caption": "\\chapter{}",
+    "snippet": "\\chapter{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.422097569591803
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "subcaption-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\hspace{}",
+    "snippet": "\\hspace{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.3147206476372336
+  },
+  {
+    "caption": "\\caption{}",
+    "snippet": "\\caption{$1}",
+    "meta": "subcaption-cmd",
+    "score": 1.2569477427490174
+  },
+  {
+    "caption": "\\label{}",
+    "snippet": "\\label{$1}",
+    "meta": "subcaption-cmd",
+    "score": 1.897791904799601
+  },
+  {
+    "caption": "\\ContinuedFloat",
+    "snippet": "\\ContinuedFloat",
+    "meta": "subcaption-cmd",
+    "score": 0.00005806935368083486
+  },
+  {
+    "caption": "\\noindent",
+    "snippet": "\\noindent",
+    "meta": "subcaption-cmd",
+    "score": 0.42355747798114207
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\DeclareCaptionJustification{}{}",
+    "snippet": "\\DeclareCaptionJustification{$1}{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.0001872850414971473
+  },
+  {
+    "caption": "\\DeclareCaptionLabelSeparator{}{}",
+    "snippet": "\\DeclareCaptionLabelSeparator{$1}{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.0003890810058478364
+  },
+  {
+    "caption": "\\DeclareCaptionFormat{}{}",
+    "snippet": "\\DeclareCaptionFormat{$1}{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.0004717618449370015
+  },
+  {
+    "caption": "\\DeclareCaptionFont{}{}",
+    "snippet": "\\DeclareCaptionFont{$1}{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.000050133404990680195
+  },
+  {
+    "caption": "\\DeclareCaptionSubType[]{}",
+    "snippet": "\\DeclareCaptionSubType[$1]{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.0001872850414971473
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "subcaption-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\captionsetup{}",
+    "snippet": "\\captionsetup{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\captionsetup[]{}",
+    "snippet": "\\captionsetup[$1]{$2}",
+    "meta": "subcaption-cmd",
+    "score": 0.02900783226643065
+  },
+  {
+    "caption": "\\string",
+    "snippet": "\\string",
+    "meta": "subcaption-cmd",
+    "score": 0.001042697111754002
+  },
+  {
+    "caption": "\\DeclareCaptionType{}[][]",
+    "snippet": "\\DeclareCaptionType{$1}[$2][$3]",
+    "meta": "subcaption-cmd",
+    "score": 0.00015256647321237863
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "subcaption-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\footnote{}",
+    "snippet": "\\footnote{$1}",
+    "meta": "subcaption-cmd",
+    "score": 0.2253056071787701
+  },
+  {
+    "caption": "\\footnotemark[]",
+    "snippet": "\\footnotemark[$1]",
+    "meta": "subcaption-cmd",
+    "score": 0.021473212893597875
+  },
+  {
+    "caption": "\\footnotemark",
+    "snippet": "\\footnotemark",
+    "meta": "subcaption-cmd",
+    "score": 0.021473212893597875
+  },
+  {
+    "caption": "\\glslongpluralkey",
+    "snippet": "\\glslongpluralkey",
+    "meta": "glossaries-cmd",
+    "score": 0.000014538687447297259
+  },
+  {
+    "caption": "\\Glspl{}",
+    "snippet": "\\Glspl{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0025291265119320736
+  },
+  {
+    "caption": "\\glossarysection",
+    "snippet": "\\glossarysection",
+    "meta": "glossaries-cmd",
+    "score": 0.00009579755294730752
+  },
+  {
+    "caption": "\\printglossaries",
+    "snippet": "\\printglossaries",
+    "meta": "glossaries-cmd",
+    "score": 0.0010106582768889887
+  },
+  {
+    "caption": "\\Gls{}",
+    "snippet": "\\Gls{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.003696678698317109
+  },
+  {
+    "caption": "\\setglossarystyle{}",
+    "snippet": "\\setglossarystyle{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0003758893277679221
+  },
+  {
+    "caption": "\\printglossary",
+    "snippet": "\\printglossary",
+    "meta": "glossaries-cmd",
+    "score": 0.009139682306158714
+  },
+  {
+    "caption": "\\printglossary[]",
+    "snippet": "\\printglossary[$1]",
+    "meta": "glossaries-cmd",
+    "score": 0.009139682306158714
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "glossaries-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\setglossarysection{}",
+    "snippet": "\\setglossarysection{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.000036081414102781514
+  },
+  {
+    "caption": "\\glsresetall",
+    "snippet": "\\glsresetall",
+    "meta": "glossaries-cmd",
+    "score": 0.0006123462672467326
+  },
+  {
+    "caption": "\\the",
+    "snippet": "\\the",
+    "meta": "glossaries-cmd",
+    "score": 0.007238960303946444
+  },
+  {
+    "caption": "\\acrshort{}",
+    "snippet": "\\acrshort{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.009936841864059727
+  },
+  {
+    "caption": "\\printnoidxglossary[]",
+    "snippet": "\\printnoidxglossary[$1]",
+    "meta": "glossaries-cmd",
+    "score": 0.00021912375285685037
+  },
+  {
+    "caption": "\\newglossary{}{}",
+    "snippet": "\\newglossary{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.000014547244650032571
+  },
+  {
+    "caption": "\\gls{}",
+    "snippet": "\\gls{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.06939353309055077
+  },
+  {
+    "caption": "\\printnoidxglossaries",
+    "snippet": "\\printnoidxglossaries",
+    "meta": "glossaries-cmd",
+    "score": 0.000056789564226023136
+  },
+  {
+    "caption": "\\printindex",
+    "snippet": "\\printindex",
+    "meta": "glossaries-cmd",
+    "score": 0.004417016910870522
+  },
+  {
+    "caption": "\\defglsentryfmt[]{}",
+    "snippet": "\\defglsentryfmt[$1]{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.000048990621725283124
+  },
+  {
+    "caption": "\\glspostdescription",
+    "snippet": "\\glspostdescription",
+    "meta": "glossaries-cmd",
+    "score": 0.0006337376579591112
+  },
+  {
+    "caption": "\\number",
+    "snippet": "\\number",
+    "meta": "glossaries-cmd",
+    "score": 0.000968714260809983
+  },
+  {
+    "caption": "\\glsaddall",
+    "snippet": "\\glsaddall",
+    "meta": "glossaries-cmd",
+    "score": 0.0008363820557740373
+  },
+  {
+    "caption": "\\glsaddall[]",
+    "snippet": "\\glsaddall[$1]",
+    "meta": "glossaries-cmd",
+    "score": 0.0008363820557740373
+  },
+  {
+    "caption": "\\makeglossaries",
+    "snippet": "\\makeglossaries",
+    "meta": "glossaries-cmd",
+    "score": 0.0056737600836936995
+  },
+  {
+    "caption": "\\glossaryname",
+    "snippet": "\\glossaryname",
+    "meta": "glossaries-cmd",
+    "score": 0.0006174536302752427
+  },
+  {
+    "caption": "\\newglossaryentry{}{}",
+    "snippet": "\\newglossaryentry{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.018524394136900962
+  },
+  {
+    "caption": "\\glslabel",
+    "snippet": "\\glslabel",
+    "meta": "glossaries-cmd",
+    "score": 0.000048990621725283124
+  },
+  {
+    "caption": "\\glsadd{}",
+    "snippet": "\\glsadd{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.000030150373480213892
+  },
+  {
+    "caption": "\\makenoidxglossaries",
+    "snippet": "\\makenoidxglossaries",
+    "meta": "glossaries-cmd",
+    "score": 0.0001382210125680805
+  },
+  {
+    "caption": "\\glsgenentryfmt",
+    "snippet": "\\glsgenentryfmt",
+    "meta": "glossaries-cmd",
+    "score": 0.000048990621725283124
+  },
+  {
+    "caption": "\\acronymtype",
+    "snippet": "\\acronymtype",
+    "meta": "glossaries-cmd",
+    "score": 0.002000834271117562
+  },
+  {
+    "caption": "\\acrfull{}",
+    "snippet": "\\acrfull{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0032622587277765067
+  },
+  {
+    "caption": "\\newacronym{}{}{}",
+    "snippet": "\\newacronym{$1}{$2}{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.03193935544723102
+  },
+  {
+    "caption": "\\glspl{}",
+    "snippet": "\\glspl{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0034025897522047717
+  },
+  {
+    "caption": "\\ifglsused{}{}{}",
+    "snippet": "\\ifglsused{$1}{$2}{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.000048990621725283124
+  },
+  {
+    "caption": "\\acrlong{}",
+    "snippet": "\\acrlong{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.002517821598213752
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "glossaries-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "glossaries-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\longmapsto",
+    "snippet": "\\longmapsto",
+    "meta": "glossaries-cmd",
+    "score": 0.0017755897148012264
+  },
+  {
+    "caption": "\\Check{}",
+    "snippet": "\\Check{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\numberwithin{}{}",
+    "snippet": "\\numberwithin{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.006963729684667191
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "glossaries-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\iff",
+    "snippet": "\\iff",
+    "meta": "glossaries-cmd",
+    "score": 0.004209937150980285
+  },
+  {
+    "caption": "\\And",
+    "snippet": "\\And",
+    "meta": "glossaries-cmd",
+    "score": 0.0011582952152188854
+  },
+  {
+    "caption": "\\And{}",
+    "snippet": "\\And{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0011582952152188854
+  },
+  {
+    "caption": "\\oint",
+    "snippet": "\\oint",
+    "meta": "glossaries-cmd",
+    "score": 0.0028650540724050534
+  },
+  {
+    "caption": "\\boxed{}",
+    "snippet": "\\boxed{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0035536135737312827
+  },
+  {
+    "caption": "\\Ddot{}",
+    "snippet": "\\Ddot{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\ignorespacesafterend",
+    "snippet": "\\ignorespacesafterend",
+    "meta": "glossaries-cmd",
+    "score": 0.0010893680553454854
+  },
+  {
+    "caption": "\\nonumber",
+    "snippet": "\\nonumber",
+    "meta": "glossaries-cmd",
+    "score": 0.051980653969641216
+  },
+  {
+    "caption": "\\Breve{}",
+    "snippet": "\\Breve{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\mapsto",
+    "snippet": "\\mapsto",
+    "meta": "glossaries-cmd",
+    "score": 0.006473769486518971
+  },
+  {
+    "caption": "\\over{}",
+    "snippet": "\\over{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0054372322008878786
+  },
+  {
+    "caption": "\\over",
+    "snippet": "\\over",
+    "meta": "glossaries-cmd",
+    "score": 0.0054372322008878786
+  },
+  {
+    "caption": "\\bigotimes",
+    "snippet": "\\bigotimes",
+    "meta": "glossaries-cmd",
+    "score": 0.000984722260624791
+  },
+  {
+    "caption": "\\bigoplus",
+    "snippet": "\\bigoplus",
+    "meta": "glossaries-cmd",
+    "score": 0.0011508785476242003
+  },
+  {
+    "caption": "\\theequation",
+    "snippet": "\\theequation",
+    "meta": "glossaries-cmd",
+    "score": 0.002995924112493351
+  },
+  {
+    "caption": "\\bigcap",
+    "snippet": "\\bigcap",
+    "meta": "glossaries-cmd",
+    "score": 0.005709261168797874
+  },
+  {
+    "caption": "\\xrightarrow{}",
+    "snippet": "\\xrightarrow{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.004163642482777231
+  },
+  {
+    "caption": "\\xrightarrow[]{}",
+    "snippet": "\\xrightarrow[$1]{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.004163642482777231
+  },
+  {
+    "caption": "\\atop",
+    "snippet": "\\atop",
+    "meta": "glossaries-cmd",
+    "score": 0.0006518541515279979
+  },
+  {
+    "caption": "\\dfrac{}{}",
+    "snippet": "\\dfrac{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.05397545277891961
+  },
+  {
+    "caption": "\\pmod",
+    "snippet": "\\pmod",
+    "meta": "glossaries-cmd",
+    "score": 0.0011773327219377148
+  },
+  {
+    "caption": "\\pmod{}",
+    "snippet": "\\pmod{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0011773327219377148
+  },
+  {
+    "caption": "\\notag",
+    "snippet": "\\notag",
+    "meta": "glossaries-cmd",
+    "score": 0.00322520920930312
+  },
+  {
+    "caption": "\\int",
+    "snippet": "\\int",
+    "meta": "glossaries-cmd",
+    "score": 0.11946660537765894
+  },
+  {
+    "caption": "\\Vec{}",
+    "snippet": "\\Vec{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\bigvee",
+    "snippet": "\\bigvee",
+    "meta": "glossaries-cmd",
+    "score": 0.0011677288242806726
+  },
+  {
+    "caption": "\\sum",
+    "snippet": "\\sum",
+    "meta": "glossaries-cmd",
+    "score": 0.42607994509619934
+  },
+  {
+    "caption": "\\hookrightarrow",
+    "snippet": "\\hookrightarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.0015607282046545064
+  },
+  {
+    "caption": "\\bigsqcup",
+    "snippet": "\\bigsqcup",
+    "meta": "glossaries-cmd",
+    "score": 0.0003468284144579442
+  },
+  {
+    "caption": "\\hookleftarrow",
+    "snippet": "\\hookleftarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.0016498799924012809
+  },
+  {
+    "caption": "\\Dot{}",
+    "snippet": "\\Dot{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\dots",
+    "snippet": "\\dots",
+    "meta": "glossaries-cmd",
+    "score": 0.0847414497955395
+  },
+  {
+    "caption": "\\genfrac{}{}{}{}{}{}",
+    "snippet": "\\genfrac{$1}{$2}{$3}{$4}{$5}{$6}",
+    "meta": "glossaries-cmd",
+    "score": 0.004820143328295316
+  },
+  {
+    "caption": "\\genfrac",
+    "snippet": "\\genfrac",
+    "meta": "glossaries-cmd",
+    "score": 0.004820143328295316
+  },
+  {
+    "caption": "\\cfrac{}{}",
+    "snippet": "\\cfrac{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.006765684097139381
+  },
+  {
+    "caption": "\\Acute{}",
+    "snippet": "\\Acute{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\ldots",
+    "snippet": "\\ldots",
+    "meta": "glossaries-cmd",
+    "score": 0.11585556755884258
+  },
+  {
+    "caption": "\\coprod",
+    "snippet": "\\coprod",
+    "meta": "glossaries-cmd",
+    "score": 0.00011383372700282614
+  },
+  {
+    "caption": "\\impliedby",
+    "snippet": "\\impliedby",
+    "meta": "glossaries-cmd",
+    "score": 0.000023482915591834053
+  },
+  {
+    "caption": "\\big",
+    "snippet": "\\big",
+    "meta": "glossaries-cmd",
+    "score": 0.05613164277964739
+  },
+  {
+    "caption": "\\idotsint",
+    "snippet": "\\idotsint",
+    "meta": "glossaries-cmd",
+    "score": 0.000013908704929884828
+  },
+  {
+    "caption": "\\Longrightarrow",
+    "snippet": "\\Longrightarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.002459139437356601
+  },
+  {
+    "caption": "\\allowdisplaybreaks",
+    "snippet": "\\allowdisplaybreaks",
+    "meta": "glossaries-cmd",
+    "score": 0.005931777024772073
+  },
+  {
+    "caption": "\\eqref{}",
+    "snippet": "\\eqref{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.06345266254167037
+  },
+  {
+    "caption": "\\mod",
+    "snippet": "\\mod",
+    "meta": "glossaries-cmd",
+    "score": 0.0015181439193121889
+  },
+  {
+    "caption": "\\mod{}",
+    "snippet": "\\mod{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0015181439193121889
+  },
+  {
+    "caption": "\\arraystretch",
+    "snippet": "\\arraystretch",
+    "meta": "glossaries-cmd",
+    "score": 0.022224283488673075
+  },
+  {
+    "caption": "\\arraystretch{}",
+    "snippet": "\\arraystretch{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.022224283488673075
+  },
+  {
+    "caption": "\\bigg",
+    "snippet": "\\bigg",
+    "meta": "glossaries-cmd",
+    "score": 0.04318078602869565
+  },
+  {
+    "caption": "\\underset{}{}",
+    "snippet": "\\underset{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.012799893214578391
+  },
+  {
+    "caption": "\\dotsc",
+    "snippet": "\\dotsc",
+    "meta": "glossaries-cmd",
+    "score": 0.0008555101484119994
+  },
+  {
+    "caption": "\\doteq",
+    "snippet": "\\doteq",
+    "meta": "glossaries-cmd",
+    "score": 0.00003164631070474435
+  },
+  {
+    "caption": "\\leftroot{}",
+    "snippet": "\\leftroot{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00006625561928497235
+  },
+  {
+    "caption": "\\substack{}",
+    "snippet": "\\substack{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0037482529712850755
+  },
+  {
+    "caption": "\\Hat{}",
+    "snippet": "\\Hat{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\frac{}{}",
+    "snippet": "\\frac{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 1.4341091141105058
+  },
+  {
+    "caption": "\\mspace{}",
+    "snippet": "\\mspace{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00003423236656565836
+  },
+  {
+    "caption": "\\Bar{}",
+    "snippet": "\\Bar{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\Grave{}",
+    "snippet": "\\Grave{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\implies",
+    "snippet": "\\implies",
+    "meta": "glossaries-cmd",
+    "score": 0.021828316911576096
+  },
+  {
+    "caption": "\\tbinom",
+    "snippet": "\\tbinom",
+    "meta": "glossaries-cmd",
+    "score": 0.000013908704929884828
+  },
+  {
+    "caption": "\\dotsi",
+    "snippet": "\\dotsi",
+    "meta": "glossaries-cmd",
+    "score": 0.000027817409859769657
+  },
+  {
+    "caption": "\\bigwedge",
+    "snippet": "\\bigwedge",
+    "meta": "glossaries-cmd",
+    "score": 0.000347742918592393
+  },
+  {
+    "caption": "\\sideset{}{}",
+    "snippet": "\\sideset{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.00005563481971953931
+  },
+  {
+    "caption": "\\smash{}",
+    "snippet": "\\smash{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.008197171096663127
+  },
+  {
+    "caption": "\\smash[]{}",
+    "snippet": "\\smash[$1]{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.008197171096663127
+  },
+  {
+    "caption": "\\colon",
+    "snippet": "\\colon",
+    "meta": "glossaries-cmd",
+    "score": 0.005300291684408929
+  },
+  {
+    "caption": "\\intertext{}",
+    "snippet": "\\intertext{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0016148076375871775
+  },
+  {
+    "caption": "\\Longleftarrow",
+    "snippet": "\\Longleftarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.00008477207854183949
+  },
+  {
+    "caption": "\\prod",
+    "snippet": "\\prod",
+    "meta": "glossaries-cmd",
+    "score": 0.02549889375975901
+  },
+  {
+    "caption": "\\AmS",
+    "snippet": "\\AmS",
+    "meta": "glossaries-cmd",
+    "score": 0.00047859486202980376
+  },
+  {
+    "caption": "\\overline{}",
+    "snippet": "\\overline{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.11280487530505384
+  },
+  {
+    "caption": "\\tfrac{}{}",
+    "snippet": "\\tfrac{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.0005923542426657187
+  },
+  {
+    "caption": "\\uproot{}",
+    "snippet": "\\uproot{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00006625561928497235
+  },
+  {
+    "caption": "\\bmod",
+    "snippet": "\\bmod",
+    "meta": "glossaries-cmd",
+    "score": 0.002022594681005002
+  },
+  {
+    "caption": "\\bmod{}",
+    "snippet": "\\bmod{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.002022594681005002
+  },
+  {
+    "caption": "\\pod{}",
+    "snippet": "\\pod{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.000027817409859769657
+  },
+  {
+    "caption": "\\label{}",
+    "snippet": "\\label{$1}",
+    "meta": "glossaries-cmd",
+    "score": 1.897791904799601
+  },
+  {
+    "caption": "\\longrightarrow",
+    "snippet": "\\longrightarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.013399422292458848
+  },
+  {
+    "caption": "\\xleftarrow[]{}",
+    "snippet": "\\xleftarrow[$1]{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.000035779964196240445
+  },
+  {
+    "caption": "\\xleftarrow{}",
+    "snippet": "\\xleftarrow{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.000035779964196240445
+  },
+  {
+    "caption": "\\mathaccentV",
+    "snippet": "\\mathaccentV",
+    "meta": "glossaries-cmd",
+    "score": 0.00006216218551413489
+  },
+  {
+    "caption": "\\hdotsfor{}",
+    "snippet": "\\hdotsfor{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00024247684499275043
+  },
+  {
+    "caption": "\\hdotsfor[]{}",
+    "snippet": "\\hdotsfor[$1]{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.00024247684499275043
+  },
+  {
+    "caption": "\\Bigg",
+    "snippet": "\\Bigg",
+    "meta": "glossaries-cmd",
+    "score": 0.015507614799858266
+  },
+  {
+    "caption": "\\Bigg[]",
+    "snippet": "\\Bigg[$1]",
+    "meta": "glossaries-cmd",
+    "score": 0.015507614799858266
+  },
+  {
+    "caption": "\\overset{}{}",
+    "snippet": "\\overset{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.007611544955294224
+  },
+  {
+    "caption": "\\Big",
+    "snippet": "\\Big",
+    "meta": "glossaries-cmd",
+    "score": 0.050370758781422345
+  },
+  {
+    "caption": "\\longleftrightarrow",
+    "snippet": "\\longleftrightarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.0002851769278703356
+  },
+  {
+    "caption": "\\Longleftrightarrow",
+    "snippet": "\\Longleftrightarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.0004896780659212191
+  },
+  {
+    "caption": "\\Longleftrightarrow{}",
+    "snippet": "\\Longleftrightarrow{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0004896780659212191
+  },
+  {
+    "caption": "\\binom{}{}",
+    "snippet": "\\binom{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.013010882180364367
+  },
+  {
+    "caption": "\\longleftarrow",
+    "snippet": "\\longleftarrow",
+    "meta": "glossaries-cmd",
+    "score": 0.0011096532692473691
+  },
+  {
+    "caption": "\\dbinom{}{}",
+    "snippet": "\\dbinom{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.006800272303210672
+  },
+  {
+    "caption": "\\Tilde{}",
+    "snippet": "\\Tilde{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00007874446783586035
+  },
+  {
+    "caption": "\\bigcup",
+    "snippet": "\\bigcup",
+    "meta": "glossaries-cmd",
+    "score": 0.0058847868741168765
+  },
+  {
+    "caption": "\\sinh",
+    "snippet": "\\sinh",
+    "meta": "glossaries-cmd",
+    "score": 0.0006435164702005918
+  },
+  {
+    "caption": "\\sinh{}",
+    "snippet": "\\sinh{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0006435164702005918
+  },
+  {
+    "caption": "\\operatorname{}",
+    "snippet": "\\operatorname{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.02181954887028883
+  },
+  {
+    "caption": "\\max",
+    "snippet": "\\max",
+    "meta": "glossaries-cmd",
+    "score": 0.04116833357968482
+  },
+  {
+    "caption": "\\liminf",
+    "snippet": "\\liminf",
+    "meta": "glossaries-cmd",
+    "score": 0.0015513861600956144
+  },
+  {
+    "caption": "\\liminf{}",
+    "snippet": "\\liminf{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0015513861600956144
+  },
+  {
+    "caption": "\\operatornamewithlimits{}",
+    "snippet": "\\operatornamewithlimits{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0022415507993352067
+  },
+  {
+    "caption": "\\exp",
+    "snippet": "\\exp",
+    "meta": "glossaries-cmd",
+    "score": 0.02404262443651467
+  },
+  {
+    "caption": "\\exp{}",
+    "snippet": "\\exp{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.02404262443651467
+  },
+  {
+    "caption": "\\lim",
+    "snippet": "\\lim",
+    "meta": "glossaries-cmd",
+    "score": 0.05285123457928509
+  },
+  {
+    "caption": "\\sin",
+    "snippet": "\\sin",
+    "meta": "glossaries-cmd",
+    "score": 0.040463088537699636
+  },
+  {
+    "caption": "\\sin{}",
+    "snippet": "\\sin{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.040463088537699636
+  },
+  {
+    "caption": "\\arg",
+    "snippet": "\\arg",
+    "meta": "glossaries-cmd",
+    "score": 0.007190995792600074
+  },
+  {
+    "caption": "\\cos",
+    "snippet": "\\cos",
+    "meta": "glossaries-cmd",
+    "score": 0.050370402546134785
+  },
+  {
+    "caption": "\\cos{}",
+    "snippet": "\\cos{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.050370402546134785
+  },
+  {
+    "caption": "\\varliminf",
+    "snippet": "\\varliminf",
+    "meta": "glossaries-cmd",
+    "score": 0.00006204977642542802
+  },
+  {
+    "caption": "\\hom",
+    "snippet": "\\hom",
+    "meta": "glossaries-cmd",
+    "score": 0.00008180643329881783
+  },
+  {
+    "caption": "\\tan",
+    "snippet": "\\tan",
+    "meta": "glossaries-cmd",
+    "score": 0.006176447465423192
+  },
+  {
+    "caption": "\\det",
+    "snippet": "\\det",
+    "meta": "glossaries-cmd",
+    "score": 0.005640718203101287
+  },
+  {
+    "caption": "\\ln",
+    "snippet": "\\ln",
+    "meta": "glossaries-cmd",
+    "score": 0.025366949660913504
+  },
+  {
+    "caption": "\\ln{}",
+    "snippet": "\\ln{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.025366949660913504
+  },
+  {
+    "caption": "\\cosh",
+    "snippet": "\\cosh",
+    "meta": "glossaries-cmd",
+    "score": 0.0008896391580266903
+  },
+  {
+    "caption": "\\cosh{}",
+    "snippet": "\\cosh{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0008896391580266903
+  },
+  {
+    "caption": "\\gcd",
+    "snippet": "\\gcd",
+    "meta": "glossaries-cmd",
+    "score": 0.002254008371792865
+  },
+  {
+    "caption": "\\limsup",
+    "snippet": "\\limsup",
+    "meta": "glossaries-cmd",
+    "score": 0.002354950225950599
+  },
+  {
+    "caption": "\\limsup{}",
+    "snippet": "\\limsup{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.002354950225950599
+  },
+  {
+    "caption": "\\inf",
+    "snippet": "\\inf",
+    "meta": "glossaries-cmd",
+    "score": 0.00340470256994063
+  },
+  {
+    "caption": "\\arccos",
+    "snippet": "\\arccos",
+    "meta": "glossaries-cmd",
+    "score": 0.001781687642431819
+  },
+  {
+    "caption": "\\arccos{}",
+    "snippet": "\\arccos{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.001781687642431819
+  },
+  {
+    "caption": "\\ker",
+    "snippet": "\\ker",
+    "meta": "glossaries-cmd",
+    "score": 0.002475379242338094
+  },
+  {
+    "caption": "\\cot",
+    "snippet": "\\cot",
+    "meta": "glossaries-cmd",
+    "score": 0.0003640644365701238
+  },
+  {
+    "caption": "\\cot{}",
+    "snippet": "\\cot{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0003640644365701238
+  },
+  {
+    "caption": "\\coth{}",
+    "snippet": "\\coth{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00025939638266884963
+  },
+  {
+    "caption": "\\coth",
+    "snippet": "\\coth",
+    "meta": "glossaries-cmd",
+    "score": 0.00025939638266884963
+  },
+  {
+    "caption": "\\varlimsup",
+    "snippet": "\\varlimsup",
+    "meta": "glossaries-cmd",
+    "score": 0.00006204977642542802
+  },
+  {
+    "caption": "\\log",
+    "snippet": "\\log",
+    "meta": "glossaries-cmd",
+    "score": 0.048131780413380156
+  },
+  {
+    "caption": "\\varinjlim",
+    "snippet": "\\varinjlim",
+    "meta": "glossaries-cmd",
+    "score": 0.000361814283649031
+  },
+  {
+    "caption": "\\deg",
+    "snippet": "\\deg",
+    "meta": "glossaries-cmd",
+    "score": 0.005542465148816408
+  },
+  {
+    "caption": "\\arctan",
+    "snippet": "\\arctan",
+    "meta": "glossaries-cmd",
+    "score": 0.0011971697553682045
+  },
+  {
+    "caption": "\\dim",
+    "snippet": "\\dim",
+    "meta": "glossaries-cmd",
+    "score": 0.0038210003967178293
+  },
+  {
+    "caption": "\\min",
+    "snippet": "\\min",
+    "meta": "glossaries-cmd",
+    "score": 0.03051120054363316
+  },
+  {
+    "caption": "\\Pr",
+    "snippet": "\\Pr",
+    "meta": "glossaries-cmd",
+    "score": 0.010227440663206161
+  },
+  {
+    "caption": "\\Pr[]",
+    "snippet": "\\Pr[$1]",
+    "meta": "glossaries-cmd",
+    "score": 0.010227440663206161
+  },
+  {
+    "caption": "\\tanh",
+    "snippet": "\\tanh",
+    "meta": "glossaries-cmd",
+    "score": 0.0021229156376192525
+  },
+  {
+    "caption": "\\tanh{}",
+    "snippet": "\\tanh{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0021229156376192525
+  },
+  {
+    "caption": "\\arcsin",
+    "snippet": "\\arcsin",
+    "meta": "glossaries-cmd",
+    "score": 0.0007754886988089101
+  },
+  {
+    "caption": "\\arcsin{}",
+    "snippet": "\\arcsin{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0007754886988089101
+  },
+  {
+    "caption": "\\DeclareMathOperator{}{}",
+    "snippet": "\\DeclareMathOperator{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.029440493885398676
+  },
+  {
+    "caption": "\\csc",
+    "snippet": "\\csc",
+    "meta": "glossaries-cmd",
+    "score": 0.00013963711107573638
+  },
+  {
+    "caption": "\\sup",
+    "snippet": "\\sup",
+    "meta": "glossaries-cmd",
+    "score": 0.009355514755312534
+  },
+  {
+    "caption": "\\sec",
+    "snippet": "\\sec",
+    "meta": "glossaries-cmd",
+    "score": 0.0005912636157903734
+  },
+  {
+    "caption": "\\varprojlim",
+    "snippet": "\\varprojlim",
+    "meta": "glossaries-cmd",
+    "score": 0.0004286136584068833
+  },
+  {
+    "caption": "\\stepcounter{}",
+    "snippet": "\\stepcounter{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0030745841706804776
+  },
+  {
+    "caption": "\\addtocounter{}{}",
+    "snippet": "\\addtocounter{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.010241823778997489
+  },
+  {
+    "caption": "\\text{}",
+    "snippet": "\\text{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.3608680734736821
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "glossaries-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\pmb{}",
+    "snippet": "\\pmb{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.019171182556792562
+  },
+  {
+    "caption": "\\boldsymbol{}",
+    "snippet": "\\boldsymbol{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.18137737738638837
+  },
+  {
+    "caption": "\\boldsymbol",
+    "snippet": "\\boldsymbol",
+    "meta": "glossaries-cmd",
+    "score": 0.18137737738638837
+  },
+  {
+    "caption": "\\cite{}",
+    "snippet": "\\cite{$1}",
+    "meta": "glossaries-cmd",
+    "score": 2.341195220791228
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "glossaries-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\ifthenelse{}{}{}",
+    "snippet": "\\ifthenelse{$1}{$2}{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\ifthenelse{}",
+    "snippet": "\\ifthenelse{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\setboolean{}{}",
+    "snippet": "\\setboolean{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.0012203054938872515
+  },
+  {
+    "caption": "\\newboolean{}",
+    "snippet": "\\newboolean{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0009170966832172938
+  },
+  {
+    "caption": "\\value{}",
+    "snippet": "\\value{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.01590723355124104
+  },
+  {
+    "caption": "\\boolean{}",
+    "snippet": "\\boolean{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.0018957469739775527
+  },
+  {
+    "caption": "\\robustify{}",
+    "snippet": "\\robustify{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.002671974990314091
+  },
+  {
+    "caption": "\\setbool{}{}",
+    "snippet": "\\setbool{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.00023171033119130004
+  },
+  {
+    "caption": "\\ifdefempty{}{}{}",
+    "snippet": "\\ifdefempty{$1}{$2}{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.00007482069221111606
+  },
+  {
+    "caption": "\\apptocmd{}{}{}{}",
+    "snippet": "\\apptocmd{$1}{$2}{$3}{$4}",
+    "meta": "glossaries-cmd",
+    "score": 0.00035805058319299113
+  },
+  {
+    "caption": "\\ifstrequal{}{}{}{}",
+    "snippet": "\\ifstrequal{$1}{$2}{$3}{$4}",
+    "meta": "glossaries-cmd",
+    "score": 0.00041307691354437894
+  },
+  {
+    "caption": "\\ifstrequal{}{}{}",
+    "snippet": "\\ifstrequal{$1}{$2}{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.00041307691354437894
+  },
+  {
+    "caption": "\\string",
+    "snippet": "\\string",
+    "meta": "glossaries-cmd",
+    "score": 0.001042697111754002
+  },
+  {
+    "caption": "\\csedef{}{}",
+    "snippet": "\\csedef{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.00014933999190577243
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "glossaries-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\newrobustcmd{}[]{}",
+    "snippet": "\\newrobustcmd{$1}[$2]{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.0006607703576475988
+  },
+  {
+    "caption": "\\ifdefstring{}{}{}{}",
+    "snippet": "\\ifdefstring{$1}{$2}{$3}{$4}",
+    "meta": "glossaries-cmd",
+    "score": 0.0006796212875843042
+  },
+  {
+    "caption": "\\ifbool{}{}{}",
+    "snippet": "\\ifbool{$1}{$2}{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.00007723677706376668
+  },
+  {
+    "caption": "\\patchcmd{}{}{}{}{}",
+    "snippet": "\\patchcmd{$1}{$2}{$3}{$4}{$5}",
+    "meta": "glossaries-cmd",
+    "score": 0.002560998917940627
+  },
+  {
+    "caption": "\\patchcmd",
+    "snippet": "\\patchcmd",
+    "meta": "glossaries-cmd",
+    "score": 0.002560998917940627
+  },
+  {
+    "caption": "\\preto{}{}",
+    "snippet": "\\preto{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.00008860754525300578
+  },
+  {
+    "caption": "\\ifnumcomp{}{}{}{}{}",
+    "snippet": "\\ifnumcomp{$1}{$2}{$3}{$4}{$5}",
+    "meta": "glossaries-cmd",
+    "score": 0.00029867998381154486
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "glossaries-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\newbool{}",
+    "snippet": "\\newbool{$1}",
+    "meta": "glossaries-cmd",
+    "score": 0.00007723677706376668
+  },
+  {
+    "caption": "\\AtBeginEnvironment{}{}",
+    "snippet": "\\AtBeginEnvironment{$1}{$2}",
+    "meta": "glossaries-cmd",
+    "score": 0.00004002553629215439
+  },
+  {
+    "caption": "\\pretocmd{}{}{}{}",
+    "snippet": "\\pretocmd{$1}{$2}{$3}{$4}",
+    "meta": "glossaries-cmd",
+    "score": 0.00028992557275763024
+  },
+  {
+    "caption": "\\ifundef{}{}{}",
+    "snippet": "\\ifundef{$1}{$2}{$3}",
+    "meta": "glossaries-cmd",
+    "score": 0.00014933999190577243
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "glossaries-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "glossaries-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\frenchspacing",
+    "snippet": "\\frenchspacing",
+    "meta": "glossaries-cmd",
+    "score": 0.0063276692758974925
+  },
+  {
+    "caption": "\\setstretch{}",
+    "snippet": "\\setstretch{$1}",
+    "meta": "setspace-cmd",
+    "score": 0.019634763572332112
+  },
+  {
+    "caption": "\\onehalfspacing",
+    "snippet": "\\onehalfspacing",
+    "meta": "setspace-cmd",
+    "score": 0.010655415521079565
+  },
+  {
+    "caption": "\\singlespacing",
+    "snippet": "\\singlespacing",
+    "meta": "setspace-cmd",
+    "score": 0.008351544612280968
+  },
+  {
+    "caption": "\\doublespacing",
+    "snippet": "\\doublespacing",
+    "meta": "setspace-cmd",
+    "score": 0.007835428951987135
+  },
+  {
+    "caption": "\\baselinestretch",
+    "snippet": "\\baselinestretch",
+    "meta": "setspace-cmd",
+    "score": 0.03225350148161425
+  },
+  {
+    "caption": "\\glqq",
+    "snippet": "\\glqq",
+    "meta": "blindtext-cmd",
+    "score": 0.0039133256714254504
+  },
+  {
+    "caption": "\\glqq{}",
+    "snippet": "\\glqq{$1}",
+    "meta": "blindtext-cmd",
+    "score": 0.0039133256714254504
+  },
+  {
+    "caption": "\\blindtext",
+    "snippet": "\\blindtext",
+    "meta": "blindtext-cmd",
+    "score": 0.05782040856823667
+  },
+  {
+    "caption": "\\blindtext[]",
+    "snippet": "\\blindtext[$1]",
+    "meta": "blindtext-cmd",
+    "score": 0.05782040856823667
+  },
+  {
+    "caption": "\\Blindtext",
+    "snippet": "\\Blindtext",
+    "meta": "blindtext-cmd",
+    "score": 0.006384906903938044
+  },
+  {
+    "caption": "\\grqq",
+    "snippet": "\\grqq",
+    "meta": "blindtext-cmd",
+    "score": 0.006659522189248266
+  },
+  {
+    "caption": "\\grqq{}",
+    "snippet": "\\grqq{$1}",
+    "meta": "blindtext-cmd",
+    "score": 0.006659522189248266
+  },
+  {
+    "caption": "\\blinddocument",
+    "snippet": "\\blinddocument",
+    "meta": "blindtext-cmd",
+    "score": 0.00011480988129172825
+  },
+  {
+    "caption": "\\xspace",
+    "snippet": "\\xspace",
+    "meta": "blindtext-cmd",
+    "score": 0.07560370351316588
+  },
+  {
+    "caption": "\\let",
+    "snippet": "\\let",
+    "meta": "tabularx-cmd",
+    "score": 0.03789745970461662
+  },
+  {
+    "caption": "\\write",
+    "snippet": "\\write",
+    "meta": "tabularx-cmd",
+    "score": 0.0008038857295393196
+  },
+  {
+    "caption": "\\tabularxcolumn[]{}",
+    "snippet": "\\tabularxcolumn[$1]{$2}",
+    "meta": "tabularx-cmd",
+    "score": 0.00048507499766588637
+  },
+  {
+    "caption": "\\tabularxcolumn",
+    "snippet": "\\tabularxcolumn",
+    "meta": "tabularx-cmd",
+    "score": 0.00048507499766588637
+  },
+  {
+    "caption": "\\tabularx{}{}",
+    "snippet": "\\tabularx{$1}{$2}",
+    "meta": "tabularx-cmd",
+    "score": 0.0005861357565780464
+  },
+  {
+    "caption": "\\arraybackslash",
+    "snippet": "\\arraybackslash",
+    "meta": "tabularx-cmd",
+    "score": 0.014532521139459619
+  },
+  {
+    "caption": "\\endtabular",
+    "snippet": "\\endtabular",
+    "meta": "tabularx-cmd",
+    "score": 0.0005078239917067089
+  },
+  {
+    "caption": "\\multicolumn{}{}{}",
+    "snippet": "\\multicolumn{$1}{$2}{$3}",
+    "meta": "tabularx-cmd",
+    "score": 0.5473606021405326
+  },
+  {
+    "caption": "\\array{}",
+    "snippet": "\\array{$1}",
+    "meta": "tabularx-cmd",
+    "score": 0.00002650484574842396
+  },
+  {
+    "caption": "\\arraybackslash",
+    "snippet": "\\arraybackslash",
+    "meta": "tabularx-cmd",
+    "score": 0.014532521139459619
+  },
+  {
+    "caption": "\\tabular{}",
+    "snippet": "\\tabular{$1}",
+    "meta": "tabularx-cmd",
+    "score": 0.0005078239917067089
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "tabularx-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\newcolumntype{}[]{}",
+    "snippet": "\\newcolumntype{$1}[$2]{$3}",
+    "meta": "tabularx-cmd",
+    "score": 0.018615449342361392
+  },
+  {
+    "caption": "\\newcolumntype{}{}",
+    "snippet": "\\newcolumntype{$1}{$2}",
+    "meta": "tabularx-cmd",
+    "score": 0.018615449342361392
+  },
+  {
+    "caption": "\\textcite{}",
+    "snippet": "\\textcite{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0071363824748767206
+  },
+  {
+    "caption": "\\iffieldundef{}{}{}",
+    "snippet": "\\iffieldundef{$1}{$2}{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.00004841482597532878
+  },
+  {
+    "caption": "\\list{}{}",
+    "snippet": "\\list{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00046570666700199663
+  },
+  {
+    "caption": "\\list{}",
+    "snippet": "\\list{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.00046570666700199663
+  },
+  {
+    "caption": "\\list",
+    "snippet": "\\list",
+    "meta": "biblatex-cmd",
+    "score": 0.00046570666700199663
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "biblatex-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\printbibliography",
+    "snippet": "\\printbibliography",
+    "meta": "biblatex-cmd",
+    "score": 0.028923378512954446
+  },
+  {
+    "caption": "\\printbibliography[]",
+    "snippet": "\\printbibliography[$1]",
+    "meta": "biblatex-cmd",
+    "score": 0.028923378512954446
+  },
+  {
+    "caption": "\\keyword{}",
+    "snippet": "\\keyword{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0056978719547823445
+  },
+  {
+    "caption": "\\nocite{}",
+    "snippet": "\\nocite{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.04990693820960752
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "biblatex-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\mkbibquote{}",
+    "snippet": "\\mkbibquote{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.00004841482597532878
+  },
+  {
+    "caption": "\\addabbrvspace",
+    "snippet": "\\addabbrvspace",
+    "meta": "biblatex-cmd",
+    "score": 0.00004841482597532878
+  },
+  {
+    "caption": "\\AtEveryBibitem{}",
+    "snippet": "\\AtEveryBibitem{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0006862523808353773
+  },
+  {
+    "caption": "\\mkbibemph{}",
+    "snippet": "\\mkbibemph{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.00004841482597532878
+  },
+  {
+    "caption": "\\DeclareFieldFormat{}{}",
+    "snippet": "\\DeclareFieldFormat{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00028207109055618685
+  },
+  {
+    "caption": "\\bibliography{}",
+    "snippet": "\\bibliography{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.2659628337907604
+  },
+  {
+    "caption": "\\enquote{}",
+    "snippet": "\\enquote{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0077432730806830915
+  },
+  {
+    "caption": "\\bibopenbracket",
+    "snippet": "\\bibopenbracket",
+    "meta": "biblatex-cmd",
+    "score": 0.0005125772067631753
+  },
+  {
+    "caption": "\\newbibmacro{}[]{}",
+    "snippet": "\\newbibmacro{$1}[$2]{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.00004841482597532878
+  },
+  {
+    "caption": "\\addbibresource{}",
+    "snippet": "\\addbibresource{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.033545778388159704
+  },
+  {
+    "caption": "\\defbibheading{}{}",
+    "snippet": "\\defbibheading{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00013423526504458629
+  },
+  {
+    "caption": "\\DeclareNameAlias{}{}",
+    "snippet": "\\DeclareNameAlias{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.0003596306478652252
+  },
+  {
+    "caption": "\\bibcloseparen",
+    "snippet": "\\bibcloseparen",
+    "meta": "biblatex-cmd",
+    "score": 0.0005125772067631753
+  },
+  {
+    "caption": "\\renewbibmacro{}{}",
+    "snippet": "\\renewbibmacro{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.0000970299207241043
+  },
+  {
+    "caption": "\\bibclosebracket",
+    "snippet": "\\bibclosebracket",
+    "meta": "biblatex-cmd",
+    "score": 0.0005125772067631753
+  },
+  {
+    "caption": "\\item",
+    "snippet": "\\item ",
+    "meta": "biblatex-cmd",
+    "score": 3.800886892251021
+  },
+  {
+    "caption": "\\item[]",
+    "snippet": "\\item[$1] ",
+    "meta": "biblatex-cmd",
+    "score": 3.800886892251021
+  },
+  {
+    "caption": "\\parentext",
+    "snippet": "\\parentext",
+    "meta": "biblatex-cmd",
+    "score": 0.0005125772067631753
+  },
+  {
+    "caption": "\\cite{}",
+    "snippet": "\\cite{$1}",
+    "meta": "biblatex-cmd",
+    "score": 2.341195220791228
+  },
+  {
+    "caption": "\\addspace",
+    "snippet": "\\addspace",
+    "meta": "biblatex-cmd",
+    "score": 0.0002657609533376918
+  },
+  {
+    "caption": "\\ifentrytype{}{}{}",
+    "snippet": "\\ifentrytype{$1}{$2}{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.00008342875497183237
+  },
+  {
+    "caption": "\\addslash",
+    "snippet": "\\addslash",
+    "meta": "biblatex-cmd",
+    "score": 0.0002657609533376918
+  },
+  {
+    "caption": "\\DefineBibliographyStrings{}{}",
+    "snippet": "\\DefineBibliographyStrings{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.001537977148659816
+  },
+  {
+    "caption": "\\section{}",
+    "snippet": "\\section{$1}",
+    "meta": "biblatex-cmd",
+    "score": 3.0952612541683835
+  },
+  {
+    "caption": "\\newblockpunct",
+    "snippet": "\\newblockpunct",
+    "meta": "biblatex-cmd",
+    "score": 0.0001328804766688459
+  },
+  {
+    "caption": "\\defbibfilter{}{}",
+    "snippet": "\\defbibfilter{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.0005203319717980072
+  },
+  {
+    "caption": "\\parencite{}",
+    "snippet": "\\parencite{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0447747090014577
+  },
+  {
+    "caption": "\\parencite[]{}",
+    "snippet": "\\parencite[$1]{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.0447747090014577
+  },
+  {
+    "caption": "\\midsentence",
+    "snippet": "\\midsentence",
+    "meta": "biblatex-cmd",
+    "score": 0.000037048287721105874
+  },
+  {
+    "caption": "\\nolinkurl{}",
+    "snippet": "\\nolinkurl{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0004995635515943437
+  },
+  {
+    "caption": "\\DeclareSourcemap{}",
+    "snippet": "\\DeclareSourcemap{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0005203319717980072
+  },
+  {
+    "caption": "\\AtBeginBibliography{}",
+    "snippet": "\\AtBeginBibliography{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0004668773504581073
+  },
+  {
+    "caption": "\\AtEveryCite{}",
+    "snippet": "\\AtEveryCite{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0005125772067631753
+  },
+  {
+    "caption": "\\DeclareLanguageMapping{}{}",
+    "snippet": "\\DeclareLanguageMapping{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.000703956971675325
+  },
+  {
+    "caption": "\\addtocategory{}{}",
+    "snippet": "\\addtocategory{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.008238589553468446
+  },
+  {
+    "caption": "\\DeclareBibliographyCategory{}",
+    "snippet": "\\DeclareBibliographyCategory{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0010298236941835557
+  },
+  {
+    "caption": "\\break",
+    "snippet": "\\break",
+    "meta": "biblatex-cmd",
+    "score": 0.016352452390960115
+  },
+  {
+    "caption": "\\break{}",
+    "snippet": "\\break{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.016352452390960115
+  },
+  {
+    "caption": "\\break{}{}",
+    "snippet": "\\break{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.016352452390960115
+  },
+  {
+    "caption": "\\bibopenparen",
+    "snippet": "\\bibopenparen",
+    "meta": "biblatex-cmd",
+    "score": 0.0005125772067631753
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "biblatex-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\name{}{}",
+    "snippet": "\\name{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.1236289144754329
+  },
+  {
+    "caption": "\\name",
+    "snippet": "\\name",
+    "meta": "biblatex-cmd",
+    "score": 0.1236289144754329
+  },
+  {
+    "caption": "\\name{}",
+    "snippet": "\\name{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.1236289144754329
+  },
+  {
+    "caption": "\\ExecuteBibliographyOptions{}",
+    "snippet": "\\ExecuteBibliographyOptions{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.00004841482597532878
+  },
+  {
+    "caption": "\\usebibmacro{}{}",
+    "snippet": "\\usebibmacro{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00009682965195065755
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\UrlBreaks{}",
+    "snippet": "\\UrlBreaks{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.001030592515645366
+  },
+  {
+    "caption": "\\UrlBreaks",
+    "snippet": "\\UrlBreaks",
+    "meta": "biblatex-cmd",
+    "score": 0.001030592515645366
+  },
+  {
+    "caption": "\\Url",
+    "snippet": "\\Url",
+    "meta": "biblatex-cmd",
+    "score": 0.0002854206807593436
+  },
+  {
+    "caption": "\\UrlOrds{}",
+    "snippet": "\\UrlOrds{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0006882563723629154
+  },
+  {
+    "caption": "\\UrlOrds",
+    "snippet": "\\UrlOrds",
+    "meta": "biblatex-cmd",
+    "score": 0.0006882563723629154
+  },
+  {
+    "caption": "\\urlstyle{}",
+    "snippet": "\\urlstyle{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.010515056688180681
+  },
+  {
+    "caption": "\\urldef{}",
+    "snippet": "\\urldef{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.008041789461944983
+  },
+  {
+    "caption": "\\UrlBigBreaks{}",
+    "snippet": "\\UrlBigBreaks{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.000037048287721105874
+  },
+  {
+    "caption": "\\UrlFont{}",
+    "snippet": "\\UrlFont{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0032990580087398644
+  },
+  {
+    "caption": "\\UrlSpecials{}",
+    "snippet": "\\UrlSpecials{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.000037048287721105874
+  },
+  {
+    "caption": "\\UrlNoBreaks",
+    "snippet": "\\UrlNoBreaks",
+    "meta": "biblatex-cmd",
+    "score": 0.000037048287721105874
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "biblatex-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "biblatex-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\ifthenelse{}{}{}",
+    "snippet": "\\ifthenelse{$1}{$2}{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\ifthenelse{}",
+    "snippet": "\\ifthenelse{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.009331077109224957
+  },
+  {
+    "caption": "\\setboolean{}{}",
+    "snippet": "\\setboolean{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.0012203054938872515
+  },
+  {
+    "caption": "\\newboolean{}",
+    "snippet": "\\newboolean{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0009170966832172938
+  },
+  {
+    "caption": "\\value{}",
+    "snippet": "\\value{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.01590723355124104
+  },
+  {
+    "caption": "\\boolean{}",
+    "snippet": "\\boolean{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.0018957469739775527
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "biblatex-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "biblatex-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "biblatex-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "biblatex-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "biblatex-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "biblatex-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "biblatex-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "biblatex-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "biblatex-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "biblatex-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "biblatex-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\robustify{}",
+    "snippet": "\\robustify{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.002671974990314091
+  },
+  {
+    "caption": "\\setbool{}{}",
+    "snippet": "\\setbool{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00023171033119130004
+  },
+  {
+    "caption": "\\ifdefempty{}{}{}",
+    "snippet": "\\ifdefempty{$1}{$2}{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.00007482069221111606
+  },
+  {
+    "caption": "\\apptocmd{}{}{}{}",
+    "snippet": "\\apptocmd{$1}{$2}{$3}{$4}",
+    "meta": "biblatex-cmd",
+    "score": 0.00035805058319299113
+  },
+  {
+    "caption": "\\ifstrequal{}{}{}{}",
+    "snippet": "\\ifstrequal{$1}{$2}{$3}{$4}",
+    "meta": "biblatex-cmd",
+    "score": 0.00041307691354437894
+  },
+  {
+    "caption": "\\ifstrequal{}{}{}",
+    "snippet": "\\ifstrequal{$1}{$2}{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.00041307691354437894
+  },
+  {
+    "caption": "\\string",
+    "snippet": "\\string",
+    "meta": "biblatex-cmd",
+    "score": 0.001042697111754002
+  },
+  {
+    "caption": "\\csedef{}{}",
+    "snippet": "\\csedef{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00014933999190577243
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "biblatex-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\newrobustcmd{}[]{}",
+    "snippet": "\\newrobustcmd{$1}[$2]{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.0006607703576475988
+  },
+  {
+    "caption": "\\ifdefstring{}{}{}{}",
+    "snippet": "\\ifdefstring{$1}{$2}{$3}{$4}",
+    "meta": "biblatex-cmd",
+    "score": 0.0006796212875843042
+  },
+  {
+    "caption": "\\ifbool{}{}{}",
+    "snippet": "\\ifbool{$1}{$2}{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.00007723677706376668
+  },
+  {
+    "caption": "\\patchcmd{}{}{}{}{}",
+    "snippet": "\\patchcmd{$1}{$2}{$3}{$4}{$5}",
+    "meta": "biblatex-cmd",
+    "score": 0.002560998917940627
+  },
+  {
+    "caption": "\\patchcmd",
+    "snippet": "\\patchcmd",
+    "meta": "biblatex-cmd",
+    "score": 0.002560998917940627
+  },
+  {
+    "caption": "\\preto{}{}",
+    "snippet": "\\preto{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00008860754525300578
+  },
+  {
+    "caption": "\\ifnumcomp{}{}{}{}{}",
+    "snippet": "\\ifnumcomp{$1}{$2}{$3}{$4}{$5}",
+    "meta": "biblatex-cmd",
+    "score": 0.00029867998381154486
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "biblatex-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\newbool{}",
+    "snippet": "\\newbool{$1}",
+    "meta": "biblatex-cmd",
+    "score": 0.00007723677706376668
+  },
+  {
+    "caption": "\\AtBeginEnvironment{}{}",
+    "snippet": "\\AtBeginEnvironment{$1}{$2}",
+    "meta": "biblatex-cmd",
+    "score": 0.00004002553629215439
+  },
+  {
+    "caption": "\\pretocmd{}{}{}{}",
+    "snippet": "\\pretocmd{$1}{$2}{$3}{$4}",
+    "meta": "biblatex-cmd",
+    "score": 0.00028992557275763024
+  },
+  {
+    "caption": "\\ifundef{}{}{}",
+    "snippet": "\\ifundef{$1}{$2}{$3}",
+    "meta": "biblatex-cmd",
+    "score": 0.00014933999190577243
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "biblatex-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\nameref{}",
+    "snippet": "\\nameref{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.009472569279662113
+  },
+  {
+    "caption": "\\pdfbookmark[]{}{}",
+    "snippet": "\\pdfbookmark[$1]{$2}{$3}",
+    "meta": "hyperref-cmd",
+    "score": 0.006492248863367502
+  },
+  {
+    "caption": "\\figureautorefname",
+    "snippet": "\\figureautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.00014582556188448738
+  },
+  {
+    "caption": "\\figureautorefname{}",
+    "snippet": "\\figureautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00014582556188448738
+  },
+  {
+    "caption": "\\numberwithin{}{}",
+    "snippet": "\\numberwithin{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.006963729684667191
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\footnoteautorefname",
+    "snippet": "\\footnoteautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.000018780276211096543
+  },
+  {
+    "caption": "\\roman{}",
+    "snippet": "\\roman{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.005553384455935491
+  },
+  {
+    "caption": "\\roman",
+    "snippet": "\\roman",
+    "meta": "hyperref-cmd",
+    "score": 0.005553384455935491
+  },
+  {
+    "caption": "\\string",
+    "snippet": "\\string",
+    "meta": "hyperref-cmd",
+    "score": 0.001042697111754002
+  },
+  {
+    "caption": "\\MakeLowercase{}",
+    "snippet": "\\MakeLowercase{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.017289599800633146
+  },
+  {
+    "caption": "\\textunderscore",
+    "snippet": "\\textunderscore",
+    "meta": "hyperref-cmd",
+    "score": 0.001509072212764015
+  },
+  {
+    "caption": "\\do",
+    "snippet": "\\do",
+    "meta": "hyperref-cmd",
+    "score": 0.009278344180101056
+  },
+  {
+    "caption": "\\begin{}",
+    "snippet": "\\begin{$1}",
+    "meta": "hyperref-cmd",
+    "score": 7.849662248028187
+  },
+  {
+    "caption": "\\begin{}[]",
+    "snippet": "\\begin{$1}[$2]",
+    "meta": "hyperref-cmd",
+    "score": 7.849662248028187
+  },
+  {
+    "caption": "\\begin{}{}",
+    "snippet": "\\begin{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 7.849662248028187
+  },
+  {
+    "caption": "\\FancyVerbLineautorefname",
+    "snippet": "\\FancyVerbLineautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.000018780276211096543
+  },
+  {
+    "caption": "\\hyperlink{}{}",
+    "snippet": "\\hyperlink{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.00978652043902115
+  },
+  {
+    "caption": "\\tableautorefname",
+    "snippet": "\\tableautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.00012704528567339081
+  },
+  {
+    "caption": "\\tableautorefname{}",
+    "snippet": "\\tableautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00012704528567339081
+  },
+  {
+    "caption": "\\equationautorefname",
+    "snippet": "\\equationautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.00018777198999871106
+  },
+  {
+    "caption": "\\equationautorefname{}",
+    "snippet": "\\equationautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00018777198999871106
+  },
+  {
+    "caption": "\\chapterautorefname",
+    "snippet": "\\chapterautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.000018780276211096543
+  },
+  {
+    "caption": "\\TeX",
+    "snippet": "\\TeX",
+    "meta": "hyperref-cmd",
+    "score": 0.02873756018238537
+  },
+  {
+    "caption": "\\TeX{}",
+    "snippet": "\\TeX{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.02873756018238537
+  },
+  {
+    "caption": "\\protect",
+    "snippet": "\\protect",
+    "meta": "hyperref-cmd",
+    "score": 0.0200686676229443
+  },
+  {
+    "caption": "\\appendixautorefname",
+    "snippet": "\\appendixautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.00007950698053641679
+  },
+  {
+    "caption": "\\appendixautorefname{}",
+    "snippet": "\\appendixautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00007950698053641679
+  },
+  {
+    "caption": "\\newlabel{}{}",
+    "snippet": "\\newlabel{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.00029737672328168955
+  },
+  {
+    "caption": "\\texorpdfstring{}{}",
+    "snippet": "\\texorpdfstring{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.0073781967296121
+  },
+  {
+    "caption": "\\refstepcounter{}",
+    "snippet": "\\refstepcounter{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.002140559856649122
+  },
+  {
+    "caption": "\\alph",
+    "snippet": "\\alph",
+    "meta": "hyperref-cmd",
+    "score": 0.01034327266194849
+  },
+  {
+    "caption": "\\alph{}",
+    "snippet": "\\alph{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.01034327266194849
+  },
+  {
+    "caption": "\\pageref{}",
+    "snippet": "\\pageref{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.019788865471151957
+  },
+  {
+    "caption": "\\item",
+    "snippet": "\\item ",
+    "meta": "hyperref-cmd",
+    "score": 3.800886892251021
+  },
+  {
+    "caption": "\\item[]",
+    "snippet": "\\item[$1] ",
+    "meta": "hyperref-cmd",
+    "score": 3.800886892251021
+  },
+  {
+    "caption": "\\LaTeX",
+    "snippet": "\\LaTeX",
+    "meta": "hyperref-cmd",
+    "score": 0.2334089308452787
+  },
+  {
+    "caption": "\\LaTeX{}",
+    "snippet": "\\LaTeX{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.2334089308452787
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\itemautorefname",
+    "snippet": "\\itemautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.000018780276211096543
+  },
+  {
+    "caption": "\\caption{}",
+    "snippet": "\\caption{$1}",
+    "meta": "hyperref-cmd",
+    "score": 1.2569477427490174
+  },
+  {
+    "caption": "\\sectionautorefname",
+    "snippet": "\\sectionautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.0019832324299155183
+  },
+  {
+    "caption": "\\sectionautorefname{}",
+    "snippet": "\\sectionautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0019832324299155183
+  },
+  {
+    "caption": "\\LaTeXe",
+    "snippet": "\\LaTeXe",
+    "meta": "hyperref-cmd",
+    "score": 0.007928096378157487
+  },
+  {
+    "caption": "\\LaTeXe{}",
+    "snippet": "\\LaTeXe{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.007928096378157487
+  },
+  {
+    "caption": "\\footref{}",
+    "snippet": "\\footref{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0003680857021151614
+  },
+  {
+    "caption": "\\footref",
+    "snippet": "\\footref",
+    "meta": "hyperref-cmd",
+    "score": 0.0003680857021151614
+  },
+  {
+    "caption": "\\hypertarget{}{}",
+    "snippet": "\\hypertarget{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.009652820108904094
+  },
+  {
+    "caption": "\\theoremautorefname",
+    "snippet": "\\theoremautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.000018780276211096543
+  },
+  {
+    "caption": "\\maketitle",
+    "snippet": "\\maketitle",
+    "meta": "hyperref-cmd",
+    "score": 0.7504160124360846
+  },
+  {
+    "caption": "\\subparagraphautorefname",
+    "snippet": "\\subparagraphautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.0005446476945175932
+  },
+  {
+    "caption": "\\url{}",
+    "snippet": "\\url{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.13586474005868793
+  },
+  {
+    "caption": "\\author{}",
+    "snippet": "\\author{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.8973590434087177
+  },
+  {
+    "caption": "\\author[]{}",
+    "snippet": "\\author[$1]{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.8973590434087177
+  },
+  {
+    "caption": "\\href{}{}",
+    "snippet": "\\href{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.27111130260612365
+  },
+  {
+    "caption": "\\Roman{}",
+    "snippet": "\\Roman{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0038703587462843594
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "hyperref-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\autoref{}",
+    "snippet": "\\autoref{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.03741172773691362
+  },
+  {
+    "caption": "\\nolinkurl{}",
+    "snippet": "\\nolinkurl{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0004995635515943437
+  },
+  {
+    "caption": "\\end{}",
+    "snippet": "\\end{$1}",
+    "meta": "hyperref-cmd",
+    "score": 7.847906405228455
+  },
+  {
+    "caption": "\\phantomsection",
+    "snippet": "\\phantomsection",
+    "meta": "hyperref-cmd",
+    "score": 0.0174633138331273
+  },
+  {
+    "caption": "\\MakeUppercase{}",
+    "snippet": "\\MakeUppercase{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.006776001543888959
+  },
+  {
+    "caption": "\\MakeUppercase",
+    "snippet": "\\MakeUppercase",
+    "meta": "hyperref-cmd",
+    "score": 0.006776001543888959
+  },
+  {
+    "caption": "\\partautorefname",
+    "snippet": "\\partautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.000018780276211096543
+  },
+  {
+    "caption": "\\Itemautorefname{}",
+    "snippet": "\\Itemautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00006006262128895586
+  },
+  {
+    "caption": "\\halign{}",
+    "snippet": "\\halign{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00017906650306643613
+  },
+  {
+    "caption": "\\textcolor{}{}",
+    "snippet": "\\textcolor{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.20852115286477566
+  },
+  {
+    "caption": "\\ref{}",
+    "snippet": "\\ref{$1}",
+    "meta": "hyperref-cmd",
+    "score": 1.4380093454211778
+  },
+  {
+    "caption": "\\Alph{}",
+    "snippet": "\\Alph{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.002233258780143355
+  },
+  {
+    "caption": "\\Alph",
+    "snippet": "\\Alph",
+    "meta": "hyperref-cmd",
+    "score": 0.002233258780143355
+  },
+  {
+    "caption": "\\appendix",
+    "snippet": "\\appendix",
+    "meta": "hyperref-cmd",
+    "score": 0.047007158741781095
+  },
+  {
+    "caption": "\\MP",
+    "snippet": "\\MP",
+    "meta": "hyperref-cmd",
+    "score": 0.00018344383742255004
+  },
+  {
+    "caption": "\\MP{}",
+    "snippet": "\\MP{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00018344383742255004
+  },
+  {
+    "caption": "\\paragraphautorefname",
+    "snippet": "\\paragraphautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.0005446476945175932
+  },
+  {
+    "caption": "\\citeN{}",
+    "snippet": "\\citeN{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0018503938529945614
+  },
+  {
+    "caption": "\\citeN",
+    "snippet": "\\citeN",
+    "meta": "hyperref-cmd",
+    "score": 0.0018503938529945614
+  },
+  {
+    "caption": "\\addcontentsline{}{}{}",
+    "snippet": "\\addcontentsline{$1}{$2}{$3}",
+    "meta": "hyperref-cmd",
+    "score": 0.07503475348393239
+  },
+  {
+    "caption": "\\subsectionautorefname",
+    "snippet": "\\subsectionautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.0012546605780895737
+  },
+  {
+    "caption": "\\subsectionautorefname{}",
+    "snippet": "\\subsectionautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0012546605780895737
+  },
+  {
+    "caption": "\\hyperref[]{}",
+    "snippet": "\\hyperref[$1]{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.004515152477030062
+  },
+  {
+    "caption": "\\arabic{}",
+    "snippet": "\\arabic{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.02445837629741638
+  },
+  {
+    "caption": "\\arabic",
+    "snippet": "\\arabic",
+    "meta": "hyperref-cmd",
+    "score": 0.02445837629741638
+  },
+  {
+    "caption": "\\newline",
+    "snippet": "\\newline",
+    "meta": "hyperref-cmd",
+    "score": 0.3311721696201715
+  },
+  {
+    "caption": "\\hypersetup{}",
+    "snippet": "\\hypersetup{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.06967310843464661
+  },
+  {
+    "caption": "\\subsubsectionautorefname",
+    "snippet": "\\subsubsectionautorefname",
+    "meta": "hyperref-cmd",
+    "score": 0.0012064581899162352
+  },
+  {
+    "caption": "\\subsubsectionautorefname{}",
+    "snippet": "\\subsubsectionautorefname{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0012064581899162352
+  },
+  {
+    "caption": "\\title{}",
+    "snippet": "\\title{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.9202908262245683
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "hyperref-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "hyperref-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\UrlBreaks{}",
+    "snippet": "\\UrlBreaks{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.001030592515645366
+  },
+  {
+    "caption": "\\UrlBreaks",
+    "snippet": "\\UrlBreaks",
+    "meta": "hyperref-cmd",
+    "score": 0.001030592515645366
+  },
+  {
+    "caption": "\\Url",
+    "snippet": "\\Url",
+    "meta": "hyperref-cmd",
+    "score": 0.0002854206807593436
+  },
+  {
+    "caption": "\\UrlOrds{}",
+    "snippet": "\\UrlOrds{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0006882563723629154
+  },
+  {
+    "caption": "\\UrlOrds",
+    "snippet": "\\UrlOrds",
+    "meta": "hyperref-cmd",
+    "score": 0.0006882563723629154
+  },
+  {
+    "caption": "\\urlstyle{}",
+    "snippet": "\\urlstyle{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.010515056688180681
+  },
+  {
+    "caption": "\\urldef{}",
+    "snippet": "\\urldef{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.008041789461944983
+  },
+  {
+    "caption": "\\UrlBigBreaks{}",
+    "snippet": "\\UrlBigBreaks{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.000037048287721105874
+  },
+  {
+    "caption": "\\UrlFont{}",
+    "snippet": "\\UrlFont{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0032990580087398644
+  },
+  {
+    "caption": "\\UrlSpecials{}",
+    "snippet": "\\UrlSpecials{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.000037048287721105874
+  },
+  {
+    "caption": "\\UrlNoBreaks",
+    "snippet": "\\UrlNoBreaks",
+    "meta": "hyperref-cmd",
+    "score": 0.000037048287721105874
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\AtBeginShipout{}",
+    "snippet": "\\AtBeginShipout{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.00047530324346933345
+  },
+  {
+    "caption": "\\AtBeginShipoutNext{}",
+    "snippet": "\\AtBeginShipoutNext{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0005277905480209891
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "hyperref-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "hyperref-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "hyperref-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\check{}",
+    "snippet": "\\check{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.0058342578961340175
+  },
+  {
+    "caption": "\\space",
+    "snippet": "\\space",
+    "meta": "hyperref-cmd",
+    "score": 0.023010789853665694
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "hyperref-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\empty",
+    "snippet": "\\empty",
+    "meta": "hyperref-cmd",
+    "score": 0.002958865219480927
+  },
+  {
+    "caption": "\\RequireXeTeX",
+    "snippet": "\\RequireXeTeX",
+    "meta": "hyperref-cmd",
+    "score": 0.00021116765384691477
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hyperref-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "hyperref-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "hypcap-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\setlength{}{}",
+    "snippet": "\\setlength{$1}{$2}",
+    "meta": "adjustbox-cmd",
+    "score": 0.354445763583904
+  },
+  {
+    "caption": "\\setlength",
+    "snippet": "\\setlength",
+    "meta": "adjustbox-cmd",
+    "score": 0.354445763583904
+  },
+  {
+    "caption": "\\adjustbox{}{}",
+    "snippet": "\\adjustbox{$1}{$2}",
+    "meta": "adjustbox-cmd",
+    "score": 0.002008185536556013
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "adjustbox-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "adjustbox-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\setkeys{}{}",
+    "snippet": "\\setkeys{$1}{$2}",
+    "meta": "adjustbox-cmd",
+    "score": 0.00037306820619479756
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "adjustbox-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\rotatebox{}{}",
+    "snippet": "\\rotatebox{$1}{$2}",
+    "meta": "adjustbox-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox[]{}{}",
+    "snippet": "\\rotatebox[$1]{$2}{$3}",
+    "meta": "adjustbox-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox{}",
+    "snippet": "\\rotatebox{$1}",
+    "meta": "adjustbox-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\expandafter",
+    "snippet": "\\expandafter",
+    "meta": "adjustbox-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\expandafter{}",
+    "snippet": "\\expandafter{$1}",
+    "meta": "adjustbox-cmd",
+    "score": 0.021170869458413965
+  },
+  {
+    "caption": "\\scalebox{}{}",
+    "snippet": "\\scalebox{$1}{$2}",
+    "meta": "adjustbox-cmd",
+    "score": 0.015973401906548487
+  },
+  {
+    "caption": "\\reflectbox{}",
+    "snippet": "\\reflectbox{$1}",
+    "meta": "adjustbox-cmd",
+    "score": 0.0005981923692899367
+  },
+  {
+    "caption": "\\reflectbox",
+    "snippet": "\\reflectbox",
+    "meta": "adjustbox-cmd",
+    "score": 0.0005981923692899367
+  },
+  {
+    "caption": "\\resizebox{}{}{}",
+    "snippet": "\\resizebox{$1}{$2}{$3}",
+    "meta": "adjustbox-cmd",
+    "score": 0.017834153815870245
+  },
+  {
+    "caption": "\\includegraphics[]{}",
+    "snippet": "\\includegraphics[$1]{$2}",
+    "meta": "adjustbox-cmd",
+    "score": 1.4595731795525781
+  },
+  {
+    "caption": "\\noexpand",
+    "snippet": "\\noexpand",
+    "meta": "adjustbox-cmd",
+    "score": 0.00530510025314411
+  },
+  {
+    "caption": "\\DeclareGraphicsExtensions{}",
+    "snippet": "\\DeclareGraphicsExtensions{$1}",
+    "meta": "adjustbox-cmd",
+    "score": 0.0055519509468004175
+  },
+  {
+    "caption": "\\csname",
+    "snippet": "\\csname",
+    "meta": "adjustbox-cmd",
+    "score": 0.008565354665444157
+  },
+  {
+    "caption": "\\graphicspath{}",
+    "snippet": "\\graphicspath{$1}",
+    "meta": "adjustbox-cmd",
+    "score": 0.09973951908678011
+  },
+  {
+    "caption": "\\rotatebox{}{}",
+    "snippet": "\\rotatebox{$1}{$2}",
+    "meta": "adjustbox-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox[]{}{}",
+    "snippet": "\\rotatebox[$1]{$2}{$3}",
+    "meta": "adjustbox-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\rotatebox{}",
+    "snippet": "\\rotatebox{$1}",
+    "meta": "adjustbox-cmd",
+    "score": 0.004719094298848707
+  },
+  {
+    "caption": "\\DeclareGraphicsRule{}{}{}{}",
+    "snippet": "\\DeclareGraphicsRule{$1}{$2}{$3}{$4}",
+    "meta": "adjustbox-cmd",
+    "score": 0.004649150613625593
+  }
+]

@@ -668,7 +668,7 @@ export default defineComponent({
           document.body.removeChild(link)
         })
         .catch((err) => {
-          NotiError('failed')
+          NotiError('Failed to download this file!')
         })
         .finally(() => {
           loading.value = false

@@ -126,20 +126,26 @@
                 :parser="(value) => value.replace('%', '')"
                 @change="() => (show = Math.random() * 1000)"
               />
-              <a-button type="text" size="small" @click="onDownloadLog">
-                <ExceptionOutlined />
-              </a-button>
-              <a-button
-                size="small"
-                type="primary"
-                @click="onDownloadPdf"
-                :disabled="!resCompile.pdf"
-              >
-                <DownloadOutlined />
-              </a-button>
-              <a-button size="small" type="primary" @click="onCompile" :loading="loadingCompile">
-                <SyncOutlined />
-              </a-button>
+              <a-tooltip title="Download log file" :mouseEnterDelay="0.3">
+                <a-button type="text" size="small" @click="onDownloadLog">
+                  <ExceptionOutlined />
+                </a-button>
+              </a-tooltip>
+              <a-tooltip title="Download PDF file" :mouseEnterDelay="0.3">
+                <a-button
+                  size="small"
+                  type="primary"
+                  @click="onDownloadPdf"
+                  :disabled="!resCompile.pdf"
+                >
+                  <DownloadOutlined />
+                </a-button>
+              </a-tooltip>
+              <a-tooltip title="Compile" :mouseEnterDelay="0.3">
+                <a-button size="small" type="primary" @click="onCompile" :loading="loadingCompile">
+                  <SyncOutlined />
+                </a-button>
+              </a-tooltip>
             </div>
             <iframe
               style="width: 100%; height: calc(100vh - 102px)"
@@ -191,7 +197,12 @@
               <AvatarApp :avatarUser="item" :currentUser="user" />
             </a-space>
           </div>
-          <a-button v-if=" item.id !== project.mainVersionId" type="text" size="small"  @click="(e) => onDeleteVersion(e, item)">
+          <a-button
+            v-if="item.id !== project.mainVersionId && item.role && item.role !== 'viewer'"
+            type="text"
+            size="small"
+            @click="(e) => onDeleteVersion(e, item)"
+          >
             <DeleteOutlined />
           </a-button>
         </a-row>
@@ -234,7 +245,7 @@ import { DefaultCompileOptions, DefaultEditorOptions } from '@/constant'
 import UserAvatar from '@/components/common/UserAvatar.vue'
 import { dateTimeFormat } from '@/services/functions'
 import AvatarApp from '@/components/common/AvatarApp.vue'
-import { Confirm } from '@/services/confirm';
+import { Confirm } from '@/services/confirm'
 
 export default defineComponent({
   components: {
@@ -291,7 +302,7 @@ export default defineComponent({
     const description = ref('')
     const user = ref(null)
     const editProjectName = ref('')
-    const inputWidth = computed(() => 24 + editProjectName.value.length * 9.2)
+    const inputWidth = computed(() => 24 + editProjectName.value.length * 10)
     const inputRef = ref()
     const activeUsers = ref(new Set())
     let socket
@@ -379,13 +390,14 @@ export default defineComponent({
                   isCompile: true
                 }))
               })
-              .catch()
+              .catch(() => NotiError('Failed to compile this file'))
               .finally(() => (loadingCompile.value = false))
           }
           firstLoad.value = false
           connectWebSocket()
         } catch (err) {
           console.log(err)
+          NotiError('An error has occurred!')
           firstLoad.value = false
         }
       },
@@ -478,7 +490,7 @@ export default defineComponent({
             isCompile: true
           }))
         })
-        .catch()
+        .catch(() => NotiError('Failed to compile this file'))
         .finally(() => {
           loadingCompile.value = false
         })
@@ -506,6 +518,7 @@ export default defineComponent({
         })
         .catch((err) => {
           console.log(err)
+          NotiError('An error has occurred!')
         })
     }
 
@@ -558,7 +571,7 @@ export default defineComponent({
             })
         })
         .catch((err) => {
-          console.log(err)
+          NotiError('Failed to save this version!')
         })
         .finally(() => {
           openModal.value = false
@@ -625,8 +638,11 @@ export default defineComponent({
       if (showChange) return
       showChange = true
       notification.info({
-        message: 'Project has been changed',
-        description: 'Do you want to update project?',
+        message:
+          event.change === 'file'
+            ? `File ${event.file.path} has been changed`
+            : 'Directory has been changed',
+        description: 'Do you want to update?',
         placement: 'top',
         btn: () => [
           h(
@@ -644,6 +660,7 @@ export default defineComponent({
             {
               type: 'primary',
               onClick: () => {
+                showChange = false
                 notification.close('notiChange')
                 onUpdateFiles(false)
                 if (
@@ -703,7 +720,7 @@ export default defineComponent({
           document.body.appendChild(link)
           link.click()
         })
-        .catch(() => NotiError(''))
+        .catch(() => NotiError('Failed to download this folder!'))
     }
 
     const onBlurInput = (e) => {
@@ -722,7 +739,7 @@ export default defineComponent({
           project.value.name = res.data.name
         })
         .catch((err) => {
-          NotiError('failed')
+          NotiError('Failed to rename this project!')
         })
     }
 
@@ -738,7 +755,7 @@ export default defineComponent({
           project.value.starredId = res.data.id
         })
         .catch((err) => {
-          NotiError('Failed')
+          NotiError('Failed to star this project!')
         })
     }
 
@@ -775,7 +792,10 @@ export default defineComponent({
           a.click()
           window.URL.revokeObjectURL(url)
         })
-        .catch((error) => console.error('Error downloading the PDF:', error))
+        .catch((error) => {
+          console.error('Error downloading the PDF:', error)
+          NotiError('Failed to download the PDF!')
+        })
     }
 
     const onDownloadLog = () => {
@@ -791,7 +811,7 @@ export default defineComponent({
           document.body.removeChild(link)
         })
         .catch((err) => {
-          NotiError('Faile to download .log file')
+          NotiError('Faile to download the .log file')
         })
     }
 
@@ -824,7 +844,8 @@ export default defineComponent({
                 .catch((err) => {
                   console.log(err)
                 })
-              if(item.id === versionId.value) router.push(`/project/${project.value.mainVersionId}`)
+              if (item.id === versionId.value)
+                router.push(`/project/${project.value.mainVersionId}`)
               NotiSuccess('Delete version successfully')
             })
             .catch((err) => {

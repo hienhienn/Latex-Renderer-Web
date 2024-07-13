@@ -2,55 +2,86 @@
   <div class="container-editor" :theme="theme">
     <div class="editor-control">
       <div v-if="!readOnly">
-        <a-button size="small" type="text" class="quick-btn" @click="() => onInsertText('textbf')">
-          <bold-outlined />
-        </a-button>
-        <a-button size="small" type="text" class="quick-btn" @click="() => onInsertText('textit')">
-          <italic-outlined />
-        </a-button>
-        <a-button
-          size="small"
-          type="text"
-          class="quick-btn"
-          @click="() => onInsertText('underline')"
-        >
-          <underline-outlined />
-        </a-button>
+        <a-tooltip title="Bold" :mouseEnterDelay="0.3">
+          <a-button
+            size="small"
+            type="text"
+            class="quick-btn"
+            @click="() => onInsertText('textbf')"
+          >
+            <bold-outlined />
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="Italic" :mouseEnterDelay="0.3">
+          <a-button
+            size="small"
+            type="text"
+            class="quick-btn"
+            @click="() => onInsertText('textit')"
+          >
+            <italic-outlined />
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="Underline" :mouseEnterDelay="0.3">
+          <a-button
+            size="small"
+            type="text"
+            class="quick-btn"
+            @click="() => onInsertText('underline')"
+          >
+            <underline-outlined />
+          </a-button>
+        </a-tooltip>
         <a-divider
           type="vertical"
           orientationMargin="2px"
           style="height: 16px; background-color: #d9d5ec"
         />
-        <a-button
-          size="small"
-          type="text"
-          class="quick-btn"
-          @click="() => onInsertList('enumerate')"
-        >
-          <ordered-list-outlined />
-        </a-button>
-        <a-button size="small" type="text" class="quick-btn" @click="() => onInsertList('itemize')">
-          <unordered-list-outlined />
-        </a-button>
-        <a-button size="small" type="text" class="quick-btn" @click="onInsertTable">
-          <table-outlined />
-        </a-button>
-        <a-button size="small" type="text" class="quick-btn" @click="onInsertFigure">
-          <file-image-outlined />
-        </a-button>
+        <a-tooltip title="Ordered list" :mouseEnterDelay="0.3">
+          <a-button
+            size="small"
+            type="text"
+            class="quick-btn"
+            @click="() => onInsertList('enumerate')"
+          >
+            <ordered-list-outlined />
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="Unordered list" :mouseEnterDelay="0.3">
+          <a-button
+            size="small"
+            type="text"
+            class="quick-btn"
+            @click="() => onInsertList('itemize')"
+          >
+            <unordered-list-outlined />
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="Table" :mouseEnterDelay="0.3">
+          <a-button size="small" type="text" class="quick-btn" @click="onInsertTable">
+            <table-outlined />
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="Figure" :mouseEnterDelay="0.3">
+          <a-button size="small" type="text" class="quick-btn" @click="onInsertFigure">
+            <file-image-outlined />
+          </a-button>
+        </a-tooltip>
       </div>
-      <div  v-if="!readOnly">
-        <a-button
-          type="primary"
-          size="small"
-          :disabled="isSave"
-          @click="onSave"
-          :loading="loading"
-        >
-          <save-outlined />
-        </a-button>
+      <div v-if="!readOnly">
+        <a-tooltip title="Save" :mouseEnterDelay="0.3">
+          <a-button
+            type="primary"
+            size="small"
+            :disabled="isSave"
+            @click="onSave"
+            :loading="loading"
+          >
+            <save-outlined />
+          </a-button>
+        </a-tooltip>
       </div>
-      <div v-if=readOnly class="name-file">{{ initData.name }}</div>
+      <div v-if="readOnly" class="name-file">{{ initData.name }}</div>
     </div>
     <div style="position: absolute; left: 0; right: 0; top: 38px; bottom: 0">
       <vue-monaco-editor
@@ -177,7 +208,7 @@ export default defineComponent({
             type: props.initData.type,
             oldShaCode: shaCode
           })
-          NotiSuccess("Save file successfully")
+          NotiSuccess('Save file successfully')
           shaCode = res.data.shaCode
         })
         .catch((err) => {
@@ -370,21 +401,21 @@ export default defineComponent({
   background: $color-background;
 
   .editor-control .quick-btn {
-    color: $text-secondary
+    color: $text-secondary;
   }
 
   .name-file {
-    color: $text-secondary
+    color: $text-secondary;
   }
 }
 
 .container-editor {
   &[theme='light'] {
-    @include apply-theme($theme-light)
+    @include apply-theme($theme-light);
   }
 
   &[theme='dark'] {
-    @include apply-theme($theme-dark)
+    @include apply-theme($theme-dark);
   }
 
   width: 100%;

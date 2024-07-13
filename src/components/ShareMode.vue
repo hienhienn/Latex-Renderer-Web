@@ -69,9 +69,22 @@
               mode="multiple"
               max-tag-count="responsive"
               :max-tag-text-length="10"
-              :options="userOptions"
               :filterOption="filterOption"
-            ></a-select>
+            >
+              <a-select-option v-for="opt in userOptions" :key="opt.id">
+                <a-space>
+                  <a-avatar
+                    class="opt-avatar"
+                    :size="40"
+                    :src="'https://ui-avatars.com/api/?background=random&name=' + opt.fullname"
+                  />
+                  <a-space direction="vertical" :size="0">
+                    <span style="font-weight: 600;">{{ opt.fullname }}</span>
+                    <span>{{ opt.username }}</span>
+                  </a-space>
+                </a-space>
+              </a-select-option>
+            </a-select>
             <a-button
               size="small"
               shapre="circle"
@@ -126,8 +139,8 @@
                     :value="member?.role"
                     @click="(e) => e.stopPropagation()"
                     :bordered="false"
-                    :disabled="readOnly || member?.role === 'owner'"
-                    :showArrow="!readOnly && member?.role !== 'owner'"
+                    :disabled="readOnly || !isOwner || member.editorId === user.id"
+                    :showArrow="!readOnly && isOwner"
                     @select="(e) => onChangeRole(e, member.id)"
                     style="width: 120px"
                   >
@@ -139,7 +152,12 @@
                     <template #dropdownRender="{ menuNode }">
                       <VNodes :vnodes="menuNode" />
                       <a-divider style="margin: 4px 0" />
-                      <a-button type="text" style="width: 100%; text-align: start">
+                      <a-button
+                        v-if="member.role !== 'owner'"
+                        type="text"
+                        style="width: 100%; text-align: start"
+                        @click="(e) => onChangeRole('owner', member.id)"
+                      >
                         Set owner
                       </a-button>
                       <a-button
@@ -166,7 +184,7 @@
   </a-space>
 </template>
 <script>
-import { defineComponent, ref, reactive, inject } from 'vue'
+import { defineComponent, ref, reactive, inject, watch, computed } from 'vue'
 import {
   DownOutlined,
   GlobalOutlined,
@@ -217,6 +235,10 @@ export default defineComponent({
     readOnly: {
       type: Boolean,
       default: false
+    },
+    user: {
+      type: Object,
+      default: {}
     }
   },
   emits: ['update:isPublic', 'update:userProjects'],
@@ -228,6 +250,11 @@ export default defineComponent({
       members: [],
       role: 'viewer'
     })
+    const isOwner = computed(() => {
+      if (!props.user.id || !props.userProjects) return false
+      let user = props.userProjects.find((e) => e.editorId === props.user.id)
+      return user.role === 'owner'
+    })
 
     const onSelectAccess = (e) => {
       if (e !== props.isPublic) {
@@ -236,12 +263,11 @@ export default defineComponent({
             isPublic: e
           })
           .then(emit('update:isPublic', e))
-          .catch(() => NotiError('Try again'))
+          .catch(() => NotiError('Failed to change access!'))
       }
     }
 
     const onChangeRole = (role, id) => {
-      if (role === 'owner') return
       serviceAPI
         .changeRole({
           role,
@@ -250,15 +276,15 @@ export default defineComponent({
         .then((res) => {
           emit('update:userProjects', res.data)
         })
-        .catch(() => NotiError('Try again'))
+        .catch(() => NotiError('Failed to change member role!'))
     }
 
     const onFilterUser = async (input) => {
       try {
         const res = await serviceAPI.getUserToProject(props.projectId, input)
         userOptions.value = res.data.map((e) => ({
-          value: e.id,
-          label: e.fullname
+          ...e,
+          value: e.id
         }))
       } catch (err) {
         NotiError('Failed')
@@ -303,7 +329,7 @@ export default defineComponent({
                 role: 'viewer'
               })
             })
-            .catch(() => NotiError('failed'))
+            .catch(() => NotiError('Failed to add member to this project!'))
         )
       )
     }
@@ -318,9 +344,13 @@ export default defineComponent({
         })
         .catch((err) => {
           console.log(err)
-          NotiError('Try again')
+          NotiError('Failed to remove this member!')
         })
     }
+
+    watch(() => {
+      console.log('us', props.user, props.userProjects)
+    })
 
     return {
       userOptions,
@@ -335,7 +365,8 @@ export default defineComponent({
       removeMember,
       filterOption,
       nextStep,
-      theme
+      theme,
+      isOwner
     }
   }
 })
@@ -468,5 +499,9 @@ export default defineComponent({
       background-color: #007f00;
     }
   }
+}
+
+.ant-select-selection-item .opt-avatar {
+  display: none;
 }
 </style>

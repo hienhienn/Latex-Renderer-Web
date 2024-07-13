@@ -82,7 +82,7 @@ export default defineComponent({
           emit('update:open', false)
           emit('success')
         })
-        .catch(() => NotiError('failed'))
+        .catch(() => NotiError('Failed to copy this project!'))
     }
 
     const onCancel = () => {

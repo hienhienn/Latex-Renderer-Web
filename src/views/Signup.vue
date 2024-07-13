@@ -63,6 +63,10 @@
             Sign up
           </a-button>
         </a-form-item>
+        <a-typography-text t>
+          Already have an account? 
+          <a-typography-link href="/login">Log in</a-typography-link>
+        </a-typography-text>
       </a-form>
     </div>
   </div>

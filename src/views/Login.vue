@@ -25,7 +25,6 @@
             </template>
           </a-input-password>
         </a-form-item>
-
         <a-form-item>
           <a-button
             size="large"
@@ -37,6 +36,10 @@
             Login
           </a-button>
         </a-form-item>
+        <a-typography-text t>
+          Do not have an account? 
+          <a-typography-link href="/signup">Sign up</a-typography-link>
+        </a-typography-text>
       </a-form>
     </div>
   </div>

@@ -170,7 +170,7 @@ export default defineComponent({
       serviceAPI
         .deleteFile(f.id)
         .then(() => emit('update:files'))
-        .catch(() => NotiError('failed'))
+        .catch(() => NotiError('Failed to delete this file!'))
     }
 
     return {

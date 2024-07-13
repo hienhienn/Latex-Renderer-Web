@@ -1,9 +1,11 @@
 <template>
   <div class="title-path" :theme="theme">
     {{ oldData.path }}
-    <a-button type="primary" size="small" @click="onSave">
-      <SaveOutlined />
-    </a-button>
+    <a-tooltip title="Save" :mouseEnterDelay="0.3">
+      <a-button type="primary" size="small" @click="onSave">
+        <SaveOutlined />
+      </a-button>
+    </a-tooltip>
   </div>
   <vue-monaco-diff-editor
     :theme="theme === 'light' ? 'vs' : 'vs-dark'"
@@ -25,7 +27,7 @@ import tokensProvider from '@/latex/tokens-provider'
 import languageConfig from '@/latex/language-config'
 import { getCompletionItemProvider } from '@/latex/completion-item-provider'
 import { DefaultEditorOptions } from '@/constant'
-import { SaveOutlined } from '@ant-design/icons-vue';
+import { SaveOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
   components: {
@@ -116,7 +118,7 @@ export default defineComponent({
         to = setTimeout(() => {
           if (code.value !== props.oldData.content) {
             localStorage.setItem(props.oldData.id, code.value || '')
-            if (!localStorage.getItem(`sha-${props.oldData.id}`)) {
+            if (!localStorage.hasOwnProperty(`sha-${props.oldData.id}`) && props.oldData.shaCode) {
               localStorage.setItem(`sha-${props.oldData.id}`, props.oldData.shaCode)
             }
           } else {

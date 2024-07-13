@@ -251,7 +251,7 @@ export default defineComponent({
         .then((res) => {
           emit('update:mainFileId', res.data.mainFileId)
         })
-        .catch(() => NotiError('failed'))
+        .catch(() => NotiError('Failed to change main file!'))
     }
 
     return {

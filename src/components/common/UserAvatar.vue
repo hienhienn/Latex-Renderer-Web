@@ -1,17 +1,23 @@
 <template>
   <a-dropdown placement="bottomRight" v-if="user?.fullname && user?.username">
-    <a-avatar :size="38" :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname" />
+    <a-avatar
+      :size="38"
+      :src="'https://ui-avatars.com/api/?background=random&name=' + user?.fullname"
+    />
     <template #overlay>
       <a-menu>
         <a-menu-item>{{ user?.fullname }} ({{ user?.username }})</a-menu-item>
         <a-menu-item @click="onLogout"> Logout </a-menu-item>
         <a-menu-item>
-          <a-switch
-            v-model:checked="theme"
-            checked-value="light"
-            un-checked-value="dark"
-            @change="(e) => emit('update:theme', e)"
-          />
+          <a-space>
+            Light Mode
+            <a-switch
+              v-model:checked="theme"
+              checked-value="light"
+              un-checked-value="dark"
+              @change="(e) => emit('update:theme', e)"
+            />
+          </a-space>
         </a-menu-item>
       </a-menu>
     </template>
